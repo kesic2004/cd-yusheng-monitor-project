@@ -2,7 +2,6 @@ package com.tools;
 
 public class CRC3 {
    public static int get_crc16(byte[] bufData, int buflen) {
-      int ret = false;
       int CRC = 65535;
       int POLYNOMIAL = 'ꀁ';
 

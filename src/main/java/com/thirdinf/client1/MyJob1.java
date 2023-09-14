@@ -222,8 +222,8 @@ public class MyJob1 implements MyInf1, Runnable, ApplicationListener<MyEvent> {
          HttpHeaders headers = new HttpHeaders();
          headers.add("Content-Type", "application/json");
          HttpEntity<Object> entity = new HttpEntity(strJson, headers);
-         RestTemplate rest = new RestTemplate();
-         String jsonString = (String)rest.postForObject(client.getPosturl(), entity, String.class, new Object[0]);
+         RestTemplate restA = new RestTemplate();
+         String jsonString = (String)restA.postForObject(client.getPosturl(), entity, String.class, new Object[0]);
          logger.info("-> recv response data: " + jsonString);
          MyResponseData1 myResponseData = (MyResponseData1)objectMapper.readValue(jsonString, MyResponseData1.class);
          if (myResponseData != null) {

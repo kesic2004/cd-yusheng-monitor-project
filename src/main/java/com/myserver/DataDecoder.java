@@ -30,9 +30,9 @@ public class DataDecoder extends ByteToMessageDecoder {
          }
 
          List<Byte> byteList = new ArrayList();
-         byteList.add(-1);
-         byteList.add(-1);
-         byteList.add(-1);
+         byteList.add((byte)-1);
+         byteList.add((byte)-1);
+         byteList.add((byte)-1);
          this.readByteData("province", buf, dataMap, byteList);
          this.readByteData("city", buf, dataMap, byteList);
          this.readByteData("station", buf, dataMap, byteList);

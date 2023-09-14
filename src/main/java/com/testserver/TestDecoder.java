@@ -100,7 +100,7 @@ public class TestDecoder extends ByteToMessageDecoder {
                         dataMap.put("TryeID", this.convertByteBufToString(url));
                         sb = new StringBuffer();
 
-                        for(int i = 0; i < 32; ++i) {
+                        for(int ia = 0; ia < 32; ++ia) {
                            sb.append(buf.readUnsignedShortLE());
                         }
 
@@ -109,7 +109,7 @@ public class TestDecoder extends ByteToMessageDecoder {
                         dataMap.put("AxiesID", this.convertByteBufToString(AxiesID));
                         sb = new StringBuffer();
 
-                        for(int i = 0; i < 32; ++i) {
+                        for(int ic = 0; ic < 32; ++ic) {
                            sb.append(buf.readUnsignedShortLE());
                         }
 

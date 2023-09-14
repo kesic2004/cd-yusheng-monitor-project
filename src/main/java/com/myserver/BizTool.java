@@ -54,7 +54,7 @@ public class BizTool {
       }
 
       System.arraycopy(temp, 0, buf, iStart, temp.length);
-      int iStart = iStart + temp.length;
+      iStart = iStart + temp.length;
       temp = new byte[]{(Byte)map.get("cmd")};
       System.arraycopy(temp, 0, buf, iStart, temp.length);
       iStart += temp.length;
