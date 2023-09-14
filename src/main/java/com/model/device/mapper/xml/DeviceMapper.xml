@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.model.device.mapper.DeviceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.model.device.entity.Device">
+        <id column="id" property="id" />
+        <result column="sid" property="cid" />
+        <result column="clientid" property="clientid" />
+        <result column="name" property="name" />
+        <result column="addresscode" property="addresscode" />
+        <result column="detail" property="detail" />
+        <result column="state" property="state" />
+
+        <result column="chan1" property="chan1" />
+        <result column="chan2" property="chan2" />
+        <result column="chan3" property="chan3" />
+        <result column="chan4" property="chan4" />
+        <result column="chan5" property="chan5" />
+
+        <result column="chan6" property="chan6" />
+        <result column="chan7" property="chan7" />
+        <result column="chan8" property="chan8" />
+        <result column="chan9" property="chan9" />
+        <result column="chan10" property="chan10" />
+
+        <result column="chan11" property="chan11" />
+        <result column="chan12" property="chan12" />
+        <result column="chan13" property="chan13" />
+        <result column="chan14" property="chan14" />
+        <result column="chan15" property="chan15" />
+        <result column="chan16" property="chan16" />
+
+        <result column="key1" property="key1" />
+        <result column="key2" property="key2" />
+        <result column="key3" property="key3" />
+        <result column="key4" property="key4" />
+        <result column="key5" property="key5" />
+
+        <result column="key6" property="key6" />
+        <result column="key7" property="key7" />
+        <result column="key8" property="key8" />
+        <result column="key9" property="key9" />
+        <result column="key10" property="key10" />
+
+        <result column="key11" property="key11" />
+        <result column="key12" property="key12" />
+        <result column="key13" property="key13" />
+        <result column="key14" property="key14" />
+        <result column="key15" property="key15" />
+        <result column="key16" property="key16" />
+
+        <result column="zero1" property="zero1" />
+        <result column="zero2" property="zero2" />
+        <result column="zero3" property="zero3" />
+        <result column="zero4" property="zero4" />
+        <result column="zero5" property="zero5" />
+
+        <result column="zero6" property="zero6" />
+        <result column="zero7" property="zero7" />
+        <result column="zero8" property="zero8" />
+        <result column="zero8" property="zero9" />
+        <result column="zero10" property="zero10" />
+
+        <result column="zero11" property="zero11" />
+        <result column="zero12" property="zero12" />
+        <result column="zero13" property="zero13" />
+        <result column="zero14" property="zero14" />
+        <result column="zero15" property="zero15" />
+        <result column="zero16" property="zero16" />
+
+        <result column="lx1" property="lx1" />
+        <result column="lx2" property="lx2" />
+        <result column="lx3" property="lx3" />
+        <result column="lx4" property="lx4" />
+        <result column="lx5" property="lx5" />
+
+        <result column="lx6" property="lx6" />
+        <result column="lx7" property="lx7" />
+        <result column="lx8" property="lx8" />
+        <result column="lx9" property="lx9" />
+        <result column="lx10" property="lx10" />
+
+        <result column="lx11" property="lx11" />
+        <result column="lx12" property="lx12" />
+        <result column="lx13" property="lx13" />
+        <result column="lx14" property="lx14" />
+        <result column="lx15" property="lx15" />
+        <result column="lx16" property="lx16" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, sid, clientid, name, addresscode, detail, state,
+        chan1,chan2,chan3,chan4,chan5, chan6,chan7, chan8, chan9, chan10,chan11,chan12,chan13,chan14,chan15, chan16,
+        key1,key2,key3,key4,key5, key6,key7, key8, key9, key10,key11,key12,key13,key14,key15, key16,
+        zero1,zero2,zero3,zero4,zero5, zero6,zero7, zero8, zero9, zero10,zero11,zero12,zero13,zero14,zero15, zero16,
+        lx1,lx2,lx3,lx4,lx5,lx6,lx7,lx8,lx9,lx10,lx11,lx12,lx13,lx14,lx15,lx16
+    </sql>
+
+    <select id="selectAll"   resultType="com.model.device.entity.DeviceEx" >
+        SELECT
+            d.id as id, d.sid as sid, d.clientid as clientid, d.name as name, d.addresscode as addresscode,
+            d.detail as detail, d.state as state,
+            d.chan1 as chan1, d.chan2 as chan2, d.chan3 as chan3, d.chan4 as chan4, d.chan5 as chan5,
+            d.chan6 as chan6, d.chan7 as chan7, d.chan8 as chan8, d.chan9 as chan9, d.chan10 as chan10,
+            d.chan11 as chan11, d.chan12 as chan12, d.chan13 as chan13, d.chan14 as chan14, d.chan15 as chan15,
+            d.chan16 as chan16,
+            d.key1 as key1, d.key2 as key2, d.key3 as key3, d.key4 as key4, d.key5 as key5,
+            d.key6 as key6, d.key7 as key7, d.key8 as key8, d.key9 as key9, d.key10 as key10,
+            d.key11 as key11, d.key12 as key12, d.key13 as key13, d.key14 as key14, d.key15 as key15,
+            d.key16 as key16,
+            d.zero1 as zero1, d.zero2 as zero2, d.zero3 as zero3, d.zero4 as zero4, d.zero5 as zero5,
+            d.zero6 as zero6, d.zero7 as zero7, d.zero8 as zero8, d.zero9 as zero9, d.zero10 as zero10,
+            d.zero11 as zero11, d.zero12 as zero12, d.zero13 as zero13, d.zero14 as zero14, d.zero15 as zero15,
+            d.zero16 as zero16,
+            d.lx1 as lx1, d.lx2 as lx2, d.lx3 as lx3, d.lx4 as lx4, d.lx5 as lx5,
+            d.lx6 as lx6, d.lx7 as lx7, d.lx8 as lx8, d.lx9 as lx9, d.lx10 as lx10,
+            d.lx11 as lx11, d.lx12 as lx12, d.lx13 as lx13, d.lx14 as lx14, d.lx15 as lx15,
+            d.lx16 as lx16,
+            p.code as provincecode, c.code as citycode, s.code as stationcode,
+            t.state as clientstate,
+            t.checkurl as checkurl, t.posturl as posturl
+        FROM
+            device d, province p, city c, station s, tblclient t
+        WHERE
+            p.id = c.pid
+            And c.id = s.cid
+            And s.id = d.sid
+            And t.id = d.clientid
+    </select>
+</mapper>

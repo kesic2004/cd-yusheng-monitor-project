@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.model.tblvalues.mapper.TblvaluesMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.model.tblvalues.entity.Tblvalues">
+        <id column="id" property="id" />
+        <result column="addresscode" property="addresscode" />
+        <result column="temperature" property="temperature" />
+        <result column="pressure" property="pressure" />
+        <result column="detail" property="detail" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, addresscode, temperature, pressure, detail
+    </sql>
+
+</mapper>
