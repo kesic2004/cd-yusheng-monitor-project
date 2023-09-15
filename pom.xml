@@ -91,7 +91,14 @@
             <artifactId>mybatis-plus-generator</artifactId>
             <version>3.1.2</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.gitee.sunchenbin.mybatis.actable</groupId>
+            <artifactId>mybatis-enhance-actable</artifactId>
+            <version>1.1.1.RELEASE</version>
+        </dependency>
+<!--        ————————————————-->
+<!--        版权声明：本文为CSDN博主「yuru974882032」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。-->
+<!--        原文链接：https://blog.csdn.net/yuru974882032/article/details/106749299-->
         <!--<dependency>-->
             <!--<groupId>com.baomidou</groupId>-->
             <!--<artifactId>mybatis-plus</artifactId>-->
@@ -169,7 +176,28 @@
             </exclusions>
         </dependency>
     </dependencies>
-
+    <profiles>
+        <profile>
+            <!--不同环境Profile的唯一id-->
+            <id>dev</id>
+            <properties>
+                <!--profiles.active是自定义的字段（名字随便起），自定义字段可以有多个-->
+                <profiles.active>dev</profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>release</id>
+            <properties>
+                <profiles.active>release</profiles.active>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
+    <!--————————————————-->
+<!--    版权声明：本文为CSDN博主「余生之君」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。-->
+<!--    原文链接：https://blog.csdn.net/java_collect/article/details/83870215-->
     <build>
         <plugins>
             <plugin>
@@ -184,6 +212,7 @@
                 <directory>src/main/java</directory>
                 <includes>
                     <include>**/*.xml</include>
+                    <include>**/*.properties</include>
                 </includes>
             </resource>
         </resources>
