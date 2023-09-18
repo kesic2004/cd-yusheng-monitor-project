@@ -67,8 +67,8 @@ CREATE TABLE `device` (
   `chan14` int(11) DEFAULT '0' COMMENT '1-温度，2-压力',
   `chan15` int(11) DEFAULT '0' COMMENT '1-温度，2-压力',
   `chan16` int(11) DEFAULT '0' COMMENT '1-温度，2-压力',
-  `key1` float DEFAULT '1' COMMENT '系数',
-  `key2` float DEFAULT '1' COMMENT '系数',
+  `key1` float DEFAULT '1' COMMENT '系数', -- 压力系数
+  `key2` float DEFAULT '1' COMMENT '系数', -- 温度系数
   `key3` float DEFAULT '1' COMMENT '系数',
   `key4` float DEFAULT '1' COMMENT '系数',
   `key5` float DEFAULT '1' COMMENT '系数',
