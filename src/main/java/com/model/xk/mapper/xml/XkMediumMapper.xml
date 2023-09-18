@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.model.xk.mapper.XkMediumMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.model.xk.entity.XkMedium">
+        <id column="id" property="id" />
+        <result column="code" property="code" />
+        <result column="name" property="name" />
+        <result column="color" property="color" />
+        <result column="inspectPeriod" property="inspectPeriod" />
+        <result column="scrappedPeriod" property="scrappedPeriod" />
+        <result column="internalState" property="internalState" />
+        <result column="internalTime" property="internalTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, code, name, color, inspectPeriod, scrappedPeriod, internalState, internalTime
+    </sql>
+
+</mapper>

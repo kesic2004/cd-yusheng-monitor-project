@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.model.tbltoken.mapper.TbltokenMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.model.tbltoken.entity.Tbltoken">
+        <id column="id" property="id" />
+        <result column="devicecode" property="devicecode" />
+        <result column="stationcode" property="stationcode" />
+        <result column="token" property="token" />
+        <result column="recordtime" property="recordtime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, devicecode, stationcode, token, recordtime
+    </sql>
+
+</mapper>

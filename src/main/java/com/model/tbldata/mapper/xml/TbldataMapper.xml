@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.model.tbldata.mapper.TbldataMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.model.tbldata.entity.Tbldata">
+        <id column="id" property="id" />
+        <result column="provinceid" property="provinceid" />
+        <result column="cityid" property="cityid" />
+        <result column="stationid" property="stationid" />
+        <result column="addresscode" property="addresscode" />
+        <result column="command" property="command" />
+        <result column="nextnumber" property="nextnumber" />
+        <result column="cardnum1" property="cardnum1" />
+        <result column="cardnum2" property="cardnum2" />
+        <result column="cardnum3" property="cardnum3" />
+        <result column="cardnum4" property="cardnum4" />
+        <result column="stamp" property="stamp" />
+        <result column="endweight" property="endweight" />
+        <result column="grossweight" property="grossweight" />
+        <result column="settingweight" property="settingweight" />
+        <result column="clientid" property="clientid" />
+        <result column="operatorid" property="operatorid" />
+        <result column="gxcode" property="gxcode" />
+        <result column="fscode" property="fscode" />
+        <result column="frameid" property="frameid" />
+        <result column="curtime" property="curtime" />
+        <result column="usedtime" property="usedtime" />
+        <result column="ticket" property="ticket" />
+        <result column="recordtime" property="recordtime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, provinceid, cityid, stationid, addresscode, command, nextnumber, cardnum1, cardnum2, cardnum3, cardnum4, stamp, endweight, grossweight, settingweight, clientid, operatorid, gxcode, fscode, frameid, curtime, usedtime, ticket, recordtime
+    </sql>
+
+    <select id="queryCountByDateTime"  resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM tbldata where recordtime &gt;= #{starttime} and recordtime &lt;= #{endtime}
+    </select>
+
+    <insert id="insertData" parameterType="com.model.tbldata.entity.Tbldata" keyColumn="id" useGeneratedKeys="true" keyProperty="id">
+      INSERT INTO tbldata (
+        provincecode,
+        citycode,
+        stationcode,
+        addresscode,
+        command,
+        nextnumber,
+        cardnum1,
+        cardnum2,
+        cardnum3,
+        cardnum4,
+        stamp,
+        endweight,
+        grossweight,
+        settingweight,
+        clientid,
+        operatorid,
+        gxcode,
+        fscode,
+        frameid,
+        curtime,
+        usedtime,
+        ticket,
+        qrcode,
+        recordtime,
+        machineno
+      ) VALUES
+      (
+        #{provincecode},
+        #{citycode},
+        #{stationcode},
+        #{addresscode},
+        #{command},
+        #{nextnumber},
+        #{cardnum1},
+        #{cardnum2},
+        #{cardnum3},
+        #{cardnum4},
+        #{stamp},
+        #{endweight},
+        #{grossweight},
+        #{settingweight},
+        #{clientid},
+        #{operatorid},
+        #{gxcode},
+        #{fscode},
+        #{frameid},
+        #{curtime},
+        #{usedtime},
+        #{ticket},
+        #{qrcode},
+        #{recordtime},
+        #{machineno}
+      )
+
+    <selectKey resultType="int" keyProperty="id" order="AFTER">
+        SELECT LAST_INSERT_ID()
+    </selectKey>
+    </insert>
+</mapper>

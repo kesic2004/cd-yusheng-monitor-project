@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.model.fj.mapper.FjDwMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.model.fj.entity.FjDw">
+        <id column="id" property="id" />
+        <result column="stationname" property="stationname" />
+        <result column="platformurl" property="platformurl" />
+        <result column="token" property="token" />
+        <result column="jblstationcode" property="jblstationcode" />
+        <result column="bz" property="bz" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, stationname, platformurl, token, jblstationcode, bz
+    </sql>
+
+</mapper>

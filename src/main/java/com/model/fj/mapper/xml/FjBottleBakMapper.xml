@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.model.fj.mapper.FjBottleBakMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.model.fj.entity.FjBottleBak">
+        <id column="id" property="id" />
+        <result column="barcode" property="barcode" />
+        <result column="printno" property="printno" />
+        <result column="style" property="style" />
+        <result column="valve" property="valve" />
+        <result column="productdate" property="productdate" />
+        <result column="discarddate" property="discarddate" />
+        <result column="checkdate" property="checkdate" />
+        <result column="nextcheckdate" property="nextcheckdate" />
+        <result column="updatedate" property="updatedate" />
+        <result column="state" property="state" />
+        <result column="systemid" property="systemid" />
+        <result column="factoryid" property="factoryid" />
+        <result column="factoryname" property="factoryname" />
+        <result column="did" property="did" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, barcode, printno, style, valve, productdate, discarddate, checkdate, nextcheckdate, updatedate, state, systemid, factoryid, factoryname, did
+    </sql>
+
+</mapper>

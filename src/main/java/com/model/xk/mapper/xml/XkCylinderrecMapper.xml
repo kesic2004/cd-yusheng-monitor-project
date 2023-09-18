@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.model.xk.mapper.XkCylinderrecMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.model.xk.entity.XkCylinderrec">
+        <id column="id" property="id" />
+        <result column="stationCode" property="stationCode" />
+        <result column="code" property="code" />
+        <result column="factoryCode" property="factoryCode" />
+        <result column="factoryName" property="factoryName" />
+        <result column="factoryNumber" property="factoryNumber" />
+        <result column="cylinderTypeCode" property="cylinderTypeCode" />
+        <result column="cylinderTypeName" property="cylinderTypeName" />
+        <result column="mediumCode" property="mediumCode" />
+        <result column="mediumName" property="mediumName" />
+        <result column="mediumInspectPeriod" property="mediumInspectPeriod" />
+        <result column="mediumColor" property="mediumColor" />
+
+        <result column="mediumScrappedPeriod" property="mediumScrappedPeriod" />
+        <result column="factoryDate" property="factoryDate" />
+        <result column="lastInspectDate" property="lastInspectDate" />
+        <result column="nextInspectDate" property="nextInspectDate" />
+        <result column="scrappedDate" property="scrappedDate" />
+        <result column="registerCode" property="registerCode" />
+        <result column="nominalPressure" property="nominalPressure" />
+        <result column="cylinderVolume" property="cylinderVolume" />
+        <result column="designThickness" property="designThickness" />
+        <result column="status" property="status" />
+        <result column="barcode" property="barcode" />
+        <result column="memo" property="memo" />
+        <result column="proofMaterial" property="proofMaterial" />
+        <result column="ownNumber" property="ownNumber" />
+        <result column="actualMediumName" property="actualMediumName" />
+        <result column="enterDate" property="enterDate" />
+        <result column="recordDate" property="recordDate" />
+        <result column="specification" property="specification" />
+        <result column="recordStatus" property="recordStatus" />
+        <result column="lastInspectNumber" property="lastInspectNumber" />
+        <result column="lastRegisterNumber" property="lastRegisterNumber" />
+        <result column="data01" property="data01" />
+        <result column="data02" property="data02" />
+        <result column="data03" property="data03" />
+        <result column="data04" property="data04" />
+        <result column="data05" property="data05" />
+        <result column="data06" property="data06" />
+        <result column="data07" property="data07" />
+        <result column="data08" property="data08" />
+        <result column="data09" property="data09" />
+        <result column="data10" property="data10" />
+        <result column="isNewCylinder" property="isNewCylinder" />
+        <result column="auditAgency" property="auditAgency" />
+        <result column="auditPerson" property="auditPerson" />
+        <result column="auditDate" property="auditDate" />
+        <result column="delayIssuing" property="delayIssuing" />
+        <result column="recordFlag" property="recordFlag" />
+        <result column="senderCode" property="senderCode" />
+        <result column="virtualUser" property="virtualUser" />
+        <result column="backReason" property="backReason" />
+        <result column="recordTime" property="recordTime" />
+        <result column="lastUpdateTime" property="lastUpdateTime" />
+        <result column="internalState" property="internalState" />
+        <result column="internalTime" property="internalTime" />
+        <result column="did" property="did" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, stationCode, code, factoryCode, factoryName, factoryNumber, cylinderTypeCode, cylinderTypeName, mediumCode, mediumName, mediumInspectPeriod, mediumColor, mediumScrappedPeriod, factoryDate, lastInspectDate, nextInspectDate, scrappedDate, registerCode, nominalPressure, cylinderVolume, designThickness, status, barcode, memo, proofMaterial, ownNumber, actualMediumName, enterDate, recordDate, specification, recordStatus, lastInspectNumber, lastRegisterNumber, data01, data02, data03, data04, data05, data06, data07, data08, data09, data10, isNewCylinder, auditAgency, auditPerson, auditDate, delayIssuing, recordFlag, senderCode, virtualUser, backReason, recordTime, lastUpdateTime, internalState, internalTime, did
+    </sql>
+
+</mapper>

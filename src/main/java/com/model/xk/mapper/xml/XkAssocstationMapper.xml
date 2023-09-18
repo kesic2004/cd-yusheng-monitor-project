@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.model.xk.mapper.XkAssocstationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.model.xk.entity.XkAssocstation">
+        <id column="id" property="id" />
+        <result column="stationCode" property="stationCode" />
+        <result column="barcodePrefix" property="barcodePrefix" />
+        <result column="associateCode" property="associateCode" />
+        <result column="associateName" property="associateName" />
+        <result column="did" property="did" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, stationCode, barcodePrefix, associateCode, associateName, did
+    </sql>
+
+</mapper>
