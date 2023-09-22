@@ -2,7 +2,8 @@
 SQLyog Enterprise v12.09 (64 bit)
 MySQL - 8.0.18 : Database - gas
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -1148,19 +1149,19 @@ CREATE TABLE `sysusersetting` (
 DROP TABLE IF EXISTS `tblclient`;
 
 CREATE TABLE `tblclient` (
-  `id` int(32) NOT NULL COMMENT '序号',
-  `name` varchar(128) DEFAULT NULL COMMENT '姓名',
-  `tel` varchar(128) DEFAULT NULL COMMENT '电话',
-  `address` varchar(128) DEFAULT NULL COMMENT '地址',
-  `unit` varchar(128) DEFAULT NULL COMMENT '单位',
-  `post` varchar(128) DEFAULT NULL COMMENT '邮编',
-  `detail` varchar(128) DEFAULT NULL COMMENT '备注',
+  `id`       int(32) NOT NULL COMMENT '序号',
+  `name`     varchar(128)                                                  DEFAULT NULL COMMENT '姓名',
+  `tel`      varchar(128)                                                  DEFAULT NULL COMMENT '电话',
+  `address`  varchar(128)                                                  DEFAULT NULL COMMENT '地址',
+  `unit`     varchar(128)                                                  DEFAULT NULL COMMENT '单位',
+  `post`     varchar(128)                                                  DEFAULT NULL COMMENT '邮编',
+  `detail`   varchar(128)                                                  DEFAULT NULL COMMENT '备注',
   `checkurl` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '审核链接',
-  `posturl` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '提交数据链接',
-  `state` int(32) DEFAULT NULL COMMENT '状态:1-有效，0-无效',
-  `p1` varchar(256) DEFAULT NULL COMMENT '参数1',
-  `p2` varchar(256) DEFAULT NULL COMMENT '参数2',
-  `p3` varchar(256) DEFAULT NULL COMMENT '参数3',
+  `posturl`  varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '提交数据链接',
+  `state`    int(32)                                                       DEFAULT NULL COMMENT '状态:1-有效，0-无效',
+  `p1`       varchar(256)                                                  DEFAULT NULL COMMENT '参数1',
+  `p2`       varchar(256)                                                  DEFAULT NULL COMMENT '参数2',
+  `p3`       varchar(256)                                                  DEFAULT NULL COMMENT '参数3',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
