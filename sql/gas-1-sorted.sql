@@ -1198,8 +1198,9 @@ CREATE TABLE `tbldata` (
   PRIMARY KEY (`id`),
   KEY `idx_tbldata_qrcode` (`qrcode`),
   KEY `idx_tbldata_query` (`provincecode`,`citycode`,`stationcode`,`recordtime`,`gxcode`,`grossweight`,`endweight`,`settingweight`)
+  KEY `idx_tbldata_unique_check` (`provincecode`, `citycode`, `stationcode`, `machineno`, `curtime`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9675748 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
+alter table
 /*Table structure for table `tbldataprint` */
 
 DROP TABLE IF EXISTS `tbldataprint`;
