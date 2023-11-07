@@ -2,9 +2,11 @@ package com.model.province.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
 
+@TableName("province")
 public class Province extends Model<Province> {
    private static final long serialVersionUID = 1L;
    @TableId(
