@@ -1,8 +1,10 @@
 package com.model.errinfo.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
 
+@TableName("errinfo")
 public class Errinfo extends Model<Errinfo> {
    private static final long serialVersionUID = 1L;
    private Integer id;
