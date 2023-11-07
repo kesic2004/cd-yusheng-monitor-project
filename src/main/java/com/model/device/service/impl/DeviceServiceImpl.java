@@ -9,14 +9,68 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device> implements DeviceService {
-   @Autowired
-   DeviceMapper deviceMapper;
+    @Autowired
+    DeviceMapper deviceMapper;
 
-   public Device findDevice(Integer addresscode, Integer province, Integer city, Integer station, Integer machineno) {
-      return this.deviceMapper.findDevice(addresscode, province, city, station, machineno);
-   }
+    public Device findDevice(Integer addresscode, Integer province, Integer city, Integer station, Integer machineno) {
+        /*
+         * SELECT
+         *     d.id as id,
+         *     d.sid as sid,
+         *     d.clientid as clientid,
+         *     d.name as name,
+         *     d.addresscode as addresscode,
+         *     d.detail as detail,
+         *     d.state as state,
+         *     d.machineno as machineno,
+         *     d.qrtype as qrtype
+         * FROM
+         *     device d,
+         *     province p,
+         *     city c,
+         *     station s
+         * WHERE
+         *     p.id = c.pid
+         *     And c.id = s.cid
+         *     And s.id = d.sid
+         *     And p.code = #{province}
+         *     And c.code = #{city}
+         *     And s.code = #{station}
+         *     And d.addresscode = #{addresscode}
+         *     And d.machineno = #{machineno}
+         * LIMIT 1
+         */
+         return this.deviceMapper.findDevice(addresscode, province, city, station, machineno);
+    }
 
-   public Device findDeviceByClientIdAndAddress(Integer clientid, Integer addresscode, Integer province, Integer city, Integer station) {
-      return this.deviceMapper.findDeviceByClientIdAndAddress(clientid, addresscode, province, city, station);
-   }
+    public Device findDeviceByClientIdAndAddress(Integer clientid, Integer addresscode, Integer province, Integer city, Integer station) {
+        /*
+         * SELECT
+         *     d.id as id,
+         *     d.sid as sid,
+         *     d.clientid as clientid,
+         *     d.name as name,
+         *     d.addresscode as addresscode,
+         *     d.detail as detail,
+         *     d.state as state,
+         *     d.machineno as machineno,
+         *     d.qrtype as qrtype
+         * FROM
+         *     device d,
+         *     province p,
+         *     city c,
+         *     station s
+         * WHERE
+         *     p.id = c.pid
+         *     And c.id = s.cid
+         *     And s.id = d.sid
+         *     And p.code = #{province}
+         *     And c.code = #{city}
+         *     And s.code = #{station}
+         *     And d.addresscode = #{addresscode}
+         *     AND d.clientid = #{clientid}
+         * LIMIT 1
+         */
+         return this.deviceMapper.findDeviceByClientIdAndAddress(clientid, addresscode, province, city, station);
+    }
 }
