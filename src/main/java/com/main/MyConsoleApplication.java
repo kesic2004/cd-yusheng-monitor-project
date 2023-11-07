@@ -17,9 +17,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication(
    exclude = {DruidDataSourceAutoConfigure.class},
-   scanBasePackages = {"com.**"}
+   scanBasePackages = {"com.**"} /* 扫描package：com包及其子包*/
 )
-@MapperScan({"com.model.**.mapper"})
+@MapperScan({"com.model.**.mapper"}) /* MyBatis plus的扫描包范围. */
 @EnableScheduling
 @EnableAsync
 public class MyConsoleApplication implements ApplicationRunner {
@@ -27,11 +27,28 @@ public class MyConsoleApplication implements ApplicationRunner {
    @Autowired
    ApplicationContext applicationContext;
 
+   /**
+    * 程序启动入口
+    * @param args
+    */
    public static void main(String[] args) {
-      (new SpringApplicationBuilder(new Class[]{MyConsoleApplication.class})).web(WebApplicationType.NONE).bannerMode(Mode.OFF).run(args);
+      (new SpringApplicationBuilder(new Class[]{MyConsoleApplication.class})).web(WebApplicationType.SERVLET).bannerMode(Mode.OFF).run(args);
    }
 
+   /**
+    * Server服务启动
+    * @param args
+    * @throws Exception
+    */
    public void run(ApplicationArguments args) throws Exception {
+      /*
+       * run:52, MyConsoleApplication (com.main)
+       * callRunner:786, SpringApplication (org.springframework.boot)
+       * callRunners:776, SpringApplication (org.springframework.boot)
+       * run:322, SpringApplication (org.springframework.boot)
+       * run:140, SpringApplicationBuilder (org.springframework.boot.builder)
+       * main:35, MyConsoleApplication (com.main)
+       */
       logger.info("-> console run......");
       NServerEx nServerEx = (NServerEx)this.applicationContext.getBean(NServerEx.class);
       if (nServerEx != null) {
