@@ -2,10 +2,12 @@ package com.model.currentuser.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
 import java.util.Date;
 
+@TableName("currentuser")
 public class Currentuser extends Model<Currentuser> {
    private static final long serialVersionUID = 1L;
    @TableId(
