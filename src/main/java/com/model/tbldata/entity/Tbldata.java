@@ -3,10 +3,14 @@ package com.model.tbldata.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
+@TableName("tbldata")
 public class Tbldata extends Model<Tbldata> {
    private static final long serialVersionUID = 1L;
    @TableId(
@@ -14,12 +18,12 @@ public class Tbldata extends Model<Tbldata> {
       type = IdType.AUTO
    )
    private Integer id;
-   private Integer provincecode;
-   private Integer citycode;
-   private Integer stationcode;
-   private Integer addresscode;
-   private Integer command;
-   private Integer nextnumber;
+   private Integer provincecode; /* 省编码 */
+   private Integer citycode; /* 市编码 */
+   private Integer stationcode; /* 站点编码 */
+   private Integer addresscode; /* 地址码 */
+   private Integer command; /* 命令字 */
+   private Integer nextnumber; /* 后续数 */
    private Integer cardnum1;
    private Integer cardnum2;
    private Integer cardnum3;
@@ -33,10 +37,16 @@ public class Tbldata extends Model<Tbldata> {
    private Integer gxcode;
    private Integer fscode;
    private Integer frameid;
+   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
    private Date curtime;
    private Integer usedtime;
    private Integer ticket;
+   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
    private Date recordtime;
+   /**
+    * 用于记录下位机的时间
+    */
+   private String remoteTime;
    private Integer machineno;
    private String qrcode;
    @TableField(
@@ -262,6 +272,14 @@ public class Tbldata extends Model<Tbldata> {
 
    public void setRecordtime(Date recordtime) {
       this.recordtime = recordtime;
+   }
+
+   public String getRemoteTime() {
+      return remoteTime;
+   }
+
+   public void setRemoteTime(String remoteTime) {
+      this.remoteTime = remoteTime;
    }
 
    public String getQrcode() {
