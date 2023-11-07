@@ -13,6 +13,9 @@ public class FjDwServiceImpl extends ServiceImpl<FjDwMapper, FjDw> implements Fj
    FjDwMapper fjDwMapper;
 
    public FjDw findDwByJblCode(String jblCode) {
+      /*
+       * Select id, stationname, platformurl, token, jblstationcode, bz from fj_dw where jblstationcode=#{jblCode} limit 1
+       */
       return this.fjDwMapper.findDwByJblCode(jblCode);
    }
 }
