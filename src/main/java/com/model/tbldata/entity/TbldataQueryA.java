@@ -99,6 +99,10 @@ public class TbldataQueryA extends Model<TbldataQueryA> {
         return settingweight;
     }
 
+    public String getQrcode() {
+        return qrcode;
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -116,7 +120,7 @@ public class TbldataQueryA extends Model<TbldataQueryA> {
     }
 
     public void setAddresscode(String addresscode) {
-        this.addresscode = addresscode;
+        this.addresscode = processString(addresscode);
     }
 
     public void setFscodeType(Integer fscodeType) {
@@ -143,8 +147,18 @@ public class TbldataQueryA extends Model<TbldataQueryA> {
         this.settingweight = settingweight;
     }
 
+    public void setQrcode(String qrcode) {
+        this.qrcode = processString(qrcode);
+    }
+
+    private static String processString(String string) {
+        return string == null ? null : (string.trim().length() == 0 ? null : string.trim());
+    }
+
     public void processCurtimeExtent() {
         Date[] array = processLocalDateExtent(this.curtimeForm, this.curtimeTo);
+        this.curtimeForm = array[0];
+        this.curtimeTo = array[1];
     }
     private final static Date[] processLocalDateExtent(Date from, Date to) {
         switch ((to == null ? 0 : 2) + (from == null ? 0 : 1)) {
@@ -162,12 +176,11 @@ public class TbldataQueryA extends Model<TbldataQueryA> {
     }
 
     private final static Date getFirst(Date date) {
-        return new Date(date.getYear(), date.getMonth(), 1, 0, 0, 0);
+        return new Date(date.getYear(), date.getMonth(), date.getDate(), 0, 0, 0);
     }
 
     private final static Date getLast(Date date) {
-        final int month = date.getMonth();
-        Date      temp  = (month == 11) ? new Date(date.getYear() + 1, 0, 1, 0, 0, 0) : new Date(date.getYear(), month + 1, 1, 0, 0, 0);
-        return new Date(temp.getTime() - 1);
+        Date      temp  = new Date(date.getYear(), date.getMonth(), date.getDate(), 0, 0, 0);
+        return new Date(temp.getTime() + 86_399_999);
     }
 }
