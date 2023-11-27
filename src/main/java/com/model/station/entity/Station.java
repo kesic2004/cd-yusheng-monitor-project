@@ -1,10 +1,13 @@
 package com.model.station.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
 
+@TableName("station")
 public class Station extends Model<Station> {
    private static final long serialVersionUID = 1L;
    @TableId(
@@ -13,7 +16,9 @@ public class Station extends Model<Station> {
    )
    private Integer id;
    private Integer cid;
-   private String code;
+   @TableField("i_code")
+   private Integer code;
+   private Integer actualCityCode;
    private String name;
    private String address;
    private String detail;
@@ -34,12 +39,20 @@ public class Station extends Model<Station> {
       this.cid = cid;
    }
 
-   public String getCode() {
+   public Integer getCode() {
       return this.code;
    }
 
-   public void setCode(String code) {
+   public void setCode(Integer code) {
       this.code = code;
+   }
+
+   public Integer getActualCityCode() {
+      return actualCityCode;
+   }
+
+   public void setActualCityCode(Integer actualCityCode) {
+      this.actualCityCode = actualCityCode;
    }
 
    public String getName() {
