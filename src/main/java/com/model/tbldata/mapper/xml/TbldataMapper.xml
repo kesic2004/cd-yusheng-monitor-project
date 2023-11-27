@@ -5,9 +5,9 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.model.tbldata.entity.Tbldata">
         <id column="id" property="id" />
-        <result column="provinceid" property="provinceid" />
-        <result column="cityid" property="cityid" />
-        <result column="stationid" property="stationid" />
+        <result column="provincecode" property="provincecode" />
+        <result column="citycode" property="citycode" />
+        <result column="stationcode" property="stationcode" />
         <result column="addresscode" property="addresscode" />
         <result column="command" property="command" />
         <result column="nextnumber" property="nextnumber" />
@@ -27,12 +27,14 @@
         <result column="curtime" property="curtime" />
         <result column="usedtime" property="usedtime" />
         <result column="ticket" property="ticket" />
+        <result column="qrcode" property="qrcode" />
         <result column="recordtime" property="recordtime" />
+        <result column="machineno" property="machineno" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, provinceid, cityid, stationid, addresscode, command, nextnumber, cardnum1, cardnum2, cardnum3, cardnum4, stamp, endweight, grossweight, settingweight, clientid, operatorid, gxcode, fscode, frameid, curtime, usedtime, ticket, recordtime
+        id, provincecode, citycode, stationcode, addresscode, command, nextnumber, cardnum1, cardnum2, cardnum3, cardnum4, stamp, endweight, grossweight, settingweight, clientid, operatorid, gxcode, fscode, frameid, curtime, usedtime, ticket, qrcode, recordtime, machineno
     </sql>
 
     <select id="queryCountByDateTime"  resultType="java.lang.Integer">
@@ -60,6 +62,7 @@
         gxcode,
         fscode,
         frameid,
+        remote_time,
         curtime,
         usedtime,
         ticket,
@@ -87,6 +90,7 @@
         #{gxcode},
         #{fscode},
         #{frameid},
+        #{remoteTime},
         #{curtime},
         #{usedtime},
         #{ticket},
@@ -99,4 +103,47 @@
         SELECT LAST_INSERT_ID()
     </selectKey>
     </insert>
+    <!--
+        RANK() OVER(ORDER BY curtime ASC) as seq,
+        主要用于数据加上序号 <foreach collection="sCodes" open="(" close=")" separator="," item="item">#{item.value}</foreach><foreach collection="sCodes" open="(" close=")" separator="," item="item">#{item.value}</foreach>
+    -->
+    <select id="queryByPageSingleStation" resultType="com.model.tbldata.entity.TbldataRequltA">
+        select RANK() OVER(ORDER BY curtime ASC) as seq, <include refid="Base_Column_List" /> from tbldata
+        <where>
+            <if test="pCode != 0"><![CDATA[ and provincecode = #{pCode} ]]></if>
+            <if test="cCode != 0"><![CDATA[ and citycode = #{cCode} ]]></if>
+            <if test="sCode != 0"><![CDATA[ and stationcode = #{sCode} ]]></if>
+            <if test="query.selStationcode != null"><![CDATA[ and stationcode = #{query.selStationcode} ]]></if>
+            <if test="query.selClientid != null"><![CDATA[ and clientid = #{query.selClientid} ]]></if>
+            <if test="query.selOperatorid != null"><![CDATA[ and operatorid = #{query.selOperatorid} ]]></if>
+            <if test="query.addresscode != null"><![CDATA[ and addresscode = #{query.addresscode}]]></if>
+            <if test="query.fscodeType != null"><![CDATA[ and (gxcode div 128) = #{query.fscodeType} ]]></if>
+            <if test="query.gxCodeType != null"><![CDATA[ and (gxcode mod 64) = (#{query.gxCodeType} * 16) ]]></if>
+            <if test="query.command != null"><![CDATA[ and command = #{query.command} ]]></if>
+            <if test="query.curtimeForm != null"><![CDATA[ and curtime >= #{query.curtimeForm} ]]></if>
+            <if test="query.curtimeTo != null"><![CDATA[ and curtime <= #{query.curtimeTo} ]]></if>
+            <if test="query.settingweight != null"><![CDATA[ and settingweight = #{query.settingweight} ]]></if>
+            <if test="query.qrcode != null"><![CDATA[ and qrcode = #{query.qrcode} ]]></if>
+        </where>
+        order by curtime desc limit #{begin}, #{offset}
+    </select>
+    <select id="countByPageSingleStation" resultType="java.lang.Integer">
+        select count(id) from tbldata
+        <where>
+            <if test="pCode != 0"><![CDATA[ and provincecode = #{pCode} ]]></if>
+            <if test="cCode != 0"><![CDATA[ and citycode = #{cCode} ]]></if>
+            <if test="sCode != 0"><![CDATA[ and stationcode = #{sCode} ]]></if>
+            <if test="query.selStationcode != null"><![CDATA[ and stationcode = #{query.selStationcode} ]]></if>
+            <if test="query.selClientid != null"><![CDATA[ and clientid = #{query.selClientid} ]]></if>
+            <if test="query.selOperatorid != null"><![CDATA[ and operatorid = #{query.selOperatorid} ]]></if>
+            <if test="query.addresscode != null"><![CDATA[ and addresscode = #{query.addresscode}]]></if>
+            <if test="query.fscodeType != null"><![CDATA[ and (gxcode div 128) = #{query.fscodeType} ]]></if>
+            <if test="query.gxCodeType != null"><![CDATA[ and (gxcode mod 64) = (#{query.gxCodeType} * 16) ]]></if>
+            <if test="query.command != null"><![CDATA[ and command = #{query.command} ]]></if>
+            <if test="query.curtimeForm != null"><![CDATA[ and curtime >= #{query.curtimeForm} ]]></if>
+            <if test="query.curtimeTo != null"><![CDATA[ and curtime <= #{query.curtimeTo} ]]></if>
+            <if test="query.settingweight != null"><![CDATA[ and settingweight = #{query.settingweight} ]]></if>
+            <if test="query.qrcode != null"><![CDATA[ and qrcode = #{query.qrcode} ]]></if>
+        </where>
+    </select>
 </mapper>
