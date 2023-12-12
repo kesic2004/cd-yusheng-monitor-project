@@ -10,14 +10,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class XkLogServiceImpl extends ServiceImpl<XkLogMapper, XkLog> implements XkLogService {
-   @Autowired
-   XkLogMapper xkLogMapper;
 
    public void newLog(String tag, String detail) {
       XkLog xkLog = new XkLog();
       xkLog.setTag(tag);
       xkLog.setDetail(detail);
       xkLog.setRq(new Date());
-      this.xkLogMapper.insert(xkLog);
+      super.baseMapper.insert(xkLog);
    }
 }

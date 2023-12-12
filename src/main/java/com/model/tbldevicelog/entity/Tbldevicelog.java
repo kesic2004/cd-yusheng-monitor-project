@@ -2,10 +2,12 @@ package com.model.tbldevicelog.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
 import java.util.Date;
 
+@TableName("tbldevicelog")
 public class Tbldevicelog extends Model<Tbldevicelog> {
    private static final long serialVersionUID = 1L;
    @TableId(

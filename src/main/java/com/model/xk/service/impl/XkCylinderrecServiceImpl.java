@@ -10,38 +10,36 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class XkCylinderrecServiceImpl extends ServiceImpl<XkCylinderrecMapper, XkCylinderrec> implements XkCylinderrecService {
-   @Autowired
-   XkCylinderrecMapper xkCylinderrecMapper;
 
    public void deleteCylinderrec() {
-      this.xkCylinderrecMapper.deleteCylinderrec();
+      super.baseMapper.deleteCylinderrec();
    }
 
    public void deleteCylinderrecByStationCode(String stationCode) {
-      this.xkCylinderrecMapper.deleteCylinderrecByStationCode(stationCode);
+      super.baseMapper.deleteCylinderrecByStationCode(stationCode);
    }
 
    public XkCylinderrec findcClinderRecEx(String stationCode, String barcode) {
-      return this.xkCylinderrecMapper.findcClinderRecEx(stationCode, barcode);
+      return super.baseMapper.findcClinderRecEx(stationCode, barcode);
    }
 
    public XkCylinderrec findcClinderRec(String barcode) {
-      return this.xkCylinderrecMapper.findcClinderRec(barcode);
+      return super.baseMapper.findcClinderRec(barcode);
    }
 
    public Date getMaxInternalTime() {
-      return this.xkCylinderrecMapper.getMaxInternalTime();
+      return super.baseMapper.getMaxInternalTime();
    }
 
    public Date getMaxInternalTimeByDid(Integer did) {
-      return this.xkCylinderrecMapper.getMaxInternalTimeByDid(did);
+      return super.baseMapper.getMaxInternalTimeByDid(did);
    }
 
    public Date getMaxInternalTimeByStationCode(String stationCode) {
-      return this.xkCylinderrecMapper.getMaxInternalTimeByStationCode(stationCode);
+      return super.baseMapper.getMaxInternalTimeByStationCode(stationCode);
    }
 
    public void deleteCylinderrecByDid(Integer did) {
-      this.xkCylinderrecMapper.deleteCylinderrecByDid(did);
+      super.baseMapper.deleteCylinderrecByDid(did);
    }
 }

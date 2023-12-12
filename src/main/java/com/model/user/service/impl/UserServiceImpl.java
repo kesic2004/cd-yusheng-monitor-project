@@ -10,30 +10,28 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
-   @Autowired
-   UserMapper userMapper;
 
    public User findUser(String qrcode) {
-      return this.userMapper.findUser(qrcode);
+      return super.baseMapper.findUser(qrcode);
    }
 
    public User findUserEx(User user) {
-      return this.userMapper.findUserEx(user);
+      return super.baseMapper.findUserEx(user);
    }
 
    public UserEx findUserJoinCity(Integer addresscode, User user) {
-      return this.userMapper.findUserJoinCity(addresscode, user);
+      return super.baseMapper.findUserJoinCity(addresscode, user);
    }
 
    public UserEx findUserJoinStation(Integer addresscode, Integer province, Integer city, Integer station, User user) {
-      return this.userMapper.findUserJoinStation(addresscode, province, city, station, user);
+      return super.baseMapper.findUserJoinStation(addresscode, province, city, station, user);
    }
 
    public Integer findUserCountJoinStation(Integer addresscode, User user) {
-      return this.userMapper.findUserCountJoinStation(addresscode, user);
+      return super.baseMapper.findUserCountJoinStation(addresscode, user);
    }
 
    public User selectUser(int id) {
-      return this.userMapper.selectUser(id);
+      return super.baseMapper.selectUser(id);
    }
 }

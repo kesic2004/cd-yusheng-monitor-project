@@ -8,4 +8,6 @@ import org.apache.ibatis.annotations.Param;
 
 public interface StationService extends IService<Station> {
    List<StationEx> findStationListByClientId(@Param("clientid") Integer clientid);
+
+    Integer getIdByCode(int cityId, int stationCode);
 }

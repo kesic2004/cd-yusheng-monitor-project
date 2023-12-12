@@ -9,13 +9,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class FjDwServiceImpl extends ServiceImpl<FjDwMapper, FjDw> implements FjDwService {
-   @Autowired
-   FjDwMapper fjDwMapper;
 
    public FjDw findDwByJblCode(String jblCode) {
       /*
        * Select id, stationname, platformurl, token, jblstationcode, bz from fj_dw where jblstationcode=#{jblCode} limit 1
        */
-      return this.fjDwMapper.findDwByJblCode(jblCode);
+      return super.baseMapper.findDwByJblCode(jblCode);
    }
 }

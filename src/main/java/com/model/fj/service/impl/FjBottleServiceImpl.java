@@ -9,18 +9,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class FjBottleServiceImpl extends ServiceImpl<FjBottleMapper, FjBottle> implements FjBottleService {
-   @Autowired
-   FjBottleMapper fjBottleMapper;
 
    public FjBottle findBottle(int did, String barcode) {
-      return this.fjBottleMapper.findBottle(did, barcode);
+      return super.baseMapper.findBottle(did, barcode);
    }
 
    public void deleteBottle() {
-      this.fjBottleMapper.deleteBottle();
+      super.baseMapper.deleteBottle();
    }
 
    public String getMaxUpdateDateByDid(Integer did) {
-      return this.fjBottleMapper.getMaxUpdateDateByDid(did);
+      return super.baseMapper.getMaxUpdateDateByDid(did);
    }
 }

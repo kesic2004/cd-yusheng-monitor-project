@@ -4,4 +4,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.model.province.entity.Province;
 
 public interface ProvinceService extends IService<Province> {
+    Integer getIdByCode(int provinceCode);
 }

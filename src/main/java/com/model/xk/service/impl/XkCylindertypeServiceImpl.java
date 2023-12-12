@@ -10,14 +10,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class XkCylindertypeServiceImpl extends ServiceImpl<XkCylindertypeMapper, XkCylindertype> implements XkCylindertypeService {
-   @Autowired
-   XkCylindertypeMapper xkCylindertypeMapper;
 
    public void deleteCylindertype() {
-      this.xkCylindertypeMapper.deleteCylindertype();
+      super.baseMapper.deleteCylindertype();
    }
 
    public Date getMaxInternalTime() {
-      return this.xkCylindertypeMapper.getMaxInternalTime();
+      return super.baseMapper.getMaxInternalTime();
    }
 }

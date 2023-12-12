@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device> implements DeviceService {
-    @Autowired
-    DeviceMapper deviceMapper;
 
     public Device findDevice(Integer addresscode, Integer province, Integer city, Integer station, Integer machineno) {
         /*
@@ -40,7 +38,7 @@ public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device> impleme
          *     And d.machineno = #{machineno}
          * LIMIT 1
          */
-         return this.deviceMapper.findDevice(addresscode, province, city, station, machineno);
+         return super.baseMapper.findDevice(addresscode, province, city, station, machineno);
     }
 
     public Device findDeviceByClientIdAndAddress(Integer clientid, Integer addresscode, Integer province, Integer city, Integer station) {
@@ -71,6 +69,11 @@ public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device> impleme
          *     AND d.clientid = #{clientid}
          * LIMIT 1
          */
-         return this.deviceMapper.findDeviceByClientIdAndAddress(clientid, addresscode, province, city, station);
+         return super.baseMapper.findDeviceByClientIdAndAddress(clientid, addresscode, province, city, station);
+    }
+
+    @Override
+    public Integer getIdByCode(Integer stationId, int machineNo, int address) {
+        return super.baseMapper.getIdByCode(stationId, machineNo, address);
     }
 }

@@ -10,14 +10,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class FjLogServiceImpl extends ServiceImpl<FjLogMapper, FjLog> implements FjLogService {
-   @Autowired
-   FjLogMapper fjLogMapper;
 
    public void newLog(String tag, String detail) {
       FjLog fjLog = new FjLog();
       fjLog.setTag(tag);
       fjLog.setDetail(detail);
       fjLog.setRq(new Date());
-      this.fjLogMapper.insert(fjLog);
+      super.baseMapper.insert(fjLog);
    }
 }

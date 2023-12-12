@@ -10,16 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-@DS("slave")
+@DS("slave") /* 使用slave数据源 */
 public class TblvaluesServiceImpl extends ServiceImpl<TblvaluesMapper, Tblvalues> implements TblvaluesService {
-   @Autowired
-   TblvaluesMapper tblvaluesMapper;
 
    public Tblvalues findValues(String addresscode) {
-      return this.tblvaluesMapper.findValues(addresscode);
+      return super.baseMapper.findValues(addresscode);
    }
 
    public void updateValues(String addresscode, String temperature, String pressure, Date recordtime) {
-      this.tblvaluesMapper.updateValues(addresscode, temperature, pressure, recordtime);
+      super.baseMapper.updateValues(addresscode, temperature, pressure, recordtime);
    }
 }

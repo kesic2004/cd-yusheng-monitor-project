@@ -11,10 +11,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class StationServiceImpl extends ServiceImpl<StationMapper, Station> implements StationService {
-   @Autowired
-   StationMapper stationMapper;
+
+   @Override
+   public Integer getIdByCode(int cityId, int stationCode) {
+      return super.baseMapper.getIdByCode(cityId, stationCode);
+   }
 
    public List<StationEx> findStationListByClientId(Integer clientid) {
-      return this.stationMapper.findStationListByClientId(clientid);
+      return super.baseMapper.findStationListByClientId(clientid);
    }
 }

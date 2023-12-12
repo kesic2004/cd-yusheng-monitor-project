@@ -7,6 +7,7 @@ import com.model.tbldata.entity.Tbldata;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.model.tbldata.entity.TbldataQueryA;
 import com.model.tbldata.entity.TbldataRequltA;
+import com.model.tbldata.entity.TbldataSumWeightA;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -58,5 +59,5 @@ public interface TbldataMapper extends BaseMapper<Tbldata> {
     * @param sCode 站点编号
     * @return 总记录条数
     */
-   Integer countByPageSingleStation(@Param("query") TbldataQueryA query, @Param("pCode") Integer pCode, @Param("cCode") Integer cCode, @Param("sCode") Integer sCode);
+   TbldataSumWeightA countByPageSingleStation(@Param("query") TbldataQueryA query, @Param("pCode") Integer pCode, @Param("cCode") Integer cCode, @Param("sCode") Integer sCode);
 }

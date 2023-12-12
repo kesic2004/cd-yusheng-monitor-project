@@ -2,10 +2,12 @@ package com.model.xk.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 
+@TableName("xk_cylinderrecbak")
 public class XkCylinderrecbak extends Model<XkCylinderrecbak> {
    private static final long serialVersionUID = 1L;
    @TableId("id")

@@ -14,6 +14,7 @@ import com.model.station.entity.Station;
 import com.model.tbldata.entity.TbldataQueryA;
 import com.model.tbldata.service.TbldataService;
 import com.web.GasHandlerInterceptorAdapter;
+import com.web.GasHttpSessionKeyAndType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpSession;
 /*import java.util.List;*/
 import java.util.stream.Collectors;
 
@@ -40,7 +40,7 @@ public class TbldataController {
 
     @RequestMapping(value = "/queryByPage", method = RequestMethod.POST)
     @ResponseBody
-    public JSONObject queryByPage(HttpSession session, @RequestParam("form") String form, @RequestParam("page") String page) {
+    public JSONObject queryByPage(@GasHttpSessionKeyAndType(k=GasHandlerInterceptorAdapter.USUAL_THINGS, t=Register.class) Register register, @RequestParam("form") String form, @RequestParam("page") String page) {
         if (form == null || form.trim().length() == 0 || page == null || page.trim().length() == 0) {
             throw new NullPointerException();
         }
@@ -50,7 +50,6 @@ public class TbldataController {
             throw new IllegalArgumentException();
         }
         query.processCurtimeExtent();
-        final Register register = (Register) session.getAttribute(GasHandlerInterceptorAdapter.USUAL_THINGS);
         return tbldataService.queryByPage(
                 register.getProvinces(),
                 register.getCities(),
@@ -63,8 +62,7 @@ public class TbldataController {
 
     @RequestMapping(value = "/queryPageElSelect", method = RequestMethod.POST)
     @ResponseBody
-    public JSONObject queryPageElSelect(HttpSession session) {
-        final Register   register      = (Register) session.getAttribute(GasHandlerInterceptorAdapter.USUAL_THINGS);
+    public JSONObject queryPageElSelect(@GasHttpSessionKeyAndType(k=GasHandlerInterceptorAdapter.USUAL_THINGS, t=Register.class) Register register) {
         final Station[]    stations       = register.getStations();
         final JSONObject result        = new JSONObject();
         final JSONObject[] stationObject = new JSONObject[stations.length];
@@ -73,9 +71,10 @@ public class TbldataController {
             json.put("label", item.getName());
         }, () -> new JSONObject());
         result.put("station", stationObject);
-        result.put("clientUsers", clientuserService.queryByStationIdsAndParentId(stationIds, 0).stream().map(item -> {
+        result.put("clientUsers", clientuserService.queryStoreByStationIdsAndParentId(stationIds).stream().map(item -> {
             JSONObject clientUserObject = new JSONObject();
-            clientUserObject.put("value", item.getId());
+            clientUserObject.put("id", item.getId());
+            clientUserObject.put("value", item.getClientcode());
             clientUserObject.put("label", item.getClientname());
             return clientUserObject;
         }).collect(Collectors.toList()));

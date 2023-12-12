@@ -29,9 +29,9 @@ public class Tbldata extends Model<Tbldata> {
    private Integer cardnum3;
    private Integer cardnum4;
    private Integer stamp;
-   private Integer endweight;
-   private Integer grossweight;
-   private Integer settingweight;
+   private Integer endweight; /* 总重 */
+   private Integer grossweight; /* 皮重 */
+   private Integer settingweight; /* 设重 */
    private Integer clientid;
    private Integer operatorid;
    private Integer gxcode;

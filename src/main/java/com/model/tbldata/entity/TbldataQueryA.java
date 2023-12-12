@@ -160,6 +160,7 @@ public class TbldataQueryA extends Model<TbldataQueryA> {
         this.curtimeForm = array[0];
         this.curtimeTo = array[1];
     }
+
     private final static Date[] processLocalDateExtent(Date from, Date to) {
         switch ((to == null ? 0 : 2) + (from == null ? 0 : 1)) {
             case 0: /* 全传mull */
@@ -169,17 +170,27 @@ public class TbldataQueryA extends Model<TbldataQueryA> {
             case 2: /* array[0]传null */
                 return new Date[]{null, getLast(to)};
             case 3: /* 均不为null */
-                return (from.getTime() <= to.getTime()) ? new Date[]{getFirst(from), getLast(to)} : new Date[]{getFirst(to), getLast(from)};
+                return (from.getTime() <= to.getTime()) ? new Date[]{from, to} : new Date[]{to, from};
             default:
                 return new Date[]{null, null};
         }
     }
 
-    private final static Date getFirst(Date date) {
+    /**
+     * 获取自然日期的第0毫秒
+     * @param date 自然日期
+     * @return 自然日期的第0毫秒
+     */
+    public final static Date getFirst(Date date) {
         return new Date(date.getYear(), date.getMonth(), date.getDate(), 0, 0, 0);
     }
 
-    private final static Date getLast(Date date) {
+    /**
+     * 获取自然日期的最后的毫秒
+     * @param date 睚然日期
+     * @return 自然日期的最后的毫秒
+     */
+    public final static Date getLast(Date date) {
         Date      temp  = new Date(date.getYear(), date.getMonth(), date.getDate(), 0, 0, 0);
         return new Date(temp.getTime() + 86_399_999);
     }

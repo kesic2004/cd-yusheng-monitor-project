@@ -7,4 +7,6 @@ public interface DeviceService extends IService<Device> {
    Device findDevice(Integer addresscode, Integer province, Integer city, Integer station, Integer machineno);
 
    Device findDeviceByClientIdAndAddress(Integer clientid, Integer addresscode, Integer province, Integer city, Integer station);
+
+   Integer getIdByCode(Integer stationId, int machineNo, int address);
 }

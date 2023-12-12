@@ -10,14 +10,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class XkMediumServiceImpl extends ServiceImpl<XkMediumMapper, XkMedium> implements XkMediumService {
-   @Autowired
-   XkMediumMapper xkMediumMapper;
 
    public void deleteMedium() {
-      this.xkMediumMapper.deleteMedium();
+      super.baseMapper.deleteMedium();
    }
 
    public Date getMaxInternalTime() {
-      return this.xkMediumMapper.getMaxInternalTime();
+      return super.baseMapper.getMaxInternalTime();
    }
 }

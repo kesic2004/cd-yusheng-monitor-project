@@ -116,19 +116,19 @@
             <if test="query.selStationcode != null"><![CDATA[ and stationcode = #{query.selStationcode} ]]></if>
             <if test="query.selClientid != null"><![CDATA[ and clientid = #{query.selClientid} ]]></if>
             <if test="query.selOperatorid != null"><![CDATA[ and operatorid = #{query.selOperatorid} ]]></if>
-            <if test="query.addresscode != null"><![CDATA[ and addresscode = #{query.addresscode}]]></if>
+            <if test="query.addresscode != null"><![CDATA[ and addresscode = #{query.addresscode} ]]></if>
             <if test="query.fscodeType != null"><![CDATA[ and (gxcode div 128) = #{query.fscodeType} ]]></if>
             <if test="query.gxCodeType != null"><![CDATA[ and (gxcode mod 64) = (#{query.gxCodeType} * 16) ]]></if>
             <if test="query.command != null"><![CDATA[ and command = #{query.command} ]]></if>
             <if test="query.curtimeForm != null"><![CDATA[ and curtime >= #{query.curtimeForm} ]]></if>
-            <if test="query.curtimeTo != null"><![CDATA[ and curtime <= #{query.curtimeTo} ]]></if>
+            <if test="query.curtimeTo != null"><![CDATA[ and curtime < #{query.curtimeTo} ]]></if>
             <if test="query.settingweight != null"><![CDATA[ and settingweight = #{query.settingweight} ]]></if>
             <if test="query.qrcode != null"><![CDATA[ and qrcode = #{query.qrcode} ]]></if>
         </where>
         order by curtime desc limit #{begin}, #{offset}
     </select>
-    <select id="countByPageSingleStation" resultType="java.lang.Integer">
-        select count(id) from tbldata
+    <select id="countByPageSingleStation" resultType="com.model.tbldata.entity.TbldataSumWeightA">
+        select count(1) my_count, sum(endweight) endweight_count, sum(grossweight) grossweight_count, sum(settingweight) settingweight_count from tbldata
         <where>
             <if test="pCode != 0"><![CDATA[ and provincecode = #{pCode} ]]></if>
             <if test="cCode != 0"><![CDATA[ and citycode = #{cCode} ]]></if>
@@ -141,7 +141,7 @@
             <if test="query.gxCodeType != null"><![CDATA[ and (gxcode mod 64) = (#{query.gxCodeType} * 16) ]]></if>
             <if test="query.command != null"><![CDATA[ and command = #{query.command} ]]></if>
             <if test="query.curtimeForm != null"><![CDATA[ and curtime >= #{query.curtimeForm} ]]></if>
-            <if test="query.curtimeTo != null"><![CDATA[ and curtime <= #{query.curtimeTo} ]]></if>
+            <if test="query.curtimeTo != null"><![CDATA[ and curtime < #{query.curtimeTo} ]]></if>
             <if test="query.settingweight != null"><![CDATA[ and settingweight = #{query.settingweight} ]]></if>
             <if test="query.qrcode != null"><![CDATA[ and qrcode = #{query.qrcode} ]]></if>
         </where>

@@ -10,15 +10,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class XkAssocstationServiceImpl extends ServiceImpl<XkAssocstationMapper, XkAssocstation> implements XkAssocstationService {
-   @Autowired
-   XkAssocstationMapper xkAssocstationMapper;
 
    public void deleteAssocstation() {
-      this.xkAssocstationMapper.deleteAssocstation();
+      super.baseMapper.deleteAssocstation();
    }
 
    public void deleteAssocstationByDid(Integer did) {
-      this.xkAssocstationMapper.deleteAssocstationByDid(did);
+      super.baseMapper.deleteAssocstationByDid(did);
    }
 
    public Date getMaxInternalTime() {

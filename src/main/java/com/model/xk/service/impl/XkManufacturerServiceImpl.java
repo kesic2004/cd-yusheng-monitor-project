@@ -10,14 +10,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class XkManufacturerServiceImpl extends ServiceImpl<XkManufacturerMapper, XkManufacturer> implements XkManufacturerService {
-   @Autowired
-   XkManufacturerMapper xkManufacturerMapper;
 
    public void deleteManufacturer() {
-      this.xkManufacturerMapper.deleteManufacturer();
+      super.baseMapper.deleteManufacturer();
    }
 
    public Date getMaxInternalTime() {
-      return this.xkManufacturerMapper.getMaxInternalTime();
+      return super.baseMapper.getMaxInternalTime();
    }
 }

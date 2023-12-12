@@ -10,14 +10,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class XkStationmapServiceImpl extends ServiceImpl<XkStationmapMapper, XkStationmap> implements XkStationmapService {
-   @Autowired
-   XkStationmapMapper xkStationmapMapper;
 
    public String findStationCodeByJblCode(String jblCode) {
-      return this.xkStationmapMapper.findStationCodeByJblCode(jblCode);
+      return super.baseMapper.findStationCodeByJblCode(jblCode);
    }
 
    public UserManager findUserCodeAndUserPassByJblCode(String jblCode) {
-      return this.xkStationmapMapper.findUserCodeAndUserPassByJblCode(jblCode);
+      return super.baseMapper.findUserCodeAndUserPassByJblCode(jblCode);
    }
 }

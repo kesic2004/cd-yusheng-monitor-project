@@ -9,10 +9,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class FjWorkerServiceImpl extends ServiceImpl<FjWorkerMapper, FjWorker> implements FjWorkerService {
-   @Autowired
-   FjWorkerMapper fjWorkerMapper;
 
    public FjWorker findWorker(String stationcode, Integer operatorid) {
-      return this.fjWorkerMapper.findWorker(stationcode, operatorid);
+      return super.baseMapper.findWorker(stationcode, operatorid);
    }
 }

@@ -9,14 +9,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TbltokenServiceImpl extends ServiceImpl<TbltokenMapper, Tbltoken> implements TbltokenService {
-   @Autowired
-   TbltokenMapper currentuserMapper;
 
    public Tbltoken findTokenByDevicecode(String devicecode) {
-      return this.currentuserMapper.findTokenByDevicecode(devicecode);
+      return super.baseMapper.findTokenByDevicecode(devicecode);
    }
 
    public void delTokenByDevicecode(String devicecode) {
-      this.currentuserMapper.delCurrentuser(devicecode);
+      super.baseMapper.delCurrentuser(devicecode);
    }
 }

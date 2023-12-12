@@ -2,9 +2,11 @@ package com.model.xk.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
 
+@TableName("xk_params")
 public class XkParams extends Model<XkParams> {
    private static final long serialVersionUID = 1L;
    @TableId(
