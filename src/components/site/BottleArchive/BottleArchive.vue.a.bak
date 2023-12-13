@@ -1,0 +1,2594 @@
+<template>
+  <!--整个页面-->
+  <div style="padding: 0px; margin: 0px">
+    <!--查询表单和表格-->
+    <el-collapse class="BottleArchiveMain">
+      <el-header height="140px" class="BottleArchiveForm">
+        <el-form status-icon ref="queryForm" label-width="80px" :model="queryForm" :rules="queryRules"><!-- class="BottleArchiveFormStyle" -->
+          <el-row :gutter="48" type="flex" justify="start" align="middle" style="width: 1126px;padding-top: 2px;">
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item prop="qrcode" label="条码编号" size="medium">
+                <el-input type="text" v-model="queryForm.qrcode" placeholder="输入查询的条码编号" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item prop="productno" label="钢印号" size="medium">
+                <el-input type="text" v-model="queryForm.productno" placeholder="输入查询的钢印号" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item prop="producter" label="制造厂商" size="medium">
+                <el-select v-model="queryForm.producter" placeholder="请选择制造厂家" no-data-text="暂时没有可选择的制造厂家" style="padding-left: 0px; padding-right: 0px;" >
+                  <el-option v-for="item in selectableProducterArray" :key="item.value" :label="item.label" :value="item.value"><span style="float: left">{{ item.label }}</span></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item prop="mediumname" label="充装介质" size="medium">
+                <el-select v-model="queryForm.mediumname" placeholder="请选择充装介质" no-data-text="暂时没有可选择的充装介质" style="padding-left: 0px; padding-right: 0px;" >
+                  <el-option v-for="item in selectableMediumnameArray" :key="item.value" :label="item.label" :value="item.value"><span style="float: left">{{ item.label }}</span></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="48" type="flex" justify="start" align="middle" style="width: 1126px">
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item prop="producted" label="出厂日期" size="medium">
+                <el-date-picker v-model="queryForm.producted" type="monthrange" size="small" range-separator="—" start-placeholde="出厂日期起" end-placeholde="出厂日期止" align="left" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item prop="expired" label="报废日期" size="medium">
+                <el-date-picker v-model="queryForm.expired" type="monthrange" size="small" range-separator="—" start-placeholde="报废日期起" end-placeholde="报废日期止" align="left" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item prop="lasttested" label="上检日期" size="medium">
+                <el-date-picker v-model="queryForm.lasttested" type="monthrange" size="small" range-separator="—" start-placeholde="上检日期起" end-placeholde="上检日期止" align="left" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item prop="nexttested" label="下检日期" size="medium">
+                <el-date-picker v-model="queryForm.nexttested" type="monthrange" size="small" range-separator="—" start-placeholde="下检日期起" end-placeholde="下检日期止" align="left" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="48" type="flex" justify="start" align="middle" style="width: 1126px">
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item prop="norms" label="规格型号" size="medium">
+                <el-select v-model="queryForm.norms" placeholder="请选择规格型号" no-data-text="暂时没有可选择的规格型号" style="padding-left: 0px; padding-right: 0px;" >
+                  <el-option v-for="item in selectableNormsArray" :key="item.id" :label="item.label" :value="item.id"><span style="float: left">{{ item.label }}</span></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item prop="usedstatus" label="气瓶状态" size="medium">
+                <el-radio-group v-model="queryForm.usedstatus">
+                  <el-radio v-for="item in selectableUsedstatus4Form" :key="item.value" :label="item.label">{{ item.title }}</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item>
+                <el-button round @click="executeQuery('queryForm')" size="small" style="height: 24px; width: 60px; background: #E3E3E3; padding-top: 0px; padding-right: 7px; padding-bottom: 0px; padding-left: 7px; margin-top: 0px; margin-right: 3px; margin-bottom: 0px; margin-left: 3px; border-color: #66b1ff; border: solid; border-width: 1pt; line-height: 0px; border-radius: 4px;">查询</el-button>
+                <el-button round @click="executeReset('queryForm')" size="small" style="height: 24px; width: 60px; background: #E3E3E3; padding-top: 0px; padding-right: 7px; padding-bottom: 0px; padding-left: 7px; margin-top: 0px; margin-right: 3px; margin-bottom: 0px; margin-left: 3px; border-color: #66b1ff; border: solid; border-width: 1pt; line-height: 0px; border-radius: 4px;">重置</el-button>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="48" type="flex" justify="start" align="middle" style="width: 1126px">
+            <el-col :span="6">
+              <el-button size="mini" icon="el-icon-document-add" style="margin-bottom: 5px;" @click="tbl_add_data()" />
+              <el-button size="mini" icon="el-icon-refresh-right" style="margin-bottom: 5px;" @click="executeQuery('queryForm')" />
+              <el-button size="mini" icon="el-icon-download" style="margin-bottom:5px;" />
+            </el-col>
+            <el-col :span="6">
+              <span v-if="queryCount !==0" style="font-family: 楷体;">总气瓶数：{{queryCount}}只</span>
+              <span v-if="queryCount ===0" style="font-family: 楷体;">暂时没有可查询的气瓶档案</span>
+            </el-col>
+            <el-col :span="36">
+              <el-pagination hide-on-single-page v-if="queryCount !== 0" layout="sizes, prev, pager, next" :current-page.sync="pagination.current" :page-sizes="selectablePageNumberArray" :page-size="pagination.size" :total="queryCount"
+                @current-change="paginationCurrentChange" @size-change="paginationSizeChange" />
+            </el-col>
+          </el-row>
+        </el-form>
+      </el-header>
+      <el-main>
+        <el-table
+          border
+          highlight-current-row
+          highlight-selection-row
+          empty-text="目前暂时没有可查询的气瓶档案"
+          :data="tableData"
+          :cell-style="tblCellStyle"
+          :height="tableHeightString"
+          style="overflow-y: hidden; width: 1460px"><!-- 60 + 100 + 286 + 125 + 63 + 63 + 63 + 63 + 50 + 50 + 63 + 100 + 50 + 63 + 35 + 35 + 40 + 35 + 115 + 1 = 1460 --><!-- 48,80 -->
+          <el-table-column prop="gastankid"   width="60"  min-width="60"  :show-overflow-tooltip="false" align="right"  header-align="center"   label="序号" /><!--  align="left/center/right" header-align="left/center/right" :formatter="tbl_gastankid_formatter(row, column, cellValue, index)" -->
+          <el-table-column prop="qrcode"      width="100" min-width="100" :show-overflow-tooltip="false" align="right"  header-align="center"   label="条码编号" /><!--  align="left/center/right" header-align="left/center/right" :formatter="tbl_qrcode_formatter(row, column, cellValue, index)" -->
+          <el-table-column prop="producter"   width="286" min-width="286" :show-overflow-tooltip="true"  align="left"   header-align="center"   label="制造厂商" /><!-- align="left/center/right" header-align="left/center/right":formatter="tbl_producter_formatter(row, column, cellValue, index)" -->
+          <el-table-column prop="productno"   width="125" min-width="125" :show-overflow-tooltip="false" align="left"   header-align="center"   label="钢印号"   /><!--  align="left/center/right": header-align="left/center/right" formatter="tbl_productno_formatter(row, column, cellValue, index)" -->
+          <el-table-column prop="producted"   width="63"  min-width="63"  :show-overflow-tooltip="false" align="center" header-align="center" :formatter="tbl_producted_formatter"   label="出厂日期" /><!--  align="left/center/right" header-align="left/center/right" (row, column, cellValue, index) -->
+          <el-table-column prop="nexttested"  width="63"  min-width="63"  :show-overflow-tooltip="false" align="center" header-align="center" :formatter="tbl_nexttested_formatter"  label="下检日期" /><!--  align="left/center/right" header-align="left/center/right" (row, column, cellValue, index) -->
+          <el-table-column prop="expired"     width="63"  min-width="63"  :show-overflow-tooltip="false" align="center" header-align="center" :formatter="tbl_expired_formatter"     label="报废日期" /><!--  align="left/center/right" header-align="left/center/right" (row, column, cellValue, index) -->
+          <el-table-column prop="lasttested"  width="63"  min-width="63"  :show-overflow-tooltip="false" align="center" header-align="center" :formatter="tbl_lasttested_formatter"  label="上检日期" /><!--  align="left/center/right" header-align="left/center/right" (row, column, cellValue, index) -->
+          <el-table-column prop="testcount"   width="50"  min-width="50"  :show-overflow-tooltip="false" align="center" header-align="center"   label="已检次"   /><!--  align="left/center/right" header-align="left/center/right" :formatter="tbl_testcount_formatter(row, column, cellValue, index)" -->
+          <el-table-column prop="maxuseyears" width="50"  min-width="50"  :show-overflow-tooltip="false" align="center" header-align="center" label="报废年"   /><!--  align="left/center/right" header-align="left/center/right" :formatter="tbl_maxuseyears_formatter(row, column, cellValue, index)" -->
+          <el-table-column prop="mediumname"  width="63"  min-width="63"  :show-overflow-tooltip="false" align="right"  header-align="center" label="充装介质" /><!--  align="left/center/right" header-align="left/center/right" :formatter="tbl_mediumname_formatter(row, column, cellValue, index)" -->
+          <el-table-column prop="norms"       width="100" min-width="100" :show-overflow-tooltip="false" align="left"   header-align="center" :formatter="tbl_norms_formatter"       label="规格型号" /><!--  align="left/center/right" header-align="left/center/right" (row, column, cellValue, index) -->
+          <el-table-column prop="usedstatus"  width="50"  min-width="50"  :show-overflow-tooltip="false" align="center" header-align="center" :formatter="tbl_usedstatus_formatter"  label="状态"     /><!--  align="left/center/right" header-align="left/center/right" (row, column, cellValue, index) -->
+          <el-table-column prop="maxcapacity" width="63"  min-width="63"  :show-overflow-tooltip="false" align="right"  header-align="center" :formatter="tbl_maxcapacity_formatter" label="最大充量" /><!--  align="left/center/right" header-align="left/center/right" :formatter="tbl_maxcapacity_formatter(row, column, cellValue, index)" -->
+          <el-table-column prop="selfweight"  width="35"  min-width="35"  :show-overflow-tooltip="false" align="right"  header-align="center" :formatter="tbl_selfweight_formatter"  label="自重"     /><!--  align="left/center/right" header-align="left/center/right" :formatter="tbl_selfweight_formatter(row, column, cellValue, index)" -->
+          <el-table-column prop="thickness"   width="35"  min-width="35"  :show-overflow-tooltip="false" align="right"  header-align="center" :formatter="tbl_thickness_formatter"   label="壁厚"     /><!--  align="left/center/right": header-align="left/center/right" :formatter="tbl_thickness_formatter(row, column, cellValue, index)" -->
+          <el-table-column prop="volume"      width="40"  min-width="40"  :show-overflow-tooltip="false" align="right"  header-align="center" :formatter="tbl_volume_formatter"      label="容积"     /><!--  align="left/center/right": header-align="left/center/right" :formatter="tbl_volume_formatter(row, column, cellValue, index)" -->
+          <el-table-column prop="onlyused"    width="35"  min-width="35"  :show-overflow-tooltip="false" align="center" header-align="center" :formatter="tbl_onlyused_formatter"    label="专用"     /><!--  align="left/center/right" header-align="left/center/right" (row, column, cellValue, index) -->
+          <el-table-column                    width="115" min-width="115" :show-overflow-tooltip="false" align="center" header-align="left"    label="操作"      label-class-name="TblBottleArchinveLastColumnHeader"><!-- fixed="right" align="left/center/right" header-align="left/center/right" -->
+            <template slot-scope="gasOperator"><!-- gasOperator是点击按钮时传给回调函数的参数 -->
+              <el-button round size="mini" icon="el-icon-document" style="height: 21px; padding-top: 0px; padding-right: 7px; padding-bottom: 0px; padding-left: 7px; margin-top: 0px; margin-right: 3px; margin-bottom: 0px; margin-left: 3px; border-radius: 3px;" @click="tbl_view_data(gasOperator)" />
+              <el-button round size="mini" icon="el-icon-edit" style="height: 21px; padding-top: 0px; padding-right: 7px; padding-bottom: 0px; padding-left: 7px; margin-top: 0px; margin-right: 3px; margin-bottom: 0px; margin-left: 3px; border-radius: 3px;" @click="tbl_edit_data(gasOperator)" />
+              <el-button round size="mini" icon="el-icon-set-up" style="height: 21px; padding-top: 0px; padding-right: 7px; padding-bottom: 0px; padding-left: 7px; margin-top: 0px; margin-right: 3px; margin-bottom: 0px; margin-left: 3px; border-radius: 3px;" @click="tbl_modify_qrcode(gasOperator)" />
+            </template>
+          </el-table-column>
+        </el-table>
+        <el-pagination hide-on-single-page v-if="queryCount !== 0" layout="sizes, prev, pager, next" :current-page.sync="pagination.current" :page-sizes="selectablePageNumberArray" :page-size="pagination.size" :total="queryCount"
+          @current-change="paginationCurrentChange" @size-change="paginationSizeChange" />
+      </el-main>
+    </el-collapse>
+    <!--新增气瓶档案对话框-->
+    <el-dialog
+      destroy-on-close
+      lock-scroll
+      modal
+      :visible.sync="addBottle.visible"
+      :title="addBottle.title"
+      :show-close="addBottle.showClose"
+      :style="{ width: addBottle.digWidth + 'px' }"
+      @before-close="tbl_before_hide_add_dialog_only"
+      style="margin-left: 300px">
+      <!-- background-color: aqua;气瓶图片 style="border: solid; border-color: brown; border-width: 1pt;" -->
+      <div :style="{ width: addBottle.divWidth + 'px', height: addBottle.divHeight + 'px' }">
+        <el-form status-icon ref="addForm" label-width="125px" :model="addBottleForm" :rules="addBottleRules">
+          <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="qrcode" label="条码编号" size="medium">
+                <el-input clearable type="text" v-model="addBottleForm.qrcode" placeholder="请输入条码编号" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="productno" label="钢印号" size="medium">
+                <el-input clearable type="text" v-model="addBottleForm.productno" placeholder="请输入钢印号" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="producter" label="制造厂商" size="medium">
+                <el-select clearable v-model="addBottleForm.producter" placeholder="请选择制造厂家" no-data-text="暂时没有可选择的制造厂家" style="padding-left: 0px; padding-right: 0px;" >
+                  <el-option v-for="item in selectableProducterArray" :key="item.value" :label="item.label" :value="item.value"><span style="float: left">{{ item.label }}</span></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="producted" label="出厂日期" size="medium">
+                <el-date-picker clearable v-model="addBottleForm.producted" type="month" placeholder="请选择出厂日期" size="small" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="lasttested" label="上检日期" size="medium">
+                <el-date-picker clearable v-model="addBottleForm.lasttested" type="month" placeholder="请选择上检日期" size="small" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="nexttested" label="下检日期" size="medium">
+                <el-date-picker clearable v-model="addBottleForm.nexttested" type="month" placeholder="请选4择下检日期" size="small" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="maxuseyears" label="报废年" size="medium">
+                <el-select clearable v-model="addBottleForm.maxuseyears" no-data-text="暂时没有可选择的报废年" style="padding-left: 0px; padding-right: 0px;" >
+                  <el-option v-for="item in selectableMaxuseyears" :key="item.value" :label="item.label" :value="item.value"><span style="float: left">{{ item.label }}</span></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="expired" label="报废日期" size="medium">
+                <el-date-picker clearable v-model="addBottleForm.expired" type="month" placeholder="请选择报废日期" size="small" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="qualifiedno" label="检验合格环号" size="medium">
+                <el-input clearable type="text" v-model="addBottleForm.qualifiedno" placeholder="请输入检验合格环号" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="registno" label="使用登记证编号" size="medium">
+                <el-input clearable type="text" v-model="addBottleForm.registno" placeholder="请输入使用登记证编号" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="usedlicenseno" label="使用登记证号" size="medium">
+                <el-input clearable type="text" v-model="addBottleForm.usedlicenseno" placeholder="请输入使用登记证号" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="elabel" label="电子标签编号" size="medium">
+                <el-input clearable type="text" v-model="addBottleForm.elabel" placeholder="请输入电子标签编号" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="norms" label="规格型号" size="medium">
+                <el-select clearable="" v-model="addBottleForm.norms" placeholder="请选择规格型号" no-data-text="暂时没有可选择的规格型号" @change="addBottleFieldNormsChange" style="padding-left: 0px; padding-right: 0px;" >
+                  <el-option v-for="item in selectableNormsArray" :key="item.id" :label="item.label" :value="item.id"><span style="float: left">{{ item.label }}</span></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="valvefactory" label="阀门厂家" size="medium">
+                <el-input clearable type="text" v-model="addBottleForm.valvefactory" placeholder="请输入阀门厂家" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="valvetype" label="阀门类型" size="medium">
+                <el-select clearable v-model="addBottleForm.valvetype" placeholder="请选择阀门类型" no-data-text="暂时没有可供选择的阀门类型" style="padding-left: 0px; padding-right: 0px;" >
+                  <el-option v-for="item in selectableValvetype" :key="item.value" :label="item.label" :value="item.value"><span style="float: left">{{ item.label }}</span></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="unitselfno" label="充装单位自编号" size="medium">
+                <el-input clearable type="text" v-model="addBottleForm.unitselfno" placeholder="请输入充装单位自编号" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item prop="maxcapacity" label="最大充量" size="medium">
+                <el-input clearable readonly type="text" v-model="addBottleForm.maxcapacity" style="padding-left: 0px; padding-right: 0px;" slot-type="suffix"><!--㎏-->
+                  <i v-if="addBottleFormMisc.maxcapacitySuffix !== null" slot="suffix">{{ addBottleFormMisc.maxcapacitySuffix }}</i>
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item prop="selfweight" label="自重" size="medium">
+                <el-input readonly type="text" v-model="addBottleForm.selfweight" style="padding-left: 0px; padding-right: 0px;"><!--㎏-->
+                  <i v-if="addBottleFormMisc.selfweightSuffix !== null" slot="suffix">{{ addBottleFormMisc.selfweightSuffix }}</i>
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item prop="thickness" label="壁厚" size="medium">
+                <el-input readonly type="text" v-model="addBottleForm.thickness" style="padding-left: 0px; padding-right: 0px;"><!--㎜-->
+                  <i v-if="addBottleFormMisc.thicknessSuffix !== null" slot="suffix">{{ addBottleFormMisc.thicknessSuffix }}</i>
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item prop="volume" label="容积" size="medium">
+                <el-input readonly type="text" v-model="addBottleForm.volume" style="padding-left: 0px; padding-right: 0px;"><!--L-->
+                  <i v-if="addBottleFormMisc.volumeSuffix !== null" slot="suffix">{{ addBottleFormMisc.volumeSuffix }}</i>
+                </el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="hotway" label="热处理方式" size="medium">
+                <el-input clearable type="text" v-model="addBottleForm.hotway" placeholder="请输入热处理方式" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="bodystuff" label="瓶体材料" size="medium">
+                <el-input clearable type="text" v-model="addBottleForm.bodystuff" placeholder="请输入瓶体材料" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="mediumname" label="充装介质" size="medium">
+                <el-select clearable v-model="addBottleForm.mediumname" placeholder="请选择充装介质" no-data-text="暂时没有可选择的充装介质" style="padding-left: 0px; padding-right: 0px;" >
+                  <el-option v-for="item in selectableMediumnameArray" :key="item.value" :label="item.label" :value="item.value"><span style="float: left">{{ item.label }}</span></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="testcount" label="已检次" size="medium">
+                <el-input clearable type="text" v-model="addBottleForm.testcount" placeholder="已检次" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="checkresult" label="安评结果" size="medium">
+                <el-input clearable type="text" v-model="addBottleForm.checkresult" placeholder="请输入安评结果" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="checkdate" label="安评日期" size="medium">
+                <el-date-picker clearable v-model="addBottleForm.checkdate" type="date" placeholder="请选择安评日期" size="small" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" type="flex" justify="start" align="middle" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="usedstatus" label="气瓶状态" size="medium">
+                <el-select clearable v-model="addBottleForm.usedstatus" placeholder="气瓶状态" no-data-text="暂时没有可选择的气瓶状态" style="padding-left: 0px; padding-right: 0px;">
+                  <el-option v-for="item in selectableUsedstatus4Dialog" :key="item.value" :label="item.label" :value="item.value"><span style="float: left">{{ item.title }}</span></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="onlyused" label="是否专用" size="medium">
+                <el-radio-group v-model="addBottleForm.onlyused">
+                  <el-radio v-for="item in selectableOnlyused" :key="item.value" :label="item.label">{{ item.title }}</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item prop="files" label="气瓶图片" size="medium">
+                <el-upload
+                  drag
+                  multiple
+                  with-credentials
+                  name="file"
+                  :action="addBottleUploadActionUrl"
+                  :auto-upload="addBottle.autoUpload"
+                  :file-list="addBottleAttachmentUploadList"
+                  :limit="addBottle.uploadLimit"
+                  :headers="addBottleUploadHeaders"
+                  :show-file-list="addBottle.showFileList"
+                  :on-change="addBottleImageChange"
+                  :on-exceed="addBottleExceed"
+                  :on-progress="addBottleProgress"
+                >
+                  <el-button
+                    round
+                    size="small"
+                    style="height: 24px; width: 90px; background: #E3E3E3; padding-top: 0px; padding-right: 7px; padding-bottom: 0px; padding-left: 7px; margin-top: 0px; margin-right: 3px; margin-bottom: 0px; margin-left: 3px; border-color: #66b1ff; border: solid; border-width: 1pt; line-height: 0px; border-radius: 4px;"
+                  >上传气瓶附件</el-button>
+                </el-upload>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;"><!--占位--></el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item v-if="selectableStation !== null && Array.isArray(selectableStation) && selectableStation.length !== 1" required prop="stationid" label="站点" size="medium">
+                <el-select clearable v-model="addBottleForm.stationid" placeholder="请选择站点" no-data-text="暂时没有可选择的站点" style="padding-left: 0px; padding-right: 0px;" >
+                  <el-option v-for="item in selectableStation" :key="item.value" :label="item.label" :value="item.value"><span style="float: left">{{ item.label }}</span></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="lastused" label="最后使用" size="medium">
+                <el-date-picker clearable v-model="addBottleForm.lastused" type="month" placeholder="请选择最后使用" size="small" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row v-if="Array.isArray(addBottleAttachmentShowList) && addBottleAttachmentShowList.length > 0" :gutter="48" type="flex" justify="start" align="middle" style="padding-top: 0px; padding-right: 15px; padding-bottom: 0px; padding-left: 15px; margin-left: 3px; margin-right: 3px; height: 115px; overflow-x: scroll; overflow-y: hidden; background-color: aqua;">
+            <el-div style="position: relative; top: 8px; margin: 0px; parring: 0px; width: 115px; height: 115px;"  v-for="item in addBottleAttachmentShowList" :key="item.id">
+              <el-image style="width: 100px; height: 100px" v-bind:src='item.uri' :fit="fill" /><!-- /__images__/BottleArchive/Screenshot_2020-11-28_203914.png -->
+            </el-div>
+          </el-row>
+        </el-form>
+      </div>
+      <!-- border: solid; border-color: brown; border-width: 1pt; -->
+      <div style="height: 30px;" :style="{ width: addBottle.divWidth + 'px' }">
+        <el-row :gutter="48" type="flex" justify="end" align="middle" style="padding: 0px; margin: 0px;">
+          <el-button round @click="tbl_add_data_submit('addForm')" size="small" style="height: 24px; width: 60px; background: #E3E3E3; padding-top: 0px; padding-right: 7px; padding-bottom: 0px; padding-left: 7px; margin-top: 0px; margin-right: 3px; margin-bottom: 0px; margin-left: 3px; border-color: #66b1ff; border: solid; border-width: 1pt; line-height: 0px; border-radius: 4px;">新增</el-button>
+          <el-button round @click="tbl_add_data_reset('addForm')" size="small" style="height: 24px; width: 60px; background: #E3E3E3; padding-top: 0px; padding-right: 7px; padding-bottom: 0px; padding-left: 7px; margin-top: 0px; margin-right: 3px; margin-bottom: 0px; margin-left: 3px; border-color: #66b1ff; border: solid; border-width: 1pt; line-height: 0px; border-radius: 4px;">重置</el-button>
+        </el-row>
+      </div>
+    </el-dialog>
+    <!-- 修改气瓶档案对话框 -->
+    <el-dialog
+      destroy-on-close
+      lock-scroll
+      modal
+      :visible.sync="editBottle.visible"
+      title="editBottle.title"
+      :show-close="editBottle.showClose"
+      :style="{ width: editBottle.digWidth + 'px' }"
+      @before-close="tbl_before_hide_edit_dialog_only"
+      style="margin-left: 300px">
+      <!-- background-color: aqua;气瓶图片 style="border: solid; border-color: brown; border-width: 1pt;" -->
+      <div :style="{ width: editBottle.divWidth + 'px', height: editBottle.divHeight + 'px' }">
+        <el-form status-icon ref="editForm" label-width="125px" :model="editBottleForm" :rules="editBottleRules">
+          <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="qrcode" label="条码编号" size="medium">
+                <el-input readonly type="text" v-model="editBottleForm.qrcode" placeholder="请输入条码编号" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="productno" label="钢印号" size="medium">
+                <el-input clearable type="text" v-model="editBottleForm.productno" placeholder="请输入钢印号" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="producter" label="制造厂商" size="medium">
+                <el-select clearable v-model="editBottleForm.producter" placeholder="请选择制造厂家" no-data-text="暂时没有可选择的制造厂家" style="padding-left: 0px; padding-right: 0px;" >
+                  <el-option v-for="item in selectableProducterArray" :key="item.value" :label="item.label" :value="item.value"><span style="float: left">{{ item.label }}</span></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="producted" label="出厂日期" size="medium">
+                <el-date-picker clearable v-model="editBottleForm.producted" type="month" placeholder="请选择出厂日期" size="small" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="lasttested" label="上检日期" size="medium">
+                <el-date-picker clearable v-model="editBottleForm.lasttested" type="month" placeholder="请选择上检日期" size="small" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="nexttested" label="下检日期" size="medium">
+                <el-date-picker clearable v-model="editBottleForm.nexttested" type="month" placeholder="请选4择下检日期" size="small" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="maxuseyears" label="报废年" size="medium">
+                <el-select clearable v-model="editBottleForm.maxuseyears" no-data-text="暂时没有可选择的报废年" style="padding-left: 0px; padding-right: 0px;" >
+                  <el-option v-for="item in selectableMaxuseyears" :key="item.value" :label="item.label" :value="item.value"><span style="float: left">{{ item.label }}</span></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="expired" label="报废日期" size="medium">
+                <el-date-picker clearable v-model="editBottleForm.expired" type="month" placeholder="请选择报废日期" size="small" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="qualifiedno" label="检验合格环号" size="medium">
+                <el-input clearable type="text" v-model="editBottleForm.qualifiedno" placeholder="请输入检验合格环号" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="registno" label="使用登记证编号" size="medium">
+                <el-input clearable type="text" v-model="editBottleForm.registno" placeholder="请输入使用登记证编号" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="usedlicenseno" label="使用登记证号" size="medium">
+                <el-input clearable type="text" v-model="editBottleForm.usedlicenseno" placeholder="请输入使用登记证号" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="elabel" label="电子标签编号" size="medium">
+                <el-input clearable type="text" v-model="editBottleForm.elabel" placeholder="请输入电子标签编号" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="norms" label="规格型号" size="medium">
+                <el-select clearable="" v-model="editBottleForm.norms" placeholder="请选择规格型号" no-data-text="暂时没有可选择的规格型号" @change="editBottleFieldNormsChange" style="padding-left: 0px; padding-right: 0px;" >
+                  <el-option v-for="item in selectableNormsArray" :key="item.id" :label="item.label" :value="item.id"><span style="float: left">{{ item.label }}</span></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="valvefactory" label="阀门厂家" size="medium">
+                <el-input clearable type="text" v-model="editBottleForm.valvefactory" placeholder="请输入阀门厂家" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="valvetype" label="阀门类型" size="medium">
+                <el-select clearable v-model="editBottleForm.valvetype" placeholder="请选择阀门类型" no-data-text="暂时没有可供选择的阀门类型" style="padding-left: 0px; padding-right: 0px;" >
+                  <el-option v-for="item in selectableValvetype" :key="item.value" :label="item.label" :value="item.value"><span style="float: left">{{ item.label }}</span></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="unitselfno" label="充装单位自编号" size="medium">
+                <el-input clearable type="text" v-model="editBottleForm.unitselfno" placeholder="请输入充装单位自编号" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item prop="maxcapacity" label="最大充量" size="medium">
+                <el-input clearable readonly type="text" v-model="editBottleForm.maxcapacity" style="padding-left: 0px; padding-right: 0px;" slot-type="suffix"><!--㎏-->
+                  <i v-if="editBottleFormMisc.maxcapacitySuffix !== null" slot="suffix">{{ editBottleFormMisc.maxcapacitySuffix }}</i>
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item prop="selfweight" label="自重" size="medium">
+                <el-input readonly type="text" v-model="editBottleForm.selfweight" style="padding-left: 0px; padding-right: 0px;"><!--㎏-->
+                  <i v-if="editBottleFormMisc.selfweightSuffix !== null" slot="suffix">{{ editBottleFormMisc.selfweightSuffix }}</i>
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item prop="thickness" label="壁厚" size="medium">
+                <el-input readonly type="text" v-model="editBottleForm.thickness" style="padding-left: 0px; padding-right: 0px;"><!--㎜-->
+                  <i v-if="editBottleFormMisc.thicknessSuffix !== null" slot="suffix">{{ editBottleFormMisc.thicknessSuffix }}</i>
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item prop="volume" label="容积" size="medium">
+                <el-input readonly type="text" v-model="editBottleForm.volume" style="padding-left: 0px; padding-right: 0px;"><!--L-->
+                  <i v-if="editBottleFormMisc.volumeSuffix !== null" slot="suffix">{{ editBottleFormMisc.volumeSuffix }}</i>
+                </el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="hotway" label="热处理方式" size="medium">
+                <el-input clearable type="text" v-model="editBottleForm.hotway" placeholder="请输入热处理方式" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="bodystuff" label="瓶体材料" size="medium">
+                <el-input clearable type="text" v-model="editBottleForm.bodystuff" placeholder="请输入瓶体材料" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="mediumname" label="充装介质" size="medium">
+                <el-select clearable v-model="editBottleForm.mediumname" placeholder="请选择充装介质" no-data-text="暂时没有可选择的充装介质" style="padding-left: 0px; padding-right: 0px;" >
+                  <el-option v-for="item in selectableMediumnameArray" :key="item.value" :label="item.label" :value="item.value"><span style="float: left">{{ item.label }}</span></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="testcount" label="已检次" size="medium">
+                <el-input clearable type="text" v-model="editBottleForm.testcount" placeholder="已检次" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="checkresult" label="安评结果" size="medium">
+                <el-input clearable type="text" v-model="editBottleForm.checkresult" placeholder="请输入安评结果" style="padding-left: 0px; padding-right: 0px;" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="checkdate" label="安评日期" size="medium">
+                <el-date-picker clearable v-model="editBottleForm.checkdate" type="date" placeholder="请选择安评日期" size="small" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" type="flex" justify="start" align="middle" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="usedstatus" label="气瓶状态" size="medium">
+                <el-select clearable v-model="editBottleForm.usedstatus" placeholder="气瓶状态" no-data-text="暂时没有可选择的气瓶状态" style="padding-left: 0px; padding-right: 0px;">
+                  <el-option v-for="item in selectableUsedstatus4Dialog" :key="item.value" :label="item.label" :value="item.value"><span style="float: left">{{ item.title }}</span></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="onlyused" label="是否专用" size="medium">
+                <el-radio-group v-model="editBottleForm.onlyused">
+                  <el-radio v-for="item in selectableOnlyused" :key="item.value" :label="item.label">{{ item.title }}</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item prop="files" label="气瓶图片" size="medium">
+                <el-upload
+                  drag
+                  multiple
+                  with-credentials
+                  name="file"
+                  :action="editBottleUploadActionUrl"
+                  :auto-upload="editBottle.autoUpload"
+                  :file-list="editBottleAttachmentUploadList"
+                  :limit="editBottle.uploadLimit"
+                  :headers="editBottleUploadHeaders"
+                  :show-file-list="editBottle.showFileList"
+                  :on-change="editBottleImageChange"
+                  :on-exceed="editBottleExceed"
+                  :on-progress="editBottleProgress"
+                >
+                  <el-button
+                    round
+                    size="small"
+                    style="height: 24px; width: 90px; background: #E3E3E3; padding-top: 0px; padding-right: 7px; padding-bottom: 0px; padding-left: 7px; margin-top: 0px; margin-right: 3px; margin-bottom: 0px; margin-left: 3px; border-color: #66b1ff; border: solid; border-width: 1pt; line-height: 0px; border-radius: 4px;"
+                  >上传气瓶附件</el-button>
+                </el-upload>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;"><!--占位--></el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;"><!--占位--></el-col>
+            <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
+              <el-form-item required prop="lastused" label="最后使用" size="medium">
+                <el-date-picker clearable v-model="editBottleForm.lastused" type="month" placeholder="请选择最后使用" size="small" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row v-if="Array.isArray(editBottleAttachmentShowList) && editBottleAttachmentShowList.length > 0" :gutter="48" type="flex" justify="start" align="middle" style="padding-top: 0px; padding-right: 15px; padding-bottom: 0px; padding-left: 15px; margin-left: 3px; margin-right: 3px; height: 115px; overflow-x: scroll; overflow-y: hidden; background-color: aqua;">
+            <el-div style="position: relative; top: 8px; margin: 0px; parring: 0px; width: 115px; height: 115px;"  v-for="item in editBottleAttachmentShowList" :key="item.id">
+              <el-image style="width: 100px; height: 100px" v-bind:src='item.uri' :fit="fill" /><!-- /__images__/BottleArchive/Screenshot_2020-11-28_203914.png -->
+            </el-div>
+          </el-row>
+        </el-form>
+      </div>
+      <!-- border: solid; border-color: brown; border-width: 1pt; -->
+      <div style="height: 30px;" :style="{ width: editBottle.divWidth + 'px' }">
+        <el-row :gutter="48" type="flex" justify="end" align="middle" style="padding: 0px; margin: 0px;">
+          <el-button round @click="tbl_edit_data_submit('editForm')" size="small" style="height: 24px; width: 60px; background: #E3E3E3; padding-top: 0px; padding-right: 7px; padding-bottom: 0px; padding-left: 7px; margin-top: 0px; margin-right: 3px; margin-bottom: 0px; margin-left: 3px; border-color: #66b1ff; border: solid; border-width: 1pt; line-height: 0px; border-radius: 4px;">新增</el-button>
+          <el-button round @click="tbl_edit_data_reset('editForm')" size="small" style="height: 24px; width: 60px; background: #E3E3E3; padding-top: 0px; padding-right: 7px; padding-bottom: 0px; padding-left: 7px; margin-top: 0px; margin-right: 3px; margin-bottom: 0px; margin-left: 3px; border-color: #66b1ff; border: solid; border-width: 1pt; line-height: 0px; border-radius: 4px;">重置</el-button>
+        </el-row>
+      </div>
+    </el-dialog>
+    <!-- <el-dialog title="" -->
+    <!-- <el-dialog title="" -->
+  </div>
+</template>
+
+<script>
+/*
+ * https://www.npmjs.com/package/uuid ***
+ * https://www.npmjs.com/package/uuid4?activeTab=code
+ * https://juejin.cn/s/uuid%20is%20not%20a%20function%20node%20js
+ * 3b48fe12-0f3c-44b8-83a4-404c512a0873 uuidv4.v4()
+ * 55f186e588f9-4cf4-bceb-f09096fc763a  uuidv4.v4().replace('-', '')
+ * 69e316f229d54b92917ece59f1245555     uuidv4.v4().replaceAll('-', '')
+ */
+/* console.log(uuidv4.v4().replaceAll('-', '')) */
+import { v4 as uuidv4 } from 'uuid'
+
+export default {
+  name: 'BottleArchive',
+  data () {
+    return {
+      /*
+       * 查询表单
+       */
+      queryForm: {
+        qrcode: null, /* 条码编号 | 输入查询的条码编号 */
+        productno: null, /* 钢印号 | 输入查询的钢印号 */
+        producter: null, /* 制造厂商 | 请选择制造厂家 */
+        mediumname: null, /* 充装介质 | 请选择充装介质 */
+        norms: null, /* 规格型号 | 请选择规格型号 */
+        producted: null, /*, 出厂日期 | 出厂日期，未选择日期时为null，选择日期后重置为长度是1的数组，且数组中下标是0的值为null，选择日期后为长度是2的数组，数组中的元素均为Date对象 */
+        expired: null, /* 报废日期 | 报废日期，未选择日期时为null，选择日期后重置为长度是1的数组，且数组中下标是0的值为null，选择日期后为长度是2的数组，数组中的元素均为Date对象 */
+        lasttested: null, /* 上检日期 | 上检日期，未选择日期时为null，选择日期后重置为长度是1的数组，且数组中下标是0的值为null，选择日期后为长度是2的数组，数组中的元素均为Date对象 */
+        nexttested: null, /* 下检日期 | 下检日期，未选择日期时为null，选择日期后重置为长度是1的数组，且数组中下标是0的值为null，选择日期后为长度是2的数组，数组中的元素均为Date对象 */
+        usedstatus: null /* 气瓶状态 | 气瓶状态 */
+      },
+      /*
+       * 校验表单
+       */
+      queryRules: {},
+      /**
+       * 分页参数
+       */
+      pagination: {
+        current: null, /* 当前第xxx页 */
+        size: 50 /* 每一页数据条数，默认值是50条数据 */
+      },
+      /**
+       * 查询到的数据条数
+       */
+      queryCount: 0,
+      /*
+       * 当前页的最大ID值
+       */
+      maxGasTankId: 0,
+      /**
+       * 表格数据
+       */
+      tableData: [],
+      /**
+       * 可供选择的每一页的数据条数
+       */
+      selectablePageNumberArray: [50, 80, 120, 200],
+      /*
+       * 可供选择的制造厂商
+       */
+      selectableProducterArray: [
+        { value: '湖北大立容器制造有限公司', label: 'DL - 湖北大立容器制造有限公司' },
+        { value: '西安德森新能源装备有限公司', label: 'DS - 西安德森新能源装备有限公司' },
+        { value: '自贡大业高压容器有限责任公司', label: 'DY - 自贡大业高压容器有限责任公司' },
+        { value: '台山市机械厂有限公司', label: 'FH - 台山市机械厂有限公司' },
+        { value: '绍兴冠铭消防器材有限公司', label: 'GM - 绍兴冠铭消防器材有限公司' },
+        { value: '山东华宸高压容器有限公司', label: 'HC - 山东华宸高压容器有限公司' },
+        { value: '芜湖市海格瑞德科技有限责任公司', label: 'HG - 芜湖市海格瑞德科技有限责任公司' },
+        { value: '江山市辉煌消防科技有限公司', label: 'HH - 江山市辉煌消防科技有限公司' },
+        { value: '浙江汇金机械制造有限公司', label: 'HJ - 浙江汇金机械制造有限公司' },
+        { value: '青岛亨利压力容器有限公司', label: 'HL - 青岛亨利压力容器有限公司' },
+        { value: '山东环日集团有限公司', label: 'HR - 山东环日集团有限公司' },
+        { value: '湖北华仕顿容器有限公司', label: 'HS - 湖北华仕顿容器有限公司' },
+        { value: '江苏华天能源装备有限公司', label: 'HTZ - 江苏华天能源装备有限公司' },
+        { value: '上海宏为铝制品有限公司', label: 'HW - 上海宏为铝制品有限公司' },
+        { value: '重庆恒祥石油液化气钢瓶制造有限公司', label: 'HX - 重庆恒祥石油液化气钢瓶制造有限公司' },
+        { value: '新兴能源装备股份有限公司', label: 'HXS - 新兴能源装备股份有限公司' },
+        { value: '杭州余杭獐山钢瓶有限公司', label: 'HZ - 杭州余杭獐山钢瓶有限公司' },
+        { value: '酒泉市安瑞科昆仑深冷机械有限责任公司', label: 'JAK - 酒泉市安瑞科昆仑深冷机械有限责任公司' },
+        { value: '济南德洋低温科技有限公司', label: 'JDY - 济南德洋低温科技有限公司' },
+        { value: '江苏鸿昌特种车辆有限公司', label: 'JHC - 江苏鸿昌特种车辆有限公司' },
+        { value: '湖北三江航天江北机械工程有限公司', label: 'JB - 湖北三江航天江北机械工程有限公司' },
+        { value: '浙江巨程钢瓶有限公司', label: 'JC - 浙江巨程钢瓶有限公司' },
+        { value: '浙江江山大众锅炉有限公司', label: 'JD - 浙江江山大众锅炉有限公司' },
+        { value: '浙江巨化装备制造有限公司', label: 'JE - 浙江巨化装备制造有限公司' },
+        { value: '浙江金盾消防器材有限公司', label: 'JF - 浙江金盾消防器材有限公司' },
+        { value: '江山海圣消防科技有限公司', label: 'JHS - 江山海圣消防科技有限公司' },
+        { value: '台州市金麟钢瓶有限公司', label: 'JL - 台州市金麟钢瓶有限公司' },
+        { value: '北京天海工业有限公司', label: 'JP - 北京天海工业有限公司' },
+        { value: '山西晋西压力容器有限责任公司', label: 'JX - 山西晋西压力容器有限责任公司' },
+        { value: '沈阳中复科金压力容器有限公司', label: 'KJ - 沈阳中复科金压力容器有限公司' },
+        { value: '勒科斯弗气瓶（上海）有限公司', label: 'LC - 勒科斯弗气瓶（上海）有限公司' },
+        { value: '山东龙成消防器材有限公司', label: 'LCZ - 山东龙成消防器材有限公司' },
+        { value: '山东蓝硅新能源装备股份有限公司', label: 'LG - 山东蓝硅新能源装备股份有限公司' },
+        { value: '中国石油集团渤海石油装备制造有限公司辽河热采机械制造分公司', label: 'LH - 中国石油集团渤海石油装备制造有限公司辽河热采机械制造分公司' },
+        { value: '佛山市顺德区广沙百福压力容器有限公司', label: 'LJ - 佛山市顺德区广沙百福压力容器有限公司' },
+        { value: '山东联盟特种装备有限公司', label: 'LM - 山东联盟特种装备有限公司' },
+        { value: '浙江蓝能燃气设备有限公司', label: 'LN - 浙江蓝能燃气设备有限公司' },
+        { value: '青岛楼山消防器材厂', label: 'LS - 青岛楼山消防器材厂' },
+        { value: '广州市狮牌钢瓶有限公司', label: 'LW - 广州市狮牌钢瓶有限公司' },
+        { value: '山东龙翔实业有限公司', label: 'LX - 山东龙翔实业有限公司' },
+        { value: '鲁西新能源装备集团有限公司', label: 'LXZ - 鲁西新能源装备集团有限公司' },
+        { value: '佛山市良琦燃气具有限公司', label: 'LY - 佛山市良琦燃气具有限公司' },
+        { value: '兰州巨星工贸有限公司', label: 'LZ - 兰州巨星工贸有限公司' },
+        { value: '江苏民诺特种设备有限公司', label: 'MN - 江苏民诺特种设备有限公司' },
+        { value: '衡阳金化高压容器股份有限公司', label: 'JR - 衡阳金化高压容器股份有限公司' },
+        { value: '江山顺泰化工机械工程有限公司', label: 'JST - 江山顺泰化工机械工程有限公司' },
+        { value: '沈阳斯林达安科新技术有限公司', label: 'CLD - 沈阳斯林达安科新技术有限公司' },
+        { value: '中船圣汇装备有限公司', label: 'CSH - 中船圣汇装备有限公司' },
+        { value: '江苏久维压力容器制造有限公司', label: 'JW - 江苏久维压力容器制造有限公司' },
+        { value: '临沂市河东区永安金属焊接割气厂', label: 'YA - 临沂市河东区永安金属焊接割气厂' },
+        { value: '四川诚德机械有限公司', label: 'CD - 四川诚德机械有限公司' },
+        { value: '浙江普阳深冷装备股份有限公司', label: 'ZPY - 浙江普阳深冷装备股份有限公司' },
+        { value: '中材科技（苏州）有限公司', label: 'CC - 中材科技（苏州）有限公司' },
+        { value: '江西华特电子化学品有限公司', label: '江西华特 - 江西华特电子化学品有限公司' },
+        { value: '山东丰龙高压气瓶有限公司', label: 'FL - 山东丰龙高压气瓶有限公司' },
+        { value: '四川中腾容器制造有限公司', label: 'ZT - 四川中腾容器制造有限公司' },
+        { value: '重庆益民机械工程有限公司', label: 'YM - 重庆益民机械工程有限公司' },
+        { value: '贵州九洲高压压力容器有限公司', label: 'JZ - 贵州九洲高压压力容器有限公司' },
+        { value: '宽城升华压力容器制造有限责任公司', label: 'KC - 宽城升华压力容器制造有限责任公司' },
+        { value: '洛阳安和压力容器制造有限公司', label: 'AH - 洛阳安和压力容器制造有限公司' },
+        { value: '四川广融科技股份有限公司', label: 'GI - 四川广融科技股份有限公司' },
+        { value: '天津天海高压容器有限责任公司', label: 'JP - 天津天海高压容器有限责任公司' },
+        { value: '沈阳东基集团有限公司', label: 'DJ - 沈阳东基集团有限公司' },
+        { value: '成都五冶钢瓶有限公司', label: 'GS - 成都五冶钢瓶有限公司' },
+        { value: '廊坊天海高压容器有限公司', label: 'JP - 廊坊天海高压容器有限公司' },
+        { value: '青岛宏祥鑫龙压力容器制造有限公司', label: 'DC - 青岛宏祥鑫龙压力容器制造有限公司' },
+        { value: '淮南东华特种装备股份有限公司', label: 'DH - 淮南东华特种装备股份有限公司' },
+        { value: '重庆益峰新能源装备股份有限公司', label: 'YM - 重庆益峰新能源装备股份有限公司' },
+        { value: '上海安矩压力容器有限公司', label: 'AJ - 上海安矩压力容器有限公司' },
+        { value: '新乡市奥凯钢瓶有限公司', label: 'AK - 新乡市奥凯钢瓶有限公司' },
+        { value: '杭州安泰钢瓶有限公司', label: 'AT - 杭州安泰钢瓶有限公司' },
+        { value: '江苏玉华容器制造有限公司', label: 'AY - 江苏玉华容器制造有限公司' },
+        { value: '河北百工实业有限公司', label: 'BG - 河北百工实业有限公司' },
+        { value: '常州博朗低温设备有限公司', label: 'BL - 常州博朗低温设备有限公司' },
+        { value: '中盐红四方金百纳能源技术无锡有限公司', label: 'BN - 中盐红四方金百纳能源技术无锡有限公司' },
+        { value: '台州市宝泉钢瓶有限公司', label: 'BQ - 台州市宝泉钢瓶有限公司' },
+        { value: '江苏安益钢瓶制造有限公司', label: 'BY - 江苏安益钢瓶制造有限公司' },
+        { value: '查特深冷工程系统（常州）有限公司', label: 'CT - 查特深冷工程系统（常州）有限公司' },
+        { value: '中材科技（成都）有限公司', label: 'CY - 中材科技（成都）有限公司' },
+        { value: '江西长征金属制品有限公司', label: 'CZ - 江西长征金属制品有限公司' },
+        { value: '扬州高得宝瓦斯器材制造有限公司', label: 'DB - 扬州高得宝瓦斯器材制造有限公司' },
+        { value: '山东天海高压容器有限公司', label: 'JP - 山东天海高压容器有限公司' },
+        { value: '辽宁美托科技股份有限公司', label: 'MT - 辽宁美托科技股份有限公司' },
+        { value: '浙江民泰钢瓶有限公司', label: 'MTA - 浙江民泰钢瓶有限公司' },
+        { value: '宁波明欣化工机械有限责任公司', label: 'MX - 宁波明欣化工机械有限责任公司' },
+        { value: '宁波美恪乙炔瓶有限公司', label: 'NB - 宁波美恪乙炔瓶有限公司' },
+        { value: '嘉兴压力容器厂', label: 'NH - 嘉兴压力容器厂' },
+        { value: 'NK CO.,LTD.', label: 'NK - NK CO.,LTD.' },
+        { value: '耐尔能源装备有限公司', label: 'NR - 耐尔能源装备有限公司' },
+        { value: '沈阳欧施盾新材料科技有限公司', label: 'OSD - 沈阳欧施盾新材料科技有限公司' },
+        { value: '青岛普天汽车配件有限公司', label: 'PT - 青岛普天汽车配件有限公司' },
+        { value: '无锡普维设备制造有限公司', label: 'PV - 无锡普维设备制造有限公司' },
+        { value: '潍坊胜华煤气用具有限公司', label: 'PY - 潍坊胜华煤气用具有限公司' },
+        { value: '江苏秋林重工股份有限公司', label: 'QL - 江苏秋林重工股份有限公司' },
+        { value: '河北祺泰车辆部件科技有限公司', label: 'QT - 河北祺泰车辆部件科技有限公司' },
+        { value: '湖南祁阳华泰钢瓶制造有限公司', label: 'QY - 湖南祁阳华泰钢瓶制造有限公司' },
+        { value: '河北润丰压力容器有限公司', label: 'RF - 河北润丰压力容器有限公司' },
+        { value: '天津仁和鼎盛钢瓶制造有限公司', label: 'RH - 天津仁和鼎盛钢瓶制造有限公司' },
+        { value: '浙江银盾压力容器有限公司', label: 'RL - 浙江银盾压力容器有限公司' },
+        { value: '日照兴业汽车配件有限公司', label: 'RX - 日照兴业汽车配件有限公司' },
+        { value: '宜昌市瑞洋机械制造有限公司', label: 'RY - 宜昌市瑞洋机械制造有限公司' },
+        { value: '徐州双驰消防器材有限公司', label: 'SC - 徐州双驰消防器材有限公司' },
+        { value: '江苏深绿新能源科技有限公司', label: 'SE - 江苏深绿新能源科技有限公司' },
+        { value: '河南升辉特种装备有限公司', label: 'SH - 河南升辉特种装备有限公司' },
+        { value: '东兴神骏燃气具有限公司', label: 'SJ - 东兴神骏燃气具有限公司' },
+        { value: '山东索尔特种装备有限公司', label: 'SOL - 山东索尔特种装备有限公司' },
+        { value: '洛阳双瑞特种装备有限公司', label: 'SR - 洛阳双瑞特种装备有限公司' },
+        { value: '苏州市海通钢瓶制造有限公司', label: 'SW - 苏州市海通钢瓶制造有限公司' },
+        { value: '丹阳市利旺车辆部件有限公司', label: 'SY - 丹阳市利旺车辆部件有限公司' },
+        { value: '中材科技（九江）有限公司', label: 'SZ - 中材科技（九江）有限公司' },
+        { value: '泰州市西西特种设备制造有限公司', label: 'TF - 泰州市西西特种设备制造有限公司' },
+        { value: '杭州天龙钢瓶有限公司', label: 'TL - 杭州天龙钢瓶有限公司' },
+        { value: '镇江新景源高压气瓶制造有限公司', label: 'TP - 镇江新景源高压气瓶制造有限公司' },
+        { value: '江苏盛日机械设备制造有限公司', label: 'TSR - 江苏盛日机械设备制造有限公司' },
+        { value: '上海凡索金属制品有限公司', label: 'VS - 上海凡索金属制品有限公司' },
+        { value: '南安市旺宸机械有限公司', label: 'WJ - 南安市旺宸机械有限公司' },
+        { value: '南阳英威东风压力容器制造有限公司', label: 'WL - 南阳英威东风压力容器制造有限公司' },
+        { value: '前郭县威龙金属加工有限公司', label: 'WLW - 前郭县威龙金属加工有限公司' },
+        { value: '江苏韦兰德特种装备科技有限公司', label: 'WT - 江苏韦兰德特种装备科技有限公司' },
+        { value: '武义西林德机械制造有限公司', label: 'WY - 武义西林德机械制造有限公司' },
+        { value: '宣城市百纳压力容器制造有限公司', label: 'XC - 宣城市百纳压力容器制造有限公司' },
+        { value: '山东鑫昊特种装备股份有限公司', label: 'XH - 山东鑫昊特种装备股份有限公司' },
+        { value: '江山市新联消防科技有限公司', label: 'XL - 江山市新联消防科技有限公司' },
+        { value: '浙江南煌钢瓶有限公司', label: 'XN - 浙江南煌钢瓶有限公司' },
+        { value: '枞阳县压力容器制造有限责任公司', label: 'XS - 枞阳县压力容器制造有限责任公司' },
+        { value: '山东鑫星容器有限公司', label: 'XX - 山东鑫星容器有限公司' },
+        { value: '新乡市赛特钢瓶有限公司', label: 'XXST - 新乡市赛特钢瓶有限公司' },
+        { value: '新乡市新阳钢瓶有限公司', label: 'XY - 新乡市新阳钢瓶有限公司' },
+        { value: '宁波云帅厨房设备有限公司', label: 'YC - 宁波云帅厨房设备有限公司' },
+        { value: '玉柴东特专用汽车有限公司', label: 'YCT - 玉柴东特专用汽车有限公司' },
+        { value: '湖南江南银箭新能源装备有限公司', label: 'YJ - 湖南江南银箭新能源装备有限公司' },
+        { value: '衡阳市柒益凌钢瓶有限公司', label: 'YL - 衡阳市柒益凌钢瓶有限公司' },
+        { value: '广东盈泉钢制品有限公司', label: 'YQ - 广东盈泉钢制品有限公司' },
+        { value: '梧州市沃华机械有限公司', label: 'YS - 梧州市沃华机械有限公司' },
+        { value: '浙江亿田钢瓶有限公司', label: 'YT - 浙江亿田钢瓶有限公司' },
+        { value: '新乡市豫新航空工业制品有限公司', label: 'YX - 新乡市豫新航空工业制品有限公司' },
+        { value: '浙江浙安消防设备有限公司', label: 'ZA - 浙江浙安消防设备有限公司' },
+        { value: '广东铸辉钢瓶制造有限公司', label: 'ZH - 广东铸辉钢瓶制造有限公司' },
+        { value: '南通中集能源装备有限公司', label: 'ZJ - 南通中集能源装备有限公司' },
+        { value: '浙江金盾压力容器有限公司', label: 'ZJD - 浙江金盾压力容器有限公司' },
+        { value: '涿鹿高压容器有限公司', label: 'ZP - 涿鹿高压容器有限公司' },
+        { value: '浙江东锦能源设备有限公司', label: 'ZW - 浙江东锦能源设备有限公司' },
+        { value: '上虞正欣压力容器有限公司', label: 'ZX - 上虞正欣压力容器有限公司' },
+        { value: '永康市鹰鹏化工机械有限公司', label: 'ZY - 永康市鹰鹏化工机械有限公司' },
+        { value: '宁波中洲集团有限公司', label: 'ZZ - 宁波中洲集团有限公司' },
+        { value: '广州胜安消防设备有限公司', label: 'JS - 广州胜安消防设备有限公司' },
+        { value: '长春致远新能源设备有限责任公司', label: 'CZY - 长春致远新能源设备有限责任公司' },
+        { value: '湖南富佳钢瓶制造有限公司', label: 'FJ - 湖南富佳钢瓶制造有限公司' },
+        { value: '抚顺洁能科技有限公司', label: 'NETC - 抚顺洁能科技有限公司' },
+        { value: '上海爱思凯气体容器有限公司', label: 'SK - 上海爱思凯气体容器有限公司' },
+        { value: '新兴能源装备股份有限公司鄂尔多斯分公司', label: 'XE - 新兴能源装备股份有限公司鄂尔多斯分公司' },
+        { value: '国营红岗机械厂', label: '国营红岗 - 国营红岗机械厂' },
+        { value: '贵州贵安腾隆钢瓶制造有限公司', label: 'GA - 贵州贵安腾隆钢瓶制造有限公司' },
+        { value: '山东永安特种装备有限公司', label: 'YA - 山东永安特种装备有限公司' },
+        { value: '云南富家钢瓶制造有限公司', label: 'YFJ - 云南富家钢瓶制造有限公司' },
+        { value: '山东莱州市鑫星压力容器有限公司', label: '001 - 山东莱州市鑫星压力容器有限公司' },
+        { value: '山东省莱州市煤气用具厂', label: '002 - 山东省莱州市煤气用具厂' },
+        { value: '汕头经济特区华信压力容器厂', label: '003 - 汕头经济特区华信压力容器厂' },
+        { value: '上海华盛企业（集团）有限公司', label: '004 - 上海华盛企业（集团）有限公司' },
+        { value: '上海容华高压容器有限公司', label: '005 - 上海容华高压容器有限公司' },
+        { value: '沈阳航天新光集团有限公司', label: '006 - 沈阳航天新光集团有限公司' },
+        { value: '沈阳科金新材料开发总公司', label: '007 - 沈阳科金新材料开发总公司' },
+        { value: '沈阳金属薄板制品厂', label: '008 - 沈阳金属薄板制品厂' },
+        { value: '石家庄市钢瓶厂', label: '009 - 石家庄市钢瓶厂' },
+        { value: 'TPA集团丰安五金机械（深圳）有限公司', label: '010 - TPA集团丰安五金机械（深圳）有限公司' },
+        { value: '天津市北方钢瓶制造有限公司', label: '011 - 天津市北方钢瓶制造有限公司' },
+        { value: '桐乡煤矿机械厂', label: '012 - 桐乡煤矿机械厂' },
+        { value: '潍坊东明消防器材有限公司', label: '013 - 潍坊东明消防器材有限公司' },
+        { value: '潍坊市煤气生产用品厂', label: '014 - 潍坊市煤气生产用品厂' },
+        { value: '温州玉苍机械制造有限公司', label: '015 - 温州玉苍机械制造有限公司' },
+        { value: '武进市恒安容器制造有限公司', label: '016 - 武进市恒安容器制造有限公司' },
+        { value: '西安昆仑机械厂压力容器分厂', label: '017 - 西安昆仑机械厂压力容器分厂' },
+        { value: '西安天洁航天科技股份有限公司', label: '018 - 西安天洁航天科技股份有限公司' },
+        { value: '香河万方锅炉压力容器有限公司', label: '019 - 香河万方锅炉压力容器有限公司' },
+        { value: '新奥集团石家庄化工机械股份公司', label: '020 - 新奥集团石家庄化工机械股份公司' },
+        { value: '新疆巴州金波管道容器制造有限责任公司', label: '021 - 新疆巴州金波管道容器制造有限责任公司' },
+        { value: '新疆通用机械有限公司', label: '022 - 新疆通用机械有限公司' },
+        { value: '新乡利民机械工业公司', label: '023 - 新乡利民机械工业公司' },
+        { value: '意大利FABER公司', label: '024 - 意大利FABER公司' },
+        { value: '英国CHESTFIELD公司', label: '025 - 英国CHESTFIELD公司' },
+        { value: '豫新汽车空调实业有限公司', label: '026 - 豫新汽车空调实业有限公司' },
+        { value: '浙江坚利美钢瓶制造公司', label: '027 - 浙江坚利美钢瓶制造公司' },
+        { value: '嵊州市钢瓶厂', label: '028 - 嵊州市钢瓶厂' },
+        { value: '浙江省鄞县煤气用具厂', label: '029 - 浙江省鄞县煤气用具厂' },
+        { value: '中山市长征机械厂', label: '030 - 中山市长征机械厂' },
+        { value: '中山市广沙钢瓶厂', label: '031 - 中山市广沙钢瓶厂' },
+        { value: '重庆益峰高压容器有限公司', label: '032 - 重庆益峰高压容器有限公司' },
+        { value: '淄博市沂源压力容器厂', label: '033 - 淄博市沂源压力容器厂' },
+        { value: '安徽嘉山钢瓶厂', label: '034 - 安徽嘉山钢瓶厂' },
+        { value: '舒城金利达钢瓶厂', label: '035 - 舒城金利达钢瓶厂' },
+        { value: '安庆钢瓶厂', label: '036 - 安庆钢瓶厂' },
+        { value: '六安钢瓶厂', label: '037 - 六安钢瓶厂' },
+        { value: '南安市液化石油气钢瓶厂', label: '038 - 南安市液化石油气钢瓶厂' },
+        { value: '福州新榕机械发展有限公司', label: '039 - 福州新榕机械发展有限公司' },
+        { value: '凯旋压力容器厂', label: '040 - 凯旋压力容器厂' },
+        { value: '湖山钢瓶厂', label: '041 - 湖山钢瓶厂' },
+        { value: '广西建工集团一建公司压力容器制造厂', label: '042 - 广西建工集团一建公司压力容器制造厂' },
+        { value: '广西桂林化工机械厂', label: '043 - 广西桂林化工机械厂' },
+        { value: '中国石油天然气第六建设公司金属结构厂', label: '044 - 中国石油天然气第六建设公司金属结构厂' },
+        { value: '中原石油勘探局建筑集团公司金属结构厂', label: '045 - 中原石油勘探局建筑集团公司金属结构厂' },
+        { value: '中国石化茂名石油化工建设公司', label: '046 - 中国石化茂名石油化工建设公司' },
+        { value: '景县钢瓶厂', label: '047 - 景县钢瓶厂' },
+        { value: '解放军第6410工厂工贸总公司', label: '048 - 解放军第6410工厂工贸总公司' },
+        { value: '华北油田管理局第二油田建设公司金属制品厂', label: '049 - 华北油田管理局第二油田建设公司金属制品厂' },
+        { value: '华北油建一公司液化气钢瓶制造厂', label: '050 - 华北油建一公司液化气钢瓶制造厂' },
+        { value: '保定市液化气灶具厂', label: '051 - 保定市液化气灶具厂' },
+        { value: '唐山神蝶燃具有限公司', label: '052 - 唐山神蝶燃具有限公司' },
+        { value: '富达煤气厂', label: '053 - 富达煤气厂' },
+        { value: '国营向东机器厂', label: '054 - 国营向东机器厂' },
+        { value: '河南豫新机械厂', label: '055 - 河南豫新机械厂' },
+        { value: '河南省中原机械厂', label: '056 - 河南省中原机械厂' },
+        { value: '河南省荥阳市钢瓶厂', label: '057 - 河南省荥阳市钢瓶厂' },
+        { value: '武汉燃气设备制造厂', label: '058 - 武汉燃气设备制造厂' },
+        { value: '武汉中北经济发展有限公司', label: '059 - 武汉中北经济发展有限公司' },
+        { value: '武汉船机石油化工设备制造有限公司', label: '060 - 武汉船机石油化工设备制造有限公司' },
+        { value: '江汉石油管理局金属容器制造厂', label: '061 - 江汉石油管理局金属容器制造厂' },
+        { value: '国营第6803厂', label: '062 - 国营第6803厂' },
+        { value: '湖北东荣钢瓶厂', label: '063 - 湖北东荣钢瓶厂' },
+        { value: '荆门掇刀开发区压力容器制造厂', label: '064 - 荆门掇刀开发区压力容器制造厂' },
+        { value: '长沙空军机械厂', label: '065 - 长沙空军机械厂' },
+        { value: '江南深压机械厂', label: '066 - 江南深压机械厂' },
+        { value: '柳河华龙实业集团总公司低压容器厂', label: '067 - 柳河华龙实业集团总公司低压容器厂' },
+        { value: '常乐钢瓶厂', label: '068 - 常乐钢瓶厂' },
+        { value: '常熟市安乐压力容器厂', label: '069 - 常熟市安乐压力容器厂' },
+        { value: '江苏启东钢瓶厂', label: '070 - 江苏启东钢瓶厂' },
+        { value: '江苏金虹钢瓶厂', label: '071 - 江苏金虹钢瓶厂' },
+        { value: '江苏三水压力容器股份有限公司', label: '072 - 江苏三水压力容器股份有限公司' },
+        { value: '盐城钢瓶厂', label: '073 - 盐城钢瓶厂' },
+        { value: '盐城盛泰钢瓶制造有限公司', label: '074 - 盐城盛泰钢瓶制造有限公司' },
+        { value: '江阴液化气设备厂', label: '075 - 江阴液化气设备厂' },
+        { value: '姜堰市海龙机械设备制造有限公司', label: '076 - 姜堰市海龙机械设备制造有限公司' },
+        { value: '姜堰市第三机械厂', label: '077 - 姜堰市第三机械厂' },
+        { value: '靖江钢瓶厂', label: '078 - 靖江钢瓶厂' },
+        { value: '靖江市双帆环保机械厂', label: '079 - 靖江市双帆环保机械厂' },
+        { value: '靖江第二农机厂', label: '080 - 靖江第二农机厂' },
+        { value: '金坛钢瓶厂', label: '081 - 金坛钢瓶厂' },
+        { value: '火箭压力容器厂', label: '082 - 火箭压力容器厂' },
+        { value: '昆山火炬钢瓶厂', label: '083 - 昆山火炬钢瓶厂' },
+        { value: '南京中建金陵气瓶制造有限公司', label: '084 - 南京中建金陵气瓶制造有限公司' },
+        { value: '南京市煤气用具厂', label: '085 - 南京市煤气用具厂' },
+        { value: '南通压力容器厂', label: '086 - 南通压力容器厂' },
+        { value: '祁江县压力容器厂', label: '087 - 祁江县压力容器厂' },
+        { value: '三河口钢瓶厂', label: '088 - 三河口钢瓶厂' },
+        { value: '苏州火箭容器集团公司', label: '089 - 苏州火箭容器集团公司' },
+        { value: '泰县水利机械厂', label: '090 - 泰县水利机械厂' },
+        { value: '泰县钢瓶厂', label: '091 - 泰县钢瓶厂' },
+        { value: '泰县第三机械厂', label: '092 - 泰县第三机械厂' },
+        { value: '武进市钢瓶厂', label: '093 - 武进市钢瓶厂' },
+        { value: '无锡西漳压力容器厂', label: '094 - 无锡西漳压力容器厂' },
+        { value: '扬州市第一压力容器厂', label: '095 - 扬州市第一压力容器厂' },
+        { value: '扬州锅炉压力容器厂', label: '096 - 扬州锅炉压力容器厂' },
+        { value: '扬州豫泰钢瓶制造有限公司', label: '097 - 扬州豫泰钢瓶制造有限公司' },
+        { value: '镇江市钢瓶厂', label: '098 - 镇江市钢瓶厂' },
+        { value: '张家港市轻工机械四厂', label: '099 - 张家港市轻工机械四厂' },
+        { value: '上海市工业设备安装公司压力容器制造厂', label: '100 - 上海市工业设备安装公司压力容器制造厂' },
+        { value: '九江柴油机厂', label: '101 - 九江柴油机厂' },
+        { value: '九江船用机械厂', label: '102 - 九江船用机械厂' },
+        { value: '本溪压力容器厂', label: '103 - 本溪压力容器厂' },
+        { value: '国营东北机器制造厂', label: '104 - 国营东北机器制造厂' },
+        { value: '沈阳乙炔气瓶厂', label: '105 - 沈阳乙炔气瓶厂' },
+        { value: '辽河石油勘探局机械修造公司钢瓶厂', label: '106 - 辽河石油勘探局机械修造公司钢瓶厂' },
+        { value: '辽阳煤气用具制造厂', label: '107 - 辽阳煤气用具制造厂' },
+        { value: '莱州钢瓶厂', label: '108 - 莱州钢瓶厂' },
+        { value: '济南煤气用具总厂', label: '109 - 济南煤气用具总厂' },
+        { value: '潍坊市坊子蒙潍钢瓶有限公司', label: '110 - 潍坊市坊子蒙潍钢瓶有限公司' },
+        { value: '淄博东齐压力容器厂', label: '111 - 淄博东齐压力容器厂' },
+        { value: '淄博市临淄压力容器厂', label: '112 - 淄博市临淄压力容器厂' },
+        { value: '淄博压力容器厂', label: '113 - 淄博压力容器厂' },
+        { value: '山东煤矿机械厂', label: '114 - 山东煤矿机械厂' },
+        { value: '山东阳谷高压容器厂', label: '115 - 山东阳谷高压容器厂' },
+        { value: '山东省阳谷县机械厂', label: '116 - 山东省阳谷县机械厂' },
+        { value: '山东阳谷中兴压力容器有限公司', label: '117 - 山东阳谷中兴压力容器有限公司' },
+        { value: '山东沂南煤气用具厂', label: '118 - 山东沂南煤气用具厂' },
+        { value: '山东柳城锅炉厂', label: '119 - 山东柳城锅炉厂' },
+        { value: '山东荷泽市钢瓶厂', label: '120 - 山东荷泽市钢瓶厂' },
+        { value: '山东海化集团潍坊化工机械厂钢瓶厂', label: '121 - 山东海化集团潍坊化工机械厂钢瓶厂' },
+        { value: '山东诸城市华升煤气用具厂', label: '122 - 山东诸城市华升煤气用具厂' },
+        { value: '山西省曲沃县钢瓶厂', label: '123 - 山西省曲沃县钢瓶厂' },
+        { value: '山西钢瓶厂', label: '124 - 山西钢瓶厂' },
+        { value: '汾西机械厂', label: '125 - 汾西机械厂' },
+        { value: '庆安宇航厂', label: '126 - 庆安宇航厂' },
+        { value: '庆安机电制造公司庆安压力容器厂', label: '127 - 庆安机电制造公司庆安压力容器厂' },
+        { value: '西安昆仑钢瓶厂', label: '128 - 西安昆仑钢瓶厂' },
+        { value: '四川空分设备（集团）有限公司', label: '129 - 四川空分设备（集团）有限公司' },
+        { value: '新疆前进机械厂', label: '130 - 新疆前进机械厂' },
+        { value: '云南省化学工业建设公司机械厂', label: '131 - 云南省化学工业建设公司机械厂' },
+        { value: '岱山机械厂', label: '132 - 岱山机械厂' },
+        { value: '嵊州市双灵灶具厂', label: '133 - 嵊州市双灵灶具厂' },
+        { value: '萧山如宝钢瓶厂', label: '134 - 萧山如宝钢瓶厂' },
+        { value: '萧山钢瓶厂', label: '135 - 萧山钢瓶厂' },
+        { value: '杭州双鼎力容器厂', label: '136 - 杭州双鼎力容器厂' },
+        { value: '杭州制氧机械厂', label: '137 - 杭州制氧机械厂' },
+        { value: '嘉兴宏图钢瓶厂', label: '138 - 嘉兴宏图钢瓶厂' },
+        { value: '宁海机械厂', label: '139 - 宁海机械厂' },
+        { value: '南斯拉夫', label: '140 - 南斯拉夫' },
+        { value: '四川益明机械厂', label: '141 - 四川益明机械厂' },
+        { value: '大庆总机厂', label: '142 - 大庆总机厂' },
+        { value: '哈尔滨飞机制造有限公司', label: '143 - 哈尔滨飞机制造有限公司' },
+        { value: '张家港市圣达因化工机械有限公司', label: '144 - 张家港市圣达因化工机械有限公司' },
+        { value: '常州市查特深冷设备有限公司', label: '145 - 常州市查特深冷设备有限公司' },
+        { value: '江阴石化设备厂', label: '146 - 江阴石化设备厂' },
+        { value: '张家港钢瓶厂', label: '147 - 张家港钢瓶厂' },
+        { value: '常熟阀门厂', label: '148 - 常熟阀门厂' },
+        { value: '武汉工业锅炉总厂', label: '149 - 武汉工业锅炉总厂' },
+        { value: '自贡机械一厂', label: '150 - 自贡机械一厂' },
+        { value: '河北沧州集装箱集团有限公司', label: '151 - 河北沧州集装箱集团有限公司' },
+        { value: '高邮市阀门厂', label: '152 - 高邮市阀门厂' },
+        { value: '光芒集团', label: '153 - 光芒集团' },
+        { value: '河南新乡市赛特钢瓶有限公司', label: '154 - 河南新乡市赛特钢瓶有限公司' },
+        { value: '鞍山高压容器厂', label: '155 - 鞍山高压容器厂' },
+        { value: '晋机集团公司', label: '156 - 晋机集团公司' },
+        { value: '北京长城化工设备制造厂', label: '157 - 北京长城化工设备制造厂' },
+        { value: '石家庄化工机械股份有限公司', label: '158 - 石家庄化工机械股份有限公司' },
+        { value: '武进容器厂', label: '159 - 武进容器厂' },
+        { value: '齐齐哈尔华安特种容器有限公司', label: '160 - 齐齐哈尔华安特种容器有限公司' },
+        { value: '宝应钢瓶厂', label: '161 - 宝应钢瓶厂' },
+        { value: '宝菊钢瓶厂', label: '162 - 宝菊钢瓶厂' },
+        { value: '安益钢瓶厂', label: '163 - 安益钢瓶厂' },
+        { value: '银盾', label: '164 - 银盾' },
+        { value: '南京银富钢瓶制造有限公司', label: '165 - 南京银富钢瓶制造有限公司' },
+        { value: '上海元支高压容器有限公司', label: '166 - 上海元支高压容器有限公司' },
+        { value: '浙江永润高压容器有限公司', label: '167 - 浙江永润高压容器有限公司' },
+        { value: '上海铁锚压力容器(集团)有限公司', label: '168 - 上海铁锚压力容器(集团)有限公司' },
+        { value: '江西宝钢集团人民机械厂', label: '169 - 江西宝钢集团人民机械厂' },
+        { value: '哈尔滨高压容器有限公司', label: '170 - 哈尔滨高压容器有限公司' },
+        { value: '广东省南海市良奇钢瓶厂', label: '171 - 广东省南海市良奇钢瓶厂' },
+        { value: '广东省华信钢瓶有限公司', label: '172 - 广东省华信钢瓶有限公司' },
+        { value: '广东省中山市广沙百福压力容器制造有限公司', label: '173 - 广东省中山市广沙百福压力容器制造有限公司' },
+        { value: '杭州市西湖钢瓶有限公司', label: '174 - 杭州市西湖钢瓶有限公司' },
+        { value: '湖北省仙桃钢瓶有限公司', label: '175 - 湖北省仙桃钢瓶有限公司' },
+        { value: '江苏省民生钢瓶有限公司', label: '176 - 江苏省民生钢瓶有限公司' },
+        { value: '浙江省苍南钢瓶有限公司', label: '177 - 浙江省苍南钢瓶有限公司' },
+        { value: '泰来华顿气体设备有限公司', label: '178 - 泰来华顿气体设备有限公司' },
+        { value: '张家港市华瑞科技有限公司', label: '179 - 张家港市华瑞科技有限公司' },
+        { value: '哈尔滨高压容器厂', label: '180 - 哈尔滨高压容器厂' },
+        { value: '龙岩市钢瓶检测有限公司', label: '181 - 龙岩市钢瓶检测有限公司' },
+        { value: '上海荣华高压容器有限公司', label: '182 - 上海荣华高压容器有限公司' },
+        { value: '潮州市机械厂', label: '183 - 潮州市机械厂' },
+        { value: '广东省顺德市桂州钢瓶厂', label: '184 - 广东省顺德市桂州钢瓶厂' },
+        { value: '常州蓝翼飞机装备制造有限公司', label: '185 - 常州蓝翼飞机装备制造有限公司' },
+        { value: '浙江汇金机械制造', label: '186 - 浙江汇金机械制造' },
+        { value: '鸿立', label: '187 - 鸿立' },
+        { value: '上海化工机械厂', label: '188 - 上海化工机械厂' },
+        { value: '上海化工机械一厂', label: '189 - 上海化工机械一厂' },
+        { value: '江苏泰丰钢瓶有限公司', label: '190 - 江苏泰丰钢瓶有限公司' },
+        { value: '山东临沂市河东区永安金属焊割气厂', label: '191 - 山东临沂市河东区永安金属焊割气厂' },
+        { value: '南通中集罐式储运设备制造有限公司', label: '192 - 南通中集罐式储运设备制造有限公司' },
+        { value: '河南升辉特种设备有限公司', label: '193 - 河南升辉特种设备有限公司' },
+        { value: '青岛瑞丰气体有限公司', label: '194 - 青岛瑞丰气体有限公司' },
+        { value: '石家庄安瑞科气体机械有限公司', label: '195 - 石家庄安瑞科气体机械有限公司' },
+        { value: '张家港富瑞特种装备股份有限公司', label: '196 - 张家港富瑞特种装备股份有限公司' },
+        { value: '中华气瓶厂(演示用)', label: '197 - 中华气瓶厂(演示用)' },
+        { value: '江苏安宜集团有限公司', label: '198 - 江苏安宜集团有限公司' },
+        { value: '山东青岛亨利高压容器有限公司', label: '199 - 山东青岛亨利高压容器有限公司' },
+        { value: '临沂市河东区永安金属焊割气厂', label: '200 - 临沂市河东区永安金属焊割气厂' },
+        { value: '无锡市振达能源设备技术有限公司', label: '201 - 无锡市振达能源设备技术有限公司' },
+        { value: '美国ZakladyApaturyChemicznej', label: '202 - 美国ZakladyApaturyChemicznej' },
+        { value: '美国CPIndustriesparkplant', label: '203 - 美国CPIndustriesparkplant' },
+        { value: '泰钢', label: '204 - 泰钢' },
+        { value: '仙滢', label: '205 - 仙滢' },
+        { value: '万福', label: '206 - 万福' },
+        { value: '青岛爱琴海', label: '207 - 青岛爱琴海' },
+        { value: '菊花', label: '208 - 菊花' },
+        { value: '金江', label: '209 - 金江' },
+        { value: '福旺', label: '210 - 福旺' },
+        { value: '天津市耀浩实业有限公司', label: '211 - 天津市耀浩实业有限公司' },
+        { value: '锡山市西漳压力容器厂', label: '212 - 锡山市西漳压力容器厂' },
+        { value: '安吉轻工机械总厂', label: '213 - 安吉轻工机械总厂' },
+        { value: '中国人民解放军第六四一零工厂工贸总公司', label: '214 - 中国人民解放军第六四一零工厂工贸总公司' },
+        { value: '唐山家兴工贸有限公司', label: '215 - 唐山家兴工贸有限公司' },
+        { value: '唐山旭源燃气用具有限公司', label: '216 - 唐山旭源燃气用具有限公司' },
+        { value: '石家庄市大明冲压件厂钢瓶厂', label: '217 - 石家庄市大明冲压件厂钢瓶厂' },
+        { value: '国营汾西机械厂', label: '218 - 国营汾西机械厂' },
+        { value: '山西省长子县钢瓶厂', label: '219 - 山西省长子县钢瓶厂' },
+        { value: '包头市金属制品厂', label: '220 - 包头市金属制品厂' },
+        { value: '浙江慈溪压力容器制造厂', label: '221 - 浙江慈溪压力容器制造厂' },
+        { value: '内蒙古铸锻厂', label: '222 - 内蒙古铸锻厂' },
+        { value: '东阳市煤气用具厂', label: '223 - 东阳市煤气用具厂' },
+        { value: '浙江凯旋燃具股份有限公司钢瓶公司', label: '224 - 浙江凯旋燃具股份有限公司钢瓶公司' },
+        { value: '锦州市煤气公司钢瓶厂', label: '225 - 锦州市煤气公司钢瓶厂' },
+        { value: '锦州市钢瓶厂', label: '226 - 锦州市钢瓶厂' },
+        { value: '辽河油田总机械厂容器分厂', label: '227 - 辽河油田总机械厂容器分厂' },
+        { value: '抚顺液化石油气钢瓶厂', label: '228 - 抚顺液化石油气钢瓶厂' },
+        { value: '白城七零机械厂', label: '229 - 白城七零机械厂' },
+        { value: '浙江双发炉具总厂', label: '230 - 浙江双发炉具总厂' },
+        { value: '吉化公司容器冲压厂', label: '231 - 吉化公司容器冲压厂' },
+        { value: '公主岭市钢瓶厂', label: '232 - 公主岭市钢瓶厂' },
+        { value: '肖山如宝钢瓶厂', label: '233 - 肖山如宝钢瓶厂' },
+        { value: '江都化工机械厂', label: '234 - 江都化工机械厂' },
+        { value: '安徽省水利机械疏浚公司', label: '235 - 安徽省水利机械疏浚公司' },
+        { value: '莆田市工业设备安装公司', label: '236 - 莆田市工业设备安装公司' },
+        { value: '潍坊市压力容器厂', label: '237 - 潍坊市压力容器厂' },
+        { value: '国营豫鑫机械厂', label: '238 - 国营豫鑫机械厂' },
+        { value: '南阳市工业设备安装工程总公司', label: '239 - 南阳市工业设备安装工程总公司' },
+        { value: '新乡市压力容器厂', label: '240 - 新乡市压力容器厂' },
+        { value: '洛阳一拖动能公司', label: '241 - 洛阳一拖动能公司' },
+        { value: '安阳市钢圈厂', label: '242 - 安阳市钢圈厂' },
+        { value: '河南省信阳地区安装公司压力容器厂', label: '243 - 河南省信阳地区安装公司压力容器厂' },
+        { value: '三江航天集团国营江北机械厂', label: '244 - 三江航天集团国营江北机械厂' },
+        { value: '湖北省建筑机械股份有限公司', label: '245 - 湖北省建筑机械股份有限公司' },
+        { value: '中国人民解放军5712工厂', label: '246 - 中国人民解放军5712工厂' },
+        { value: '衡阳市钢瓶制造厂', label: '247 - 衡阳市钢瓶制造厂' },
+        { value: '江南机械厂第四分厂', label: '248 - 江南机械厂第四分厂' },
+        { value: '江门市江南厨房设备厂', label: '249 - 江门市江南厨房设备厂' },
+        { value: '国营第四三四厂', label: '250 - 国营第四三四厂' },
+        { value: '铁道部贵阳车辆厂', label: '251 - 铁道部贵阳车辆厂' },
+        { value: '中国人民解放军5707工厂', label: '252 - 中国人民解放军5707工厂' },
+        { value: '楚雄林业机械厂', label: '253 - 楚雄林业机械厂' },
+        { value: '西安市压力容器厂', label: '254 - 西安市压力容器厂' },
+        { value: '西安秦川机械厂', label: '255 - 西安秦川机械厂' },
+        { value: '玉门钢铁集团有限公司', label: '256 - 玉门钢铁集团有限公司' },
+        { value: '玉门市轻工机械厂', label: '257 - 玉门市轻工机械厂' },
+        { value: '兰州煤气用具厂', label: '258 - 兰州煤气用具厂' },
+        { value: '青海石油管理局总机械厂', label: '259 - 青海石油管理局总机械厂' },
+        { value: '宁夏平罗五金总厂', label: '260 - 宁夏平罗五金总厂' },
+        { value: '新疆石河子市万通钢瓶厂', label: '261 - 新疆石河子市万通钢瓶厂' },
+        { value: '新乡福鹰钢瓶有限公司', label: '262 - 新乡福鹰钢瓶有限公司' },
+        { value: '江西九江人民机器厂', label: '263 - 江西九江人民机器厂' },
+        { value: '新世纪纪念（安先生）RZZ皖001', label: '264 - 新世纪纪念（安先生）RZZ皖001' },
+        { value: '江苏民盛钢瓶制造有限公司', label: '265 - 江苏民盛钢瓶制造有限公司' },
+        { value: '温州强力高压容器有限公司', label: '266 - 温州强力高压容器有限公司' },
+        { value: '济南星火钢瓶厂', label: '267 - 济南星火钢瓶厂' },
+        { value: '湖北大立机械制造有限公司', label: '268 - 湖北大立机械制造有限公司' },
+        { value: '山东宏祥', label: '269 - 山东宏祥' },
+        { value: '美国CATALINA', label: '270 - 美国CATALINA' },
+        { value: '美国LUXFER', label: '271 - 美国LUXFER' },
+        { value: '浙江嵊州市钢瓶厂', label: '272 - 浙江嵊州市钢瓶厂' },
+        { value: '山东省潍坊市红旗钢瓶厂', label: '273 - 山东省潍坊市红旗钢瓶厂' },
+        { value: '泰州市华海商贸有限公司', label: '274 - 泰州市华海商贸有限公司' },
+        { value: '美国华盛顿压力容器有限公司', label: '275 - 美国华盛顿压力容器有限公司' },
+        { value: '浙江省东阳化工机械有限公司', label: '276 - 浙江省东阳化工机械有限公司' },
+        { value: '浙江天恩压力容器制造有限公司', label: '277 - 浙江天恩压力容器制造有限公司' },
+        { value: '天宁钢瓶厂', label: '278 - 天宁钢瓶厂' },
+        { value: '杭州凯德空分设备制造有限公司', label: '279 - 杭州凯德空分设备制造有限公司' },
+        { value: '成都格瑞特高压容器有限责任公司', label: '280 - 成都格瑞特高压容器有限责任公司' },
+        { value: '成都天人压力容器厂', label: '281 - 成都天人压力容器厂' },
+        { value: '天津消防器材总厂', label: '282 - 天津消防器材总厂' },
+        { value: '无锡百纳容器有限公司', label: '283 - 无锡百纳容器有限公司' },
+        { value: '环工', label: '284 - 环工' },
+        { value: '江苏西西', label: '285 - 江苏西西' },
+        { value: '衢州化学工业公司机械厂', label: '286 - 衢州化学工业公司机械厂' },
+        { value: '上海森松压力容器有限公司', label: '287 - 上海森松压力容器有限公司' },
+        { value: '南京高压容器厂', label: '288 - 南京高压容器厂' },
+        { value: '韩国SECHANGM.I.CO.,LTD', label: '289 - 韩国SECHANGM.I.CO.,LTD' },
+        { value: '南海市塞尔燃气有限公司', label: '290 - 南海市塞尔燃气有限公司' },
+        { value: '鞍山新河高压容器有限公司', label: '291 - 鞍山新河高压容器有限公司' },
+        { value: 'TAYLOR', label: '292 - TAYLOR' },
+        { value: 'HanBeeCo.,Ltd.[Korea]', label: '293 - HanBeeCo.,Ltd.[Korea]' },
+        { value: '安阳市液化气炉具厂', label: '294 - 安阳市液化气炉具厂' },
+        { value: '鞍山新澳特种压力容器有限公司', label: '295 - 鞍山新澳特种压力容器有限公司' },
+        { value: '鞍山液化石油气钢瓶总厂', label: '296 - 鞍山液化石油气钢瓶总厂' },
+        { value: '包头市火龙钢瓶制造有限公司', label: '297 - 包头市火龙钢瓶制造有限公司' },
+        { value: '包头市金双菱金属制品有限公司', label: '298 - 包头市金双菱金属制品有限公司' },
+        { value: '包头市煤气用具厂', label: '299 - 包头市煤气用具厂' },
+        { value: '北京市煤气用具厂', label: '300 - 北京市煤气用具厂' },
+        { value: '北京金海鑫压力容器制造有限公司', label: '301 - 北京金海鑫压力容器制造有限公司' },
+        { value: '北京金属结构厂', label: '302 - 北京金属结构厂' },
+        { value: '常州市飞机制造有限公司', label: '303 - 常州市飞机制造有限公司' },
+        { value: '成都高压容器厂', label: '304 - 成都高压容器厂' },
+        { value: '大连连泰压力容器有限公司', label: '305 - 大连连泰压力容器有限公司' },
+        { value: '德州鲁王化工机械有限公司', label: '306 - 德州鲁王化工机械有限公司' },
+        { value: '佛山市赛尔燃气具有限公司', label: '307 - 佛山市赛尔燃气具有限公司' },
+        { value: '佛山市顺德百福五金制造有限公司', label: '308 - 佛山市顺德百福五金制造有限公司' },
+        { value: '抚顺机械制造有限责任公司', label: '309 - 抚顺机械制造有限责任公司' },
+        { value: '抚顺煤矿安全仪器总厂', label: '310 - 抚顺煤矿安全仪器总厂' },
+        { value: '广东粤海钢瓶厂茂石化联营厂', label: '311 - 广东粤海钢瓶厂茂石化联营厂' },
+        { value: '卫国机械厂', label: '312 - 卫国机械厂' },
+        { value: '广西建工集团二建公司压力容器制造厂', label: '313 - 广西建工集团二建公司压力容器制造厂' },
+        { value: '广州钢瓶五金制品厂', label: '314 - 广州钢瓶五金制品厂' },
+        { value: '广州市荔湾钢管制品厂', label: '315 - 广州市荔湾钢管制品厂' },
+        { value: '国营建成机械厂钢瓶分厂', label: '316 - 国营建成机械厂钢瓶分厂' },
+        { value: '国营江北机械厂', label: '317 - 国营江北机械厂' },
+        { value: '国营江峡船舶柴油机厂', label: '318 - 国营江峡船舶柴油机厂' },
+        { value: '哈尔滨北方压力容器有限公司', label: '319 - 哈尔滨北方压力容器有限公司' },
+        { value: '哈尔滨哈飞机电产品制造有限责任公司', label: '320 - 哈尔滨哈飞机电产品制造有限责任公司' },
+        { value: '哈尔滨石油化工机械厂', label: '321 - 哈尔滨石油化工机械厂' },
+        { value: '海南省钢瓶厂', label: '322 - 海南省钢瓶厂' },
+        { value: '韩国NK公司', label: '323 - 韩国NK公司' },
+        { value: '杭州美佳压力容器有限公司', label: '324 - 杭州美佳压力容器有限公司' },
+        { value: '杭州市鼎力容器厂', label: '325 - 杭州市鼎力容器厂' },
+        { value: '河北省冀州市厨房设备厂', label: '326 - 河北省冀州市厨房设备厂' },
+        { value: '河北省景县厨房设备厂', label: '327 - 河北省景县厨房设备厂' },
+        { value: '河北省任丘市旭丰钢瓶厂', label: '328 - 河北省任丘市旭丰钢瓶厂' },
+        { value: '新乡市钢瓶厂', label: '329 - 新乡市钢瓶厂' },
+        { value: '河南英威东风机械制造有限公司', label: '330 - 河南英威东风机械制造有限公司' },
+        { value: '山东省科学院荷泽市高压容器实验厂', label: '331 - 山东省科学院荷泽市高压容器实验厂' },
+        { value: '黑龙江华安工业（集团）公司', label: '332 - 黑龙江华安工业（集团）公司' },
+        { value: '湖北东荣压力容器厂', label: '333 - 湖北东荣压力容器厂' },
+        { value: '江南机器（集团）有限公司', label: '334 - 江南机器（集团）有限公司' },
+        { value: '江苏常乐压力容器制造公司', label: '335 - 江苏常乐压力容器制造公司' },
+        { value: '江苏海龙压力容器厂', label: '336 - 江苏海龙压力容器厂' },
+        { value: '姜堰市西西钢瓶有限公司', label: '337 - 姜堰市西西钢瓶有限公司' },
+        { value: '解放军第5712工厂燃气具公司', label: '338 - 解放军第5712工厂燃气具公司' },
+        { value: '晋西机器工业集团有限责任公司', label: '339 - 晋西机器工业集团有限责任公司' },
+        { value: '江苏民生特种设备集团有限公司', label: '340 - 江苏民生特种设备集团有限公司' },
+        { value: '靖江市民生高压容器制造有限公司', label: '341 - 靖江市民生高压容器制造有限公司' },
+        { value: '九江三钻机械有限责任公司', label: '342 - 九江三钻机械有限责任公司' },
+        { value: '巨化集团公司工程有限公司', label: '343 - 巨化集团公司工程有限公司' },
+        { value: '辽宁省鞍山高压容器厂', label: '344 - 辽宁省鞍山高压容器厂' },
+        { value: '美国NORIES公司', label: '345 - 美国NORIES公司' },
+        { value: '南海澳华液化石油气设备有限公司', label: '346 - 南海澳华液化石油气设备有限公司' },
+        { value: '南海市粤海钢制品有限公司', label: '347 - 南海市粤海钢制品有限公司' },
+        { value: '南京锅炉厂', label: '348 - 南京锅炉厂' },
+        { value: '南京海洋高压容器制造有限公司', label: '349 - 南京海洋高压容器制造有限公司' },
+        { value: '南通华鼎压力容器有限公司', label: '350 - 南通华鼎压力容器有限公司' },
+        { value: '宁波化工机械总厂', label: '351 - 宁波化工机械总厂' },
+        { value: '莆田市恒达压力容器有限公司', label: '352 - 莆田市恒达压力容器有限公司' },
+        { value: '七一零钢瓶实业有限公司', label: '353 - 七一零钢瓶实业有限公司' },
+        { value: '青岛安吉钢瓶厂', label: '354 - 青岛安吉钢瓶厂' },
+        { value: '青岛琴畅制罐有限公司', label: '355 - 青岛琴畅制罐有限公司' },
+        { value: '北京市建安特工程公司', label: '356 - 北京市建安特工程公司' },
+        { value: '张家港圣汇气体化工装备有限公司', label: '357 - 张家港圣汇气体化工装备有限公司' },
+        { value: 'ShinkoIndustrialCO.,LTD', label: '358 - ShinkoIndustrialCO.,LTD' },
+        { value: '衡阳金化高压容器有限公司', label: '359 - 衡阳金化高压容器有限公司' },
+        { value: '唐山市丰意化工机械有限公司', label: '360 - 唐山市丰意化工机械有限公司' },
+        { value: '佛山市粤海钢制品有限公司', label: '361 - 佛山市粤海钢制品有限公司' },
+        { value: '深圳飞英工业气体有限公司', label: '362 - 深圳飞英工业气体有限公司' },
+        { value: '重庆煤矿安全仪器厂', label: '363 - 重庆煤矿安全仪器厂' },
+        { value: '南京富鑫压力容器有限公司', label: '364 - 南京富鑫压力容器有限公司' },
+        { value: 'SumikinKikohCompany,Ltd.', label: '365 - SumikinKikohCompany,Ltd.' },
+        { value: '泰州市金星京泰钢瓶有限公司', label: '366 - 泰州市金星京泰钢瓶有限公司' },
+        { value: '天津丽兴仁和钢瓶制造有限公司', label: '367 - 天津丽兴仁和钢瓶制造有限公司' },
+        { value: 'GAZLIQUEFIESINDUSTRIEPLANTCITERGAZ', label: '368 - GAZLIQUEFIESINDUSTRIEPLANTCITERGAZ' },
+        { value: '洛阳安合压力容器制造有限公司', label: '369 - 洛阳安合压力容器制造有限公司' },
+        { value: '湖南湘东化工机械有限公司', label: '370 - 湖南湘东化工机械有限公司' },
+        { value: '无厂家', label: '371 - 无厂家' },
+        { value: '江阴天和深冷科技有限公司', label: '372 - 江阴天和深冷科技有限公司' },
+        { value: '张家港市科华化工装备制造有限公司', label: '373 - 张家港市科华化工装备制造有限公司' },
+        { value: '东北机器制造厂', label: '374 - 东北机器制造厂' },
+        { value: '安徽舒城金利达厂', label: '375 - 安徽舒城金利达厂' },
+        { value: '包头煤气用具厂', label: '376 - 包头煤气用具厂' },
+        { value: '北京科泰克科技发展有限公司', label: '377 - 北京科泰克科技发展有限公司' },
+        { value: '常熟安乐压力容器厂', label: '378 - 常熟安乐压力容器厂' },
+        { value: '德尔格中国安全设备有限公司', label: '379 - 德尔格中国安全设备有限公司' },
+        { value: '福建省南安市液化石油气钢瓶厂', label: '380 - 福建省南安市液化石油气钢瓶厂' },
+        { value: '广东卫国机械厂', label: '381 - 广东卫国机械厂' },
+        { value: '国营洪庄机械厂', label: '382 - 国营洪庄机械厂' },
+        { value: '河南省新乡市钢瓶厂', label: '383 - 河南省新乡市钢瓶厂' },
+        { value: '华瑞科立恒北京科技有限公司', label: '384 - 华瑞科立恒北京科技有限公司' },
+        { value: '江苏盐城钢瓶厂', label: '385 - 江苏盐城钢瓶厂' },
+        { value: '江苏省泰州市华海商贸有限公司', label: '386 - 江苏省泰州市华海商贸有限公司' },
+        { value: '江苏盐城盛泰钢瓶制造有限公司', label: '387 - 江苏盐城盛泰钢瓶制造有限公司' },
+        { value: '姜堰第三机械厂', label: '388 - 姜堰第三机械厂' },
+        { value: '美国', label: '389 - 美国' },
+        { value: '南京煤气用具厂', label: '390 - 南京煤气用具厂' },
+        { value: '山东永安高压容器有限公司', label: '391 - 山东永安高压容器有限公司' },
+        { value: '上海化机一厂', label: '392 - 上海化机一厂' },
+        { value: '上海康巴赛特科技发展有限公司', label: '393 - 上海康巴赛特科技发展有限公司' },
+        { value: '上海市容华高压容器有限公司', label: '394 - 上海市容华高压容器有限公司' },
+        { value: '沈阳市金属薄板制品厂', label: '395 - 沈阳市金属薄板制品厂' },
+        { value: '天津天消安全设备有限公司', label: '396 - 天津天消安全设备有限公司' },
+        { value: '无锡梅思安安全设备有限公司', label: '397 - 无锡梅思安安全设备有限公司' },
+        { value: '扬州第一压力容器厂', label: '398 - 扬州第一压力容器厂' },
+        { value: '扬州豫秦钢瓶厂', label: '399 - 扬州豫秦钢瓶厂' },
+        { value: '浙江省嵊州市钢瓶厂', label: '400 - 浙江省嵊州市钢瓶厂' },
+        { value: '镇江钢瓶厂', label: '401 - 镇江钢瓶厂' },
+        { value: '淄博临淄压力容器厂', label: '402 - 淄博临淄压力容器厂' },
+        { value: '湖南核工业宏华机械有限公司', label: '403 - 湖南核工业宏华机械有限公司' },
+        { value: '安徽联友压力容器有限公司', label: '404 - 安徽联友压力容器有限公司' },
+        { value: '泉州市梅亭钢瓶厂', label: '405 - 泉州市梅亭钢瓶厂' },
+        { value: '上海高压容器制造有限公司', label: '406 - 上海高压容器制造有限公司' },
+        { value: '南海市赛尔燃气具有限公司', label: '407 - 南海市赛尔燃气具有限公司' },
+        { value: '苍南县钢瓶厂', label: '408 - 苍南县钢瓶厂' },
+        { value: '潍坊市煤气用具厂', label: '409 - 潍坊市煤气用具厂' },
+        { value: '上海高压容器有限公司', label: '410 - 上海高压容器有限公司' },
+        { value: '辉县市升辉容器制造有限公司', label: '411 - 辉县市升辉容器制造有限公司' },
+        { value: '南京百江液化气有限公司', label: '412 - 南京百江液化气有限公司' },
+        { value: 'FIBATechnologies,Inc.', label: '413 - FIBATechnologies,Inc.' },
+        { value: 'NKCO.,Ltd', label: '414 - NKCO.,Ltd' },
+        { value: '山东蒙凌压力容器有限公司', label: '415 - 山东蒙凌压力容器有限公司' },
+        { value: '安徽联友高压容器有限责任公司', label: '416 - 安徽联友高压容器有限责任公司' },
+        { value: '山东蒙凌高压容器有限公司', label: '417 - 山东蒙凌高压容器有限公司' },
+        { value: '永润高压容器有限公司', label: '418 - 永润高压容器有限公司' },
+        { value: '宜昌瑞洋机械制造有限公司', label: '419 - 宜昌瑞洋机械制造有限公司' },
+        { value: '山东汇通气体能源设备有限公司', label: '420 - 山东汇通气体能源设备有限公司' },
+        { value: '辽宁奥斯褔科技有限公司', label: '421 - 辽宁奥斯褔科技有限公司' },
+        { value: '迪威', label: '422 - 迪威' },
+        { value: '临沂市永全气体有限公司', label: '423 - 临沂市永全气体有限公司' },
+        { value: '安徽大盘压力容器有限公司', label: '424 - 安徽大盘压力容器有限公司' },
+        { value: '浙江金象科技有限公司', label: '425 - 浙江金象科技有限公司' },
+        { value: '江南工业集团有限公司', label: '426 - 江南工业集团有限公司' },
+        { value: '江西省人民机械厂', label: '427 - 江西省人民机械厂' },
+        { value: '台山市富华钢瓶厂', label: '428 - 台山市富华钢瓶厂' },
+        { value: '山东山海新能源装备有限公司', label: '429 - 山东山海新能源装备有限公司' },
+        { value: '青岛青安钢瓶有限公司', label: '430 - 青岛青安钢瓶有限公司' },
+        { value: '广东华南特种气体研究所有限公司', label: '431 - 广东华南特种气体研究所有限公司' },
+        { value: '宁波兴光燃气集团', label: '432 - 宁波兴光燃气集团' },
+        { value: '张家港市华机环保新能源科技有限公司', label: '433 - 张家港市华机环保新能源科技有限公司' },
+        { value: '江苏大盘压力容器有限公司', label: '434 - 江苏大盘压力容器有限公司' },
+        { value: '嘉兴赛安富低温装备科技有限公司', label: '435 - 嘉兴赛安富低温装备科技有限公司' },
+        { value: '美钢容器（嘉兴）有限公司', label: '436 - 美钢容器（嘉兴）有限公司' },
+        { value: '佛山市华莱普气体设备有限公司', label: '437 - 佛山市华莱普气体设备有限公司' },
+        { value: '佛山市杰超低温设备有限公司', label: '438 - 佛山市杰超低温设备有限公司' },
+        { value: '浙江凯博压力容器有限公司', label: '439 - 浙江凯博压力容器有限公司' },
+        { value: '北京吉祥德尔格安全设备有限公司', label: '440 - 北京吉祥德尔格安全设备有限公司' },
+        { value: '意大利Dalmine', label: '441 - 意大利Dalmine' },
+        { value: '美国查特工业公司', label: '442 - 美国查特工业公司' },
+        { value: '南亮压力容器技术（上海）有限公司', label: '443 - 南亮压力容器技术（上海）有限公司' },
+        { value: '浙江陶特容器科技有限公司', label: '444 - 浙江陶特容器科技有限公司' },
+        { value: '山东汇峰能源装备有限公司', label: '445 - 山东汇峰能源装备有限公司' },
+        { value: '新乡市福鹰车业有限公司', label: '446 - 新乡市福鹰车业有限公司' },
+        { value: '哈尔滨鼎丰特种气瓶制造有限公司', label: '447 - 哈尔滨鼎丰特种气瓶制造有限公司' },
+        { value: '河北艺能锅炉有限责任公司', label: '448 - 河北艺能锅炉有限责任公司' },
+        { value: '张家港保税区长江新能源装备有限公司', label: '449 - 张家港保税区长江新能源装备有限公司' },
+        { value: '湖南长空电器有限公司', label: '450 - 湖南长空电器有限公司' },
+        { value: '浙江杭萧安泰钢瓶有限公司', label: '451 - 浙江杭萧安泰钢瓶有限公司' },
+        { value: '安徽绿动能源有限公司', label: '452 - 安徽绿动能源有限公司' },
+        { value: '辽宁奥斯福科技有限公司', label: '453 - 辽宁奥斯福科技有限公司' },
+        { value: '诸城奥扬深冷科技股份有限公司', label: '454 - 诸城奥扬深冷科技股份有限公司' },
+        { value: '广东泰莱华顿气体设备有限公司', label: '455 - 广东泰莱华顿气体设备有限公司' },
+        { value: 'EKC工业（天津）有限公司', label: '456 - EKC工业（天津）有限公司' },
+        { value: '四川广融压力容器有限公司', label: '457 - 四川广融压力容器有限公司' },
+        { value: '沧州海固安全防护科技有限公司', label: '458 - 沧州海固安全防护科技有限公司' },
+        { value: '抚顺节能科技有限公司', label: '459 - 抚顺节能科技有限公司' },
+        { value: 'YZ', label: '460 - YZ' },
+        { value: '诸城市创惠容器科技有限公司', label: '461 - 诸城市创惠容器科技有限公司' },
+        { value: '新乡市宇通压力容器有限公司', label: '462 - 新乡市宇通压力容器有限公司' },
+        { value: '长沙赛江压力容器有限公司', label: '463 - 长沙赛江压力容器有限公司' },
+        { value: '嘉兴南湖压力容器厂', label: '464 - 嘉兴南湖压力容器厂' },
+        { value: '台州市正安气瓶检验有限公司', label: '465 - 台州市正安气瓶检验有限公司' },
+        { value: '张家港保税区蓝山装备科技有限公司', label: '466 - 张家港保税区蓝山装备科技有限公司' },
+        { value: '广西第一安装工程公司', label: '467 - 广西第一安装工程公司' },
+        { value: '江苏秋林特能装备股份有限公司', label: '468 - 江苏秋林特能装备股份有限公司' },
+        { value: '山东省建设高压容器有限公司', label: '469 - 山东省建设高压容器有限公司' },
+        { value: '辽阳澳深低温设备有限公司', label: '470 - 辽阳澳深低温设备有限公司' },
+        { value: '四川亚西机器有限公司', label: '471 - 四川亚西机器有限公司' },
+        { value: '艾赛斯（杭州）复合材料有限公司', label: '472 - 艾赛斯（杭州）复合材料有限公司' },
+        { value: 'NorrisCylinderCompany', label: '473 - NorrisCylinderCompany' },
+        { value: '宁波正欣消防设备有限公司', label: '474 - 宁波正欣消防设备有限公司' },
+        { value: 'WorthingtonCylindersGmbH', label: '475 - WorthingtonCylindersGmbH' },
+        { value: '广西乾岳气瓶制造有限公司', label: '476 - 广西乾岳气瓶制造有限公司' },
+        { value: '大连宝原核设备有限公司', label: '477 - 大连宝原核设备有限公司' },
+        { value: '江苏国富氢能技术装备有限公司', label: '478 - 江苏国富氢能技术装备有限公司' },
+        { value: '张家港保税区蓝天低温科技有限公司', label: '479 - 张家港保税区蓝天低温科技有限公司' },
+        { value: '广东省台山市机械厂', label: '480 - 广东省台山市机械厂' },
+        { value: '杭州市安泰钢瓶有限公司', label: '481 - 杭州市安泰钢瓶有限公司' },
+        { value: '苏州市海通钢瓶有限公司', label: '482 - 苏州市海通钢瓶有限公司' },
+        { value: '重庆烛照实业发展有限公司', label: '483 - 重庆烛照实业发展有限公司' },
+        { value: '玉山县普尔特种设备有限公司', label: '484 - 玉山县普尔特种设备有限公司' },
+        { value: '山东永安合力特种装备有限公司', label: '485 - 山东永安合力特种装备有限公司' },
+        { value: '山东盛达钢瓶有限公司', label: '486 - 山东盛达钢瓶有限公司' },
+        { value: 'SADESETABLISSEMENTSPETERSET', label: '487 - SADESETABLISSEMENTSPETERSET' },
+        { value: '临沂永安钢瓶有限公司', label: '488 - 临沂永安钢瓶有限公司' },
+        { value: '北京科泰克科技有限责任公司', label: '489 - 北京科泰克科技有限责任公司' },
+        { value: '上海宝亚安全装备股份有限公司', label: '490 - 上海宝亚安全装备股份有限公司' },
+        { value: '霍尼韦尔安全防护设备（上海）有限公司', label: '491 - 霍尼韦尔安全防护设备（上海）有限公司' },
+        { value: '南京科力赛克安全设备有限公司', label: '492 - 南京科力赛克安全设备有限公司' },
+        { value: '江苏众欣化工设备制造有限公司', label: '493 - 江苏众欣化工设备制造有限公司' },
+        { value: '山东奥扬新能源装备股份有限公司', label: '494 - 山东奥扬新能源装备股份有限公司' },
+        { value: 'worthingtonheiser', label: '495 - worthingtonheiser' },
+        { value: '神钢机器工业株式会社', label: '496 - 神钢机器工业株式会社' },
+        { value: '宏图飞机制造厂', label: '497 - 宏图飞机制造厂' },
+        { value: '日本', label: '498 - 日本' },
+        { value: '横扇', label: '499 - 横扇' },
+        { value: '柳州市钢瓶厂', label: '500 - 柳州市钢瓶厂' },
+        { value: '青岛钢瓶厂', label: '501 - 青岛钢瓶厂' },
+        { value: '武进钢瓶厂', label: '502 - 武进钢瓶厂' },
+        { value: '欣泰', label: '503 - 欣泰' },
+        { value: '山东奥扬新能源科技股份有限公司', label: '504 - 山东奥扬新能源科技股份有限公司' },
+        { value: '重庆康达机械(集团)有限责任公司', label: '505 - 重庆康达机械(集团)有限责任公司' },
+        { value: '容桂百福五金制造有限公司', label: '506 - 容桂百福五金制造有限公司' },
+        { value: '辽沈工业集团有限公司', label: '507 - 辽沈工业集团有限公司' },
+        { value: '绍兴市协力消防设备有限公司', label: '508 - 绍兴市协力消防设备有限公司' },
+        { value: '三江开源有限公司', label: '509 - 三江开源有限公司' },
+        { value: '河北润丰低温设备有限公司', label: '510 - 河北润丰低温设备有限公司' },
+        { value: '张家港富瑞氢能装备有限公司', label: '511 - 张家港富瑞氢能装备有限公司' },
+        { value: '泰州虹安消防科技有限公司', label: '512 - 泰州虹安消防科技有限公司' },
+        { value: '斯博瑞安', label: '513 - 斯博瑞安' },
+        { value: '山东粤安化工有限公司', label: '514 - 山东粤安化工有限公司' },
+        { value: '常州巨安容器', label: '515 - 常州巨安容器' },
+        { value: '常州恒安容器制造有限公司', label: '516 - 常州恒安容器制造有限公司' },
+        { value: '山东唐骏欧铃汽车制造有限公司', label: '517 - 山东唐骏欧铃汽车制造有限公司' },
+        { value: '宽城天海压力容器有限公司', label: '518 - 宽城天海压力容器有限公司' },
+        { value: '苏州致邦能源装备有限公司', label: '519 - 苏州致邦能源装备有限公司' },
+        { value: '台州市路桥沪银工业气体有限公司', label: '520 - 台州市路桥沪银工业气体有限公司' },
+        { value: '浙江盛纳特种设备有限公司', label: '521 - 浙江盛纳特种设备有限公司' },
+        { value: '兰州兰虹钢瓶有限公司', label: '522 - 兰州兰虹钢瓶有限公司' },
+        { value: '湖南神骏钢瓶制造有限公司', label: '523 - 湖南神骏钢瓶制造有限公司' },
+        { value: 'P.C.Takashima(Thailand)Co.Ltd.', label: '524 - P.C.Takashima(Thailand)Co.Ltd.' },
+        { value: '象北煤气', label: '525 - 象北煤气' },
+        { value: '象南煤气', label: '526 - 象南煤气' },
+        { value: '梅西', label: '527 - 梅西' },
+        { value: '青岛国立源低温装备有限公司', label: '528 - 青岛国立源低温装备有限公司' },
+        { value: '浙江圣威高压容器有限公司', label: '529 - 浙江圣威高压容器有限公司' },
+        { value: 'ENKCO.,LTD', label: '530 - ENKCO.,LTD' },
+        { value: '山东鼎成重工股份有限公司', label: '531 - 山东鼎成重工股份有限公司' },
+        { value: '日本关东高压容器制作所', label: '532 - 日本关东高压容器制作所' },
+        { value: '新加坡LuxfergascylindersLtd', label: '533 - 新加坡LuxfergascylindersLtd' },
+        { value: '天津安易达复合气瓶有限公司', label: '534 - 天津安易达复合气瓶有限公司' },
+        { value: '日本KANTOKOATSU', label: '535 - 日本KANTOKOATSU' },
+        { value: '四川惊雷科技有限公司', label: '536 - 四川惊雷科技有限公司' },
+        { value: '中油通用鲁西天然气装备有限公司', label: '537 - 中油通用鲁西天然气装备有限公司' },
+        { value: 'KoatsuShowaCylindersCo.,Ltd', label: '538 - KoatsuShowaCylindersCo.,Ltd' },
+        { value: '长春致远新能源装备股份有限公司', label: '539 - 长春致远新能源装备股份有限公司' },
+        { value: '辽宁永安特种装备有限公司', label: '540 - 辽宁永安特种装备有限公司' },
+        { value: '上海高压特种气瓶有限公司', label: '541 - 上海高压特种气瓶有限公司' },
+        { value: '浙江昌兴科技有限公司', label: '542 - 浙江昌兴科技有限公司' },
+        { value: '上海清洁汽车能源系统有限公司', label: '543 - 上海清洁汽车能源系统有限公司' },
+        { value: '山东金泰永安特种装备股份有限公司', label: '544 - 山东金泰永安特种装备股份有限公司' },
+        { value: '山东安诚压力容器有限公司', label: '545 - 山东安诚压力容器有限公司' },
+        { value: '沈阳东基工业集团有限公司', label: '546 - 沈阳东基工业集团有限公司' },
+        { value: '未核实生产厂家', label: '0 - 未核实生产厂家' },
+        { value: '张家港富瑞深冷科技有限公司', label: 'FR - 张家港富瑞深冷科技有限公司' },
+        { value: '四川省军华燃气设备有限公司', label: 'JH - 四川省军华燃气设备有限公司' },
+        { value: '江苏民生重工有限公司', label: 'MS - 江苏民生重工有限公司' },
+        { value: '浙江欧伦泰防火设备有限公司', label: 'OLT - 浙江欧伦泰防火设备有限公司' },
+        { value: '张家港中集圣达因低温装备有限公司', label: 'SDY - 张家港中集圣达因低温装备有限公司' },
+        { value: '浙江威能消防器材股份有限公司', label: 'WN - 浙江威能消防器材股份有限公司' },
+        { value: '安徽大盘特种装备车辆有限公司', label: 'DP - 安徽大盘特种装备车辆有限公司' },
+        { value: '山东永安合力钢瓶股份有限公司', label: 'YA1 - 山东永安合力钢瓶股份有限公司' },
+        { value: '上海航天汽车机电股份有限公司', label: '548 - 上海航天汽车机电股份有限公司' },
+        { value: '北京高压气瓶厂', label: '549 - 北京高压气瓶厂' },
+        { value: '西安向阳气瓶有限公司', label: '550 - 西安向阳气瓶有限公司' },
+        { value: '重庆益民机械厂', label: '547 - 重庆益民机械厂' },
+        { value: '山东鲁华容器有限公司', label: 'SDLH - 山东鲁华容器有限公司' },
+        { value: '江苏民生高压容器制造有限公司', label: 'MS1 - 江苏民生高压容器制造有限公司' },
+        { value: '安徽方圆压力容器制造有限责任公司', label: '安徽方圆 - 安徽方圆压力容器制造有限责任公司' },
+        { value: '上海铁锚压力容器有限公司', label: '上海铁锚 - 上海铁锚压力容器有限公司' },
+        { value: '成都五冶钢瓶公司', label: '成都五冶钢瓶 - 成都五冶钢瓶公司' },
+        { value: '重庆益峰高压容器有限责任公司', label: '重庆益峰 - 重庆益峰高压容器有限责任公司' },
+        { value: '陕西安嘉安压力容器有限公司', label: 'AJA安嘉安 - 陕西安嘉安压力容器有限公司' }
+      ],
+      /*
+       * 可供选择的充装介质
+       */
+      selectableMediumnameArray: [{ value: '液化石油气', label: '液化石油气' }, { value: '氢气', label: '氢气' }],
+      /*
+       * 可供选择的规格型号
+       * YSP4.7/2KG
+       * YSP12/5KG
+       * YSP23.5/10KG
+       * YSP26.2/12KG
+       * YSP28.6/13KG
+       * YSP29.1/14KG
+       * YSP35.5/15KG
+       * YSP74/30KG
+       * YSP118/50KG
+       * YSP26.2/12KG
+       * YSP12/5KG
+       * YSP35.5/15KG
+       * YSP118/50KG
+       * YSP118II/50KG
+       * 40L/40KG
+       * -------------------------
+       * 'YSP35.5/15KG', '14.90'
+       * 'YSP118/50KG', '49.50'
+       * 'YSP26.2/12KG', '11.00'
+       * 'YSP12/5KG', '5.00'
+       */
+      /* { id: 9, label: 'YSP26.2/12KG', value: { norms: 'YSP26.2', specs: 12, unitOfMeasurement: 'KG' }, maxcapacity: {value: , label: '(KG)'}, selfweight: {value: , label: '(KG)'}, thickness: {value: , label: '(mm)'}, volume: {value: , label: '(L)'} }, */
+      /* { id: 10, label: 'YSP12/5KG', value: { norms: 'YSP12', specs:  5, unitOfMeasurement: 'KG' }, maxcapacity: {value: , label: '(KG)'}, selfweight: {value: , label: '(KG)'}, thickness: {value: , label: '(mm)'}, volume: {value: , label: '(L)'} }, */
+      /* { id: 11, label: 'YSP35.5/15KG', value: { norms: 'YSP35.5', specs: 15, unitOfMeasurement: 'KG' }, maxcapacity: {value: , label: '(KG)'}, selfweight: {value: , label: '(KG)'}, thickness: {value: , label: '(mm)'}, volume: {value: , label: '(L)'} }, */
+      /* { id: 12, label: 'YSP118/50KG', value: { norms: 'YSP118', specs: 50, unitOfMeasurement: 'KG' }, maxcapacity: {value: , label: '(KG)'}, selfweight: {value: , label: '(KG)'}, thickness: {value: , label: '(mm)'}, volume: {value: , label: '(L)'} }, */
+      selectableNormsArray: [
+        { id: 0, label: 'YSP4.7/2KG', value: { norms: 'YSP4.7', specs: 2, unitOfMeasurement: 'KG' }, maxcapacity: {value: 2, label: '(㎏)'}, selfweight: {value: 3.4, label: '(㎏)'}, thickness: {value: 2.5, label: '(㎜)'}, volume: {value: 4.7, label: '(L)'} },
+        { id: 1, label: 'YSP12/5KG', value: { norms: 'YSP12', specs: 5, unitOfMeasurement: 'KG' }, maxcapacity: {value: 5, label: '(㎏)'}, selfweight: {value: 6.5, label: '(㎏)'}, thickness: {value: 2, label: '(㎜)'}, volume: {value: 12, label: '(L)'} },
+        { id: 2, label: 'YSP23.5/10KG', value: { norms: 'YSP23.5', specs: 10, unitOfMeasurement: 'KG' }, maxcapacity: {value: 10, label: '(㎏)'}, selfweight: {value: 13, label: '(㎏)'}, thickness: {value: 2.5, label: '(㎜)'}, volume: {value: 23.5, label: '(L)'} },
+        { id: 3, label: 'YSP26.2/12KG', value: { norms: 'YSP26.2', specs: 12, unitOfMeasurement: 'KG' }, maxcapacity: {value: 11, label: '(㎏)'}, selfweight: {value: 13.5, label: '(㎏)'}, thickness: {value: 2.4, label: '(㎜)'}, volume: {value: 26.2, label: '(L)'} },
+        { id: 4, label: 'YSP28.6/13KG', value: { norms: 'YSP28.6', specs: 13, unitOfMeasurement: 'KG' }, maxcapacity: {value: 13, label: '(㎏)'}, selfweight: {value: 13, label: '(㎏)'}, thickness: {value: 2.5, label: '(㎜)'}, volume: {value: 29.1, label: '(L)'} },
+        { id: 5, label: 'YSP29.1/14KG', value: { norms: 'YSP29.1', specs: 14, unitOfMeasurement: 'KG' }, maxcapacity: {value: 14, label: '(㎏)'}, selfweight: {value: 14, label: '(㎏)'}, thickness: {value: 2.5, label: '(㎜)'}, volume: {value: 29.1, label: '(L)'} },
+        { id: 6, label: 'YSP35.5/15KG', value: { norms: 'YSP35.5', specs: 15, unitOfMeasurement: 'KG' }, maxcapacity: {value: 14.9, label: '(㎏)'}, selfweight: {value: 16.5, label: '(㎏)'}, thickness: {value: 2.5, label: '(㎜)'}, volume: {value: 35.5, label: '(L)'} },
+        { id: 7, label: 'YSP74/30KG', value: { norms: 'YSP74', specs: 30, unitOfMeasurement: 'KG' }, maxcapacity: {value: 30, label: '(㎏)'}, selfweight: {value: 16.5, label: '(㎏)'}, thickness: {value: 2.5, label: '(㎜)'}, volume: {value: 74, label: '(L)'} },
+        { id: 8, label: 'YSP118/50KG', value: { norms: 'YSP118', specs: 50, unitOfMeasurement: 'KG' }, maxcapacity: {value: 49.5, label: '(㎏)'}, selfweight: {value: 45, label: '(㎏)'}, thickness: {value: 3.2, label: '(㎜)'}, volume: {value: 118, label: '(L)'} },
+        { id: 9, label: 'YSP118II/50KG', value: { norms: 'YSP118II', specs: 50, unitOfMeasurement: 'KG' }, maxcapacity: {value: 49.5, label: '(㎏)'}, selfweight: {value: 45, label: '(㎏)'}, thickness: {value: 3.2, label: '(㎜)'}, volume: {value: 118, label: '(L)'} },
+        { id: 10, label: '40L/40KG', value: { norms: '40L', specs: 40, unitOfMeasurement: 'KG' }, maxcapacity: {value: 40, label: '(㎏)'}, selfweight: {value: 43.4, label: '(㎏)'}, thickness: {value: 5, label: '(㎜)'}, volume: {value: 40, label: '(L)'} }
+      ],
+      /*
+       * 可供选择的使用状态(Radio)
+       * <label='ok'><value='-1'><title='全部'>
+       * <label='bad'><value='0'><title='报废'>
+       * <label='not'><value='1'><title='正常'>
+       * <label='not'><value='4'><title='应送检'>
+       * <label='not'><value='8'><title='丢失'>
+       * <label='not'><value='16'><title='报检'>
+       */
+      selectableUsedstatus4Form: [
+        { label: '-1', value: '-1', title: '全部' },
+        { label: '0', value: '0', title: '报废' },
+        { label: '1', value: '1', title: '正常' },
+        { label: '4', value: '4', title: '应送检' },
+        { label: '8', value: '8', title: '丢失' },
+        { label: '16', value: '16', title: '报检' }
+      ],
+      selectableUsedstatus4Dialog: [
+        { label: '报废', value: 0, title: '报废' },
+        { label: '正常', value: 1, title: '正常' },
+        { label: '应送检', value: 4, title: '应送检' },
+        { label: '丢失', value: 8, title: '丢失' },
+        { label: '报检', value: 16, title: '报检' }
+      ],
+      /*
+       * 可供选择的报废年限
+       */
+      selectableMaxuseyears: [ {value: 4, label: '4年'}, {value: 5, label: '5年'}, {value: 6, label: '6年'}, {value: 7, label: '7年'}, {value: 8, label: '8年'}, {value: 9, label: '9年'}, {value: 10, label: '10年'}, {value: 11, label: '11年'}, {value: 12, label: '12年'} ],
+      /*
+       * 可供选择的阀门类型
+       */
+      selectableValvetype: [ { value: '普通阀', label: '普通阀' }, { value: '智能阀', label: '智能阀' }, { value: '自闭阀', label: '自闭阀' } ],
+      /*
+       * 可供选择的是否专用(Radio)
+       */
+      selectableOnlyused: [ { value: 1, label: '1', title: '是' }, { value: 0, label: '0', title: '否' } ],
+      /**
+       * 可供选择的站点
+       */
+      selectableStation: null,
+      /**
+       * 新增气瓶档案对话框
+       */
+      addBottle: {
+        title: '新增气瓶档案', // 对话框标题
+        visible: false, // 对话框显示状态
+        digWidth: 1450, // 对度框宽度(实际宽度×90%)
+        divWidth: 1255, // 对话框主要区域宽度
+        divHeight: 630, // 对话框主要区域高度
+        showClose: true, // 对话框是否显示关闭按钮
+        label: '新增气瓶档案', // 对话框中的标题
+        showFileList: false, // 是否显示上传文件的列表
+        autoUpload: true, // 气瓶档案是否自动上传
+        uploadChangeTimes: 0, // 上传时的on-upload回调次数
+        uploadLimit: 7, // 限制上传的文件个数
+        confirmTitle: '是否关闭新增气瓶档案' // 关闭对话框时的提示
+      },
+      /*
+       * 新增气瓶档案对话框中的杂项
+       */
+      addBottleFormMisc: {
+        maxcapacitySuffix: null, // 最大充量单位
+        selfweightSuffix: null, // 自重单位
+        thicknessSuffix: null, // 壁厚单位
+        volumeSuffix: null // 容积单位
+      },
+      /*
+       * 新增气瓶档案表单
+       */
+      addBottleForm: {
+        qrcode: null, // String 条码编号
+        productno: null, // String 钢印号
+        lasttested: null, // Date 上检日期
+        nexttested: null, // Date 下检日期
+        producter: null, // String 制造厂商
+        producted: null, // Date 出厂日期
+        expired: null, // Date 报废日期
+        maxuseyears: null, // Integer 报废年
+        registno: null, // String 使用登记证编号
+        unitselfno: null, // String 充装单位自编号
+        mediumname: null, // String 充装介质
+        thickness: null, // Float 壁厚
+        norms: null, // String 规格型号(前半段)
+        specs: null, // Float 规格型号(后半段)
+        maxcapacity: null, // Float 最大充量
+        volume: null, // Float 容积
+        selfweight: null, // Float 自重
+        valvetype: null, // String 阀门类型
+        qualifiedno: null, // String 检验合格环号
+        elabel: null, // String 电子标签编号
+        usedlicenseno: null, // String 使用登记证号
+        hotway: null, // String 热处理方式
+        bodystuff: null, // String 瓶体材料
+        valvefactory: null, // String 阀门厂家
+        checkresult: null, // String 安评结果
+        checkdate: null, // Date 安评日期
+        onlyused: null, // Integer 是否专用
+        attachmentUuid: null, // String 气瓶档案的图片UUID
+        testcount: null, // Integer 已检次
+        usedstatus: null, // Integer 气瓶状态
+        stationid: null, // 站点
+        lastused: null // 最后使用
+      },
+      /*
+       * 新增气瓶档案表单的校验
+       */
+      addBottleRules: {
+        //
+      },
+      /*
+       * 新增气瓶档案表单的附件(显示已经上传的列表中)
+       */
+      addBottleAttachmentShowList: [],
+      /*
+       * 新增气瓶档案表单的附件(el-upload控件中)
+       */
+      addBottleAttachmentUploadList: [],
+      /**
+       * 新增气瓶档案表单的附件(正在处理的附件)
+       */
+      addBottleAttachmentPreuploadList: [],
+      /**
+       * 修改气瓶档案对话框
+       */
+      editBottle: {
+        title: '修改气瓶档案', // 对话框标题
+        visible: false, // 对话框显示状态
+        digWidth: 1450, // 对度框宽度(实际宽度×90%)
+        divWidth: 1255, // 对话框主要区域宽度
+        divHeight: 630, // 对话框主要区域高度
+        showClose: true, // 对话框是否显示关闭按钮
+        label: '修改气瓶档案', // 对话框中的标题
+        showFileList: false, // 是否显示上传文件的列表
+        autoUpload: true, // 气瓶档案是否自动上传
+        uploadChangeTimes: 0, // 上传时的on-upload回调次数
+        uploadLimit: 7, // 限制上传的文件个数
+        confirmTitle: '是否关闭修改气瓶档案' // 关闭对话框时的提示
+      },
+      /*
+       * 新增气瓶档案对话框中的杂项
+       */
+      editBottleFormMisc: {
+        maxcapacitySuffix: null, // 最大充量单位
+        selfweightSuffix: null, // 自重单位
+        thicknessSuffix: null, // 壁厚单位
+        volumeSuffix: null // 容积单位
+      },
+      /*
+       * 修改气瓶档案表单
+       */
+      editBottleForm: {
+        gastankid: null, // 主键
+        qrcode: null, // String 条码编号
+        productno: null, // String 钢印号
+        lasttested: null, // Date 上检日期
+        nexttested: null, // Date 下检日期
+        producter: null, // String 制造厂商
+        producted: null, // Date 出厂日期
+        expired: null, // Date 报废日期
+        maxuseyears: null, // Integer 报废年
+        registno: null, // String 使用登记证编号
+        unitselfno: null, // String 充装单位自编号
+        mediumname: null, // String 充装介质
+        thickness: null, // Float 壁厚
+        norms: null, // String 规格型号(前半段)
+        specs: null, // Float 规格型号(后半段)
+        maxcapacity: null, // Float 最大充量
+        volume: null, // Float 容积
+        selfweight: null, // Float 自重
+        valvetype: null, // String 阀门类型
+        qualifiedno: null, // String 检验合格环号
+        elabel: null, // String 电子标签编号
+        usedlicenseno: null, // String 使用登记证号
+        hotway: null, // String 热处理方式
+        bodystuff: null, // String 瓶体材料
+        valvefactory: null, // String 阀门厂家
+        checkresult: null, // String 安评结果
+        checkdate: null, // Date 安评日期
+        onlyused: null, // Integer 是否专用
+        attachmentUuid: null, // String 气瓶档案的图片UUID
+        testcount: null, // Integer 已检次
+        usedstatus: null, // Integer 气瓶状态
+        lastused: null // 最后使用
+      },
+      /*
+       * 新增气瓶档案表单的校验
+       */
+      editBottleRules: {
+        //
+      },
+      /*
+       * 新增气瓶档案表单的附件(显示已经上传的列表中)
+       */
+      editBottleAttachmentShowList: [],
+      /*
+       * 新增气瓶档案表单的附件(el-upload控件中)
+       */
+      editBottleAttachmentUploadList: [],
+      /**
+       * 新增气瓶档案表单的附件(正在处理的附件)
+       */
+      editBottleAttachmentPreuploadList: [],
+      /**
+       * 修改气瓶档案对话框
+       */
+      viewBottle: {
+        title: '查看气瓶档案',
+        visible: false,
+        label: '查看气瓶档案'
+      },
+      /**
+       * 修改气瓶编号对话框
+       */
+      modifyQrcode: {
+        title: '修改气瓶编号',
+        visible: false,
+        label: '修改气瓶编号'
+      }
+    }
+  },
+  computed: {
+    /*
+     * 表格高度
+     */
+    tableHeightString: function () {
+      return ((this.pagination.size + 1) * 29 + 1) + 'px'
+    },
+    /*
+     * 新增气瓶档案的图片时用的上传路径
+     */
+    addBottleUploadActionUrl: function () {
+      return this.constant.GAS_SERVER_PREFIX + '/attachment/BottleArchive/uploadNewImages/' + this.addBottleForm.attachmentUuid
+    },
+    /*
+     * 新增气瓶档案的图片时用的header
+     */
+    addBottleUploadHeaders: function () {
+      return {
+        'reference': this.$router.currentRoute.fullPath
+      }
+    },
+    /*
+     * 新增气瓶档案的图片时用的上传路径
+     */
+    editBottleUploadActionUrl: function () {
+      return this.constant.GAS_SERVER_PREFIX + '/attachment/BottleArchive/uploadOldImages/' + this.addBottleForm.attachmentUuid
+    },
+    /*
+     * 新增气瓶档案的图片时用的header
+     */
+    editBottleUploadHeaders: function () {
+      return {
+        'reference': this.$router.currentRoute.fullPath
+      }
+    }
+  },
+  mounted () {
+    var localStationString = window.sessionStorage.getItem(this.constant.STATION)
+    if (localStationString !== null) {
+      try {
+        this.selectableStation = JSON.parse(localStationString)
+      } catch (ex) {
+        this.selectableStation = []
+      }
+    }
+  },
+  methods: {
+    executeQuery (formName) {
+      const localProducted = this.convertDateArrayTo(this.queryForm.producted)
+      const localExpired = this.convertDateArrayTo(this.queryForm.expired)
+      const locallasttested = this.convertDateArrayTo(this.queryForm.lasttested)
+      const localnexttexted = this.convertDateArrayTo(this.queryForm.nexttested)
+      const localQueryForm = {
+        qrcode: this.queryForm.qrcode,
+        productno: this.queryForm.productno,
+        producter: this.queryForm.producter,
+        mediumname: this.queryForm.mediumname,
+        norms: this.queryForm.norms === null ? null : this.selectableNormsArray[this.queryForm.norms].value,
+        productedFrom: localProducted[0],
+        productedTo: localProducted[1],
+        expiredFrom: localExpired[0],
+        expiredTo: localExpired[1],
+        lasttestedFrom: locallasttested[0],
+        lasttestedTo: locallasttested[1],
+        nexttestedFrom: localnexttexted[0],
+        nexttestedTo: localnexttexted[1],
+        usedstatus: this.queryForm.usedstatus
+      }
+      const requestForm = new FormData()
+      requestForm.append('form', JSON.stringify(localQueryForm))
+      requestForm.append('page', JSON.stringify(this.pagination))
+      this.$axios.postForm(
+        this.constant.GAS_SERVER_PREFIX + '/gastankinfo/gastankinfo/queryByPage',
+        requestForm,
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'reference': this.$router.currentRoute.fullPath
+          }
+        }
+      ).then(res => {
+        if (res.status === 200) {
+          this.queryCount = res.data.totalCount
+          const items = res.data.items
+          var maxId = 0
+          for (var i = 0; i < items.length; ++i) {
+            items[i].producted = this.parseRemoteDateString(items[i].producted)
+            items[i].lasttested = this.parseRemoteDateString(items[i].lasttested)
+            items[i].nexttested = this.parseRemoteDateString(items[i].nexttested)
+            items[i].expired = this.parseRemoteDateString(items[i].expired)
+            items[i].lastused = this.parseRemoteDateString(items[i].lastused)
+            items[i].created = this.parseRemoteDateString(items[i].created)
+            items[i].modified = this.parseRemoteDateString(items[i].modified)
+            items[i].checkdate = this.parseRemoteDateString(items[i].checkdate)
+            if (maxId < items[i].gastankid) {
+              maxId = items[i].gastankid
+            }
+          }
+          this.tableData = items
+          this.maxGasTankId = maxId
+        } else {
+          this.queryCount = 0
+          this.tableData = []
+          this.maxGasTankId = 0
+        }
+      }).catch(ex => {
+        this.queryCount = 0
+        this.tableData = []
+        this.maxGasTankId = 0
+      })
+    },
+    /**
+     * 把表单的数据还原为初始状态
+     * @param {String} formName 表单的引用信息
+     */
+    executeReset (formName) {
+      this.$refs[formName].resetFields() // 或者：this.$refs.表单的引用信息.resetFields()
+    },
+    /*
+     * 每页数据条数变化时
+     */
+    paginationSizeChange (size) {
+      this.pagination.size = size
+      this.executeQuery('queryFrom')
+    },
+    /*
+     * 当前第多少页变化时
+     */
+    paginationCurrentChange (current) {
+      this.pagination.current = current
+      this.executeQuery('queryForm')
+    },
+    convertDateArrayTo (arr) {
+      if (arr == null) {
+        return [null, null]
+      }
+      switch (arr.length) {
+        case 0:
+          return [null, null]
+        case 1:
+          return [null, null]
+        default: {
+          switch ((arr[1] === null ? 0 : 2) + (arr[0] === null ? 0 : 1)) {
+            case 0:
+              return [null, null]
+            case 1:
+              return [this.dateToString(arr[0]), null]
+            case 2:
+              return [null, this.dateToString(arr[1])]
+            case 3:
+              return arr[0].getTime() < arr[1].getTime() ? [this.dateToString(arr[0]), this.dateToString(arr[1])] : [this.dateToString(arr[1]), this.dateToString(arr[0])]
+            default:
+              return [null, null]
+          }
+        }
+      }
+    },
+    dateToString (da) {
+      const m = da.getMonth() + 1
+      const d = da.getDate()
+      const h = da.getHours()
+      const i = da.getMinutes()
+      const s = da.getSeconds()
+      return da.getFullYear() + ((m > 9) ? '-' + m : '-0' + m) + ((d > 9) ? '-' + d : '-0' + d) + ((h > 9) ? ' ' + h : ' 0' + h) + ((i > 9) ? ':' + i : ':0' + i) + ((s > 9) ? ':' + s : ':0' + s)
+    },
+    parseRemoteDateString (str) {
+      if (str === null) {
+        return null
+      }
+      try {
+        const dateAndTimeStringArray = str.split(' ')
+        const yearMonthDayArray = dateAndTimeStringArray[0].split('-')
+        const hourMinuteSecondArray = dateAndTimeStringArray[1].split(':')
+        return new Date(parseInt(yearMonthDayArray[0]), parseInt(yearMonthDayArray[1]) - 1, parseInt(yearMonthDayArray[2]), parseInt(hourMinuteSecondArray[0]), parseInt(hourMinuteSecondArray[1]), parseInt(hourMinuteSecondArray[2]))
+      } catch (ex) {
+        return null
+      }
+    },
+    /*
+     * 格式数据的函数起
+     */
+    /* tbl_qrcode_formatter (row, column, cellValue, index) {}, */
+    /* tbl_producter_formatter (row, column, cellValue, index) {}, */
+    /* tbl_productno_formatter (row, column, cellValue, index) {}, */
+    /**
+     * 格式化类型字段
+     * @param {Object} row 具体的某一行的数据
+     * @param {Object} column 当前列的定义信息
+     * @param {Object} cellValue 具体某一行某一列的数据
+     * @param {Int} index 当前数据在表格数组中对应的下标
+     * @return 格式化后的数据
+     */
+    tbl_producted_formatter (row, column, cellValue, index) {
+      if (cellValue === null) {
+        return null
+      }
+      const m = cellValue.getMonth() + 1
+      return cellValue.getFullYear() + ((m > 9) ? '-' + m : '-0' + m)
+    },
+    /**
+     * 格式化类型字段
+     * @param {Object} row 具体的某一行的数据
+     * @param {Object} column 当前列的定义信息
+     * @param {Object} cellValue 具体某一行某一列的数据
+     * @param {Int} index 当前数据在表格数组中对应的下标
+     * @return 格式化后的数据
+     */
+    tbl_nexttested_formatter (row, column, cellValue, index) {
+      if (cellValue === null) {
+        return null
+      }
+      const m = cellValue.getMonth() + 1
+      return cellValue.getFullYear() + ((m > 9) ? '-' + m : '-0' + m)
+    },
+    /**
+     * 格式化类型字段
+     * @param {Object} row 具体的某一行的数据
+     * @param {Object} column 当前列的定义信息
+     * @param {Object} cellValue 具体某一行某一列的数据
+     * @param {Int} index 当前数据在表格数组中对应的下标
+     * @return 格式化后的数据
+     */
+    tbl_expired_formatter (row, column, cellValue, index) {
+      if (cellValue === null) {
+        return null
+      }
+      const m = cellValue.getMonth() + 1
+      return cellValue.getFullYear() + ((m > 9) ? '-' + m : '-0' + m)
+    },
+    /**
+     * 格式化类型字段
+     * @param {Object} row 具体的某一行的数据
+     * @param {Object} column 当前列的定义信息
+     * @param {Object} cellValue 具体某一行某一列的数据
+     * @param {Int} index 当前数据在表格数组中对应的下标
+     * @return 格式化后的数据
+     */
+    tbl_lasttested_formatter (row, column, cellValue, index) {
+      if (cellValue === null) {
+        return null
+      }
+      const m = cellValue.getMonth() + 1
+      return cellValue.getFullYear() + ((m > 9) ? '-' + m : '-0' + m)
+    },
+    /* tbl_testcount_formatter (row, column, cellValue, index) {}, */
+    /* tbl_maxuseyears_formatter (row, column, cellValue, index) {}, */
+    /* tbl_mediumname_formatter (row, column, cellValue, index) {}, */
+    /**
+     * 格式化类型字段
+     * @param {Object} row 具体的某一行的数据
+     * @param {Object} column 当前列的定义信息
+     * @param {Object} cellValue 具体某一行某一列的数据
+     * @param {Int} index 当前数据在表格数组中对应的下标
+     * @return 格式化后的数据
+     */
+    tbl_norms_formatter (row, column, cellValue, index) {
+      if (cellValue === null) {
+        return null
+      }
+      if (cellValue.indexOf('/') === -1) {
+        return row.norms + '/' + (row.specs === null ? 'KG' : Math.round(row.specs) + 'KG')
+      }
+      return cellValue
+    },
+    /**
+     * 格式化类型字段
+     * @param {Object} row 具体的某一行的数据
+     * @param {Object} column 当前列的定义信息
+     * @param {Object} cellValue 具体某一行某一列的数据
+     * @param {Int} index 当前数据在表格数组中对应的下标
+     * @return 格式化后的数据
+     */
+    tbl_usedstatus_formatter (row, column, cellValue, index) {
+      if (cellValue === null) {
+        return null
+      }
+      switch (cellValue) {
+        case 0:
+          return '报废'
+        case 1:
+          return '正常'
+        case 4:
+          return '应送检'
+        case 8:
+          return '丢失'
+        case 16:
+          return '报检'
+        default:
+          return null
+      }
+    },
+    /**
+     * 状态(格式化Number类型字段)
+     * @param {Object} row 具体的某一行的数据
+     * @param {Object} column 当前列的定义信息
+     * @param {Object} cellValue 具体某一行某一列的数据
+     * @param {Int} index 当前数据在表格数组中对应的下标
+     * @return 格式化后的数据
+     */
+    tbl_maxcapacity_formatter (row, column, cellValue, index) {
+      if (Number.isFinite(cellValue)) {
+        return Number.parseFloat(cellValue).toFixed(1)
+      }
+      return null
+    },
+    /**
+     * 自重(格式化Number类型字段)
+     * @param {Object} row 具体的某一行的数据
+     * @param {Object} column 当前列的定义信息
+     * @param {Object} cellValue 具体某一行某一列的数据
+     * @param {Int} index 当前数据在表格数组中对应的下标
+     * @return 格式化后的数据
+     */
+    tbl_selfweight_formatter (row, column, cellValue, index) {
+      if (Number.isFinite(cellValue)) {
+        return Number.parseFloat(cellValue).toFixed(1)
+      }
+      return null
+    },
+    /**
+     * 壁厚(格式化Number类型字段)
+     * @param {Object} row 具体的某一行的数据
+     * @param {Object} column 当前列的定义信息
+     * @param {Object} cellValue 具体某一行某一列的数据
+     * @param {Int} index 当前数据在表格数组中对应的下标
+     * @return 格式化后的数据
+     */
+    tbl_thickness_formatter (row, column, cellValue, index) {
+      if (Number.isFinite(cellValue)) {
+        return Number.parseFloat(cellValue).toFixed(2)
+      }
+      return null
+    },
+    /**
+     * 容积(格式化Number类型字段)
+     * @param {Object} row 具体的某一行的数据
+     * @param {Object} column 当前列的定义信息
+     * @param {Object} cellValue 具体某一行某一列的数据
+     * @param {Int} index 当前数据在表格数组中对应的下标
+     * @return 格式化后的数据
+     */
+    tbl_volume_formatter (row, column, cellValue, index) {
+      if (Number.isFinite(cellValue)) {
+        return Number.parseFloat(cellValue).toFixed(1)
+      }
+      return null
+    },
+    /**
+     * 格式化类型字段
+     * @param {Object} row 具体的某一行的数据
+     * @param {Object} column 当前列的定义信息
+     * @param {Object} cellValue 具体某一行某一列的数据
+     * @param {Int} index 当前数据在表格数组中对应的下标
+     * @return 格式化后的数据
+     */
+    tbl_onlyused_formatter (row, column, cellValue, index) {
+      if (cellValue === null) {
+        return null
+      }
+      switch (cellValue) {
+        case 0:
+          return '否'
+        case 1:
+          return '是'
+        default:
+          return null
+      }
+    },
+    /*
+     * 格式化数据的函数止
+     */
+    /*
+     * 对话框方法起
+     */
+    /**
+     * 关闭所有对话框
+     */
+    tbl_close_all_dialog () {
+      this.addBottle.visible = false
+      this.editBottle.visible = false
+      this.viewBottle.visible = false
+      this.modifyQrcode.visible = false
+    },
+    tbl_show_modify_qrcode_only () {
+      this.addBottle.visible = false
+      this.editBottle.visible = false
+      this.viewBottle.visible = false
+      this.modifyQrcode.visible = true
+    },
+    tbl_hide_modify_qrcode_only () {
+      this.modifyQrcode.visible = false
+    },
+    tbl_show_edit_dialog_only () {
+      this.addBottle.visible = false
+      this.editBottle.visible = true
+      this.viewBottle.visible = false
+      this.modifyQrcode.visible = false
+    },
+    tbl_hide_edit_dialog_only () {
+      this.editBottle.visible = false
+    },
+    tbl_show_view_dialog_only () {
+      this.addBottle.visible = false
+      this.editBottle.visible = false
+      this.viewBottle.visible = true
+      this.modifyQrcode.visible = false
+    },
+    tbl_hide_view_dialog_only () {
+      this.viewBottle.visible = false
+    },
+    tbl_show_add_dialog_only () {
+      this.addBottle.visible = true
+      this.editBottle.visible = false
+      this.viewBottle.visible = false
+      this.modifyQrcode.visible = false
+    },
+    tbl_hide_add_dialog_only () {
+      this.addBottle.visible = false
+    },
+    tbl_before_hide_add_dialog_only () {
+      this.$confirm(this.addBottle.confirmTitle).then(_ => { this.tbl_hide_add_dialog_only() }).catch(_ => {})
+    },
+    tbl_before_hide_edit_dialog_only () {
+      this.$confirm(this.addBottle.confirmTitle).then(_ => { this.tbl_hide_add_dialog_only() }).catch(_ => {})
+    },
+    /*
+     * 新增数据
+     */
+    tbl_add_data () {
+      this.addBottleForm.attachmentUuid = uuidv4.v4().replaceAll('-', '')
+      this.tbl_show_add_dialog_only()
+    },
+    /**
+     * @param scope所在行的信息，包含以下属性：
+     *        $index scope所在行的数据在表格数组中的下标
+     *        column scope所在列的信息
+     *        isExpanded scope所在的行是否展开
+     *        isSelected scope所在的行是否被选中
+     *        row scope所在行的数据
+     *        store
+     *        _self 表格自身的数据等信息
+     */
+    tbl_edit_data ({$index, column, isExpanded, isSelected, row, store, _self}) {
+      this.tbl_show_edit_dialog_only()
+      this.editBottleForm.gastankid = row.gastankid
+      this.tbl_edit_data_copy_value(row, this.editBottleForm)
+    },
+    /**
+     * 查看气瓶档案
+     * @param scope所在行的信息，包含以下属性：
+     *        $index scope所在行的数据在表格数组中的下标
+     *        column scope所在列的信息
+     *        isExpanded scope所在的行是否展开
+     *        isSelected scope所在的行是否被选中
+     *        row scope所在行的数据
+     *        store
+     *        _self 表格自身的数据等信息
+     */
+    tbl_view_data ({$index, column, isExpanded, isSelected, row, store, _self}) {
+      console.log(row)
+      this.tbl_show_view_dialog_only()
+    },
+    /**
+     * @param scope所在行的信息，包含以下属性：
+     *        $index scope所在行的数据在表格数组中的下标
+     *        column scope所在列的信息
+     *        isExpanded scope所在的行是否展开
+     *        isSelected scope所在的行是否被选中
+     *        row scope所在行的数据
+     *        store
+     *        _self 表格自身的数据等信息
+     */
+    tbl_modify_qrcode (scope) {
+      console.log(scope)
+    },
+    /**
+     * 新增气瓶档案
+     */
+    tbl_add_data_submit (formName) {
+      this.$refs[formName].validate(valid => {
+        if (!valid) {
+          return false
+        }
+        const localAddbottleForm = {
+          qrcode: this.addBottleForm.qrcode,
+          productno: this.addBottleForm.productno,
+          lasttested: this.addBottleForm.lasttested === null ? null : this.dateToString(this.addBottleForm.lasttested),
+          nexttested: this.addBottleForm.nexttested === null ? null : this.dateToString(this.addBottleForm.nexttested),
+          producter: this.addBottleForm.producter,
+          producted: this.addBottleForm.producted === null ? null : this.dateToString(this.addBottleForm.producted),
+          expired: this.addBottleForm.expired === null ? null : this.dateToString(this.addBottleForm.expired),
+          maxuseyears: this.addBottleForm.maxuseyears,
+          registno: this.addBottleForm.registno,
+          unitselfno: this.addBottleForm.unitselfno,
+          mediumname: this.addBottleForm.mediumname,
+          thickness: this.addBottleForm.thickness,
+          norms: this.normsToString(this.addBottleForm.norms),
+          specs: this.addBottleForm.specs,
+          maxcapacity: this.addBottleForm.maxcapacity,
+          volume: this.addBottleForm.volume,
+          selfweight: this.addBottleForm.selfweight,
+          valvetype: this.addBottleForm.valvetype,
+          qualifiedno: this.addBottleForm.qualifiedno,
+          elabel: this.addBottleForm.elabel,
+          usedlicenseno: this.addBottleForm.usedlicenseno,
+          hotway: this.addBottleForm.hotway,
+          bodystuff: this.addBottleForm.bodystuff,
+          valvefactory: this.addBottleForm.valvefactory,
+          checkresult: this.addBottleForm.checkresult,
+          checkdate: this.addBottleForm.checkdate === null ? null : this.dateToString(this.addBottleForm.checkdate),
+          usedstatus: this.addBottleForm.usedstatus,
+          onlyused: this.addBottleForm.onlyused,
+          attachmentUuid: this.addBottleForm.attachmentUuid,
+          testcount: this.addBottleForm.testcount,
+          lastused: this.addBottleForm.lastused === null ? null : this.dateToString(this.addBottleForm.lastused),
+          stationid: this.addBottleForm.stationid === null ? ((Array.isArray(this.selectableStation) && this.selectableStation.length === 1) ? this.selectableStation[0].value : null) : this.addBottleForm.stationid
+        }
+        /*
+         * {
+         *     "qrcode": "202311201331",
+         *     "productno": "202311201331",
+         *     "lasttested": "2023-11-01 00:00:00",
+         *     "nexttested": "2023-11-01 00:00:00",
+         *     "producter": "湖北大立容器制造有限公司",
+         *     "producted": "2023-11-01 00:00:00",
+         *     "expired": "2023-11-01 00:00:00",
+         *     "maxuseyears": 8,
+         *     "registno": "202311201331",
+         *     "unitselfno": "202311201331",
+         *     "mediumname": "液化石油气",
+         *     "thickness": 2.5,
+         *     "norms": "YSP4.7",
+         *     "specs": 2,
+         *     "maxcapacity": 2,
+         *     "volume": 4.7,
+         *     "selfweight": 3.4,
+         *     "valvetype": "普通阀",
+         *     "qualifiedno": "202311201331",
+         *     "elabel": "202311201331",
+         *     "usedlicenseno": "202311201331",
+         *     "hotway": "不晓得",
+         *     "bodystuff": "也不晓得",
+         *     "valvefactory": "还是不晓得",
+         *     "checkresult": "合格",
+         *     "checkdate": "2023-11-20 00:00:00",
+         *     "usedstatus": 1,
+         *     "onlyused": "1",
+         *     "attachmentUuid": "b63608e9bca442478662164c19f99335",
+         *     "testcount": "0",
+         *     "lastused": "2023-11-01 00:00:00",
+         *     "stationid": 99
+         * }
+         */
+        console.log(localAddbottleForm)
+        this.$axios.post(this.constant.GAS_SERVER_PREFIX + '/gastankinfo/gastankinfo/saveSingle', localAddbottleForm, { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {
+          if (res.status === 200 && res.data.success) {
+            const obj = res.data.object
+            if (this.maxGasTankId < obj.gastankid) {
+              this.maxGasTankId = obj.gastankid
+              obj.lasttested = this.parseRemoteDateString(obj.lasttested)
+              obj.nexttested = this.parseRemoteDateString(obj.nexttested)
+              obj.producted = this.parseRemoteDateString(obj.producted)
+              obj.expired = this.parseRemoteDateString(obj.expired)
+              obj.checkdate = this.parseRemoteDateString(obj.checkdate)
+              obj.lastused = this.parseRemoteDateString(obj.lastused)
+              obj.created = this.parseRemoteDateString(obj.created)
+              this.tableData.unshift(obj)
+              for (; this.tableData.length > this.pagination.size;) {
+                this.tableData.pop()
+              }
+            } else {
+              this.queryForm()
+            }
+            this.tbl_add_data_reset(formName)
+            this.tbl_hide_add_dialog_only()
+          }
+        }).catch(ex => {
+          console.log(ex)
+        })
+      })
+    },
+    tbl_add_data_reset (formName) {
+      this.$refs[formName].resetFields()
+      this.addBottleForm.attachmentUuid = uuidv4.v4().replaceAll('-', '')
+    },
+    /**
+     * @param file 文件信息
+     * @param list 文件列表
+     */
+    addBottleImageChange (file, list) {
+    },
+    /**
+     * @param files 超出的文件部分
+     * @param list 已有文件列表
+     */
+    addBottleExceed (files, list) {
+    },
+    /**
+     * @param evt 事件
+     * @param file 文件
+     * @param list 文件列表
+     */
+    addBottleProgress (evt, file, list) {
+    },
+    /**
+     * 新增气瓶档案对话框中的规格型号控件发生变化时
+     */
+    addBottleFieldNormsChange (value) {
+      if (Number.isInteger(value)) {
+        // 输出选择的对象
+        this.addBottleForm.maxcapacity = this.selectableNormsArray[value].maxcapacity.value
+        this.addBottleFormMisc.maxcapacitySuffix = this.selectableNormsArray[value].maxcapacity.label
+        this.addBottleForm.selfweight = this.selectableNormsArray[value].selfweight.value
+        this.addBottleFormMisc.selfweightSuffix = this.selectableNormsArray[value].selfweight.label
+        this.addBottleForm.thickness = this.selectableNormsArray[value].thickness.value
+        this.addBottleFormMisc.thicknessSuffix = this.selectableNormsArray[value].thickness.label
+        this.addBottleForm.volume = this.selectableNormsArray[value].volume.value
+        this.addBottleFormMisc.volumeSuffix = this.selectableNormsArray[value].volume.label
+        this.addBottleForm.specs = this.selectableNormsArray[value].value.specs
+      } else {
+        this.addBottleForm.maxcapacity = null
+        this.addBottleFormMisc.maxcapacitySuffix = null
+        this.addBottleForm.selfweight = null
+        this.addBottleFormMisc.selfweightSuffix = null
+        this.addBottleForm.thickness = null
+        this.addBottleFormMisc.thicknessSuffix = null
+        this.addBottleForm.volume = null
+        this.addBottleFormMisc.volumeSuffix = null
+        this.addBottleForm.specs = null
+      }
+    },
+    /**
+     * 新增气瓶档案
+     */
+    tbl_edit_data_submit (formName) {
+    },
+    tbl_edit_data_reset (formName) {
+      this.$refs[formName].resetFields()
+      this.editBottleForm.attachmentUuid = uuidv4.v4().replaceAll('-', '')
+    },
+    /**
+     * 把源对象的数据复制到目标对象
+     * @param {Object} source 源对象
+     * @param {Object} target 目标对象
+     */
+    tbl_edit_data_copy_value (source, target) {
+      if (source.gastankid === target.gastankid) {
+        source.productno = target.productno
+        source.lasttested = target.lasttested
+        source.nexttested = target.nexttested
+        source.producter = target.producter
+        source.producted = target.producted
+        source.expired = target.expired
+        source.maxuseyears = target.maxuseyears
+        source.registno = target.registno
+        source.unitselfno = target.unitselfno
+        source.mediumname = target.mediumname
+        source.thickness = target.thickness
+        source.norms = target.norms
+        source.specs = target.specs
+        source.maxcapacity = target.maxcapacity
+        source.volume = target.volume
+        source.selfweight = target.selfweight
+        source.valvetype = target.valvetype
+        source.qualifiedno = target.qualifiedno
+        source.elabel = target.elabel
+        source.usedlicenseno = target.usedlicenseno
+        source.hotway = target.hotway
+        source.bodystuff = target.bodystuff
+        source.valvefactory = target.valvefactory
+        source.checkresult = target.checkresult
+        source.checkdate = target.checkdate
+        source.onlyused = target.onlyused
+        source.attachmentUuid = target.attachmentUuid
+        source.testcount = target.testcount
+        source.usedstatus = target.usedstatus
+        source.lastused = target.lastused
+      }
+    },
+    /**
+     * @param file 文件信息
+     * @param list 文件列表
+     */
+    editBottleImageChange (file, list) {
+    },
+    /**
+     * @param files 超出的文件部分
+     * @param list 已有文件列表
+     */
+    editBottleExceed (files, list) {
+    },
+    /**
+     * @param evt 事件
+     * @param file 文件
+     * @param list 文件列表
+     */
+    editBottleProgress (evt, file, list) {
+    },
+    /**
+     * 修改气瓶档案对话框中的规格型号控件发生变化时
+     */
+    editBottleFieldNormsChange (value) {
+      if (Number.isInteger(value)) {
+        // 输出选择的对象
+        this.editBottleForm.maxcapacity = this.selectableNormsArray[value].maxcapacity.value
+        this.editBottleFormMisc.maxcapacitySuffix = this.selectableNormsArray[value].maxcapacity.label
+        this.editBottleForm.selfweight = this.selectableNormsArray[value].selfweight.value
+        this.editBottleFormMisc.selfweightSuffix = this.selectableNormsArray[value].selfweight.label
+        this.editBottleForm.thickness = this.selectableNormsArray[value].thickness.value
+        this.editBottleFormMisc.thicknessSuffix = this.selectableNormsArray[value].thickness.label
+        this.editBottleForm.volume = this.selectableNormsArray[value].volume.value
+        this.editBottleFormMisc.volumeSuffix = this.selectableNormsArray[value].volume.label
+        this.editBottleForm.specs = this.selectableNormsArray[value].value.specs
+      } else {
+        this.editBottleForm.maxcapacity = null
+        this.editBottleFormMisc.maxcapacitySuffix = null
+        this.editBottleForm.selfweight = null
+        this.editBottleFormMisc.selfweightSuffix = null
+        this.editBottleForm.thickness = null
+        this.editBottleFormMisc.thicknessSuffix = null
+        this.editBottleForm.volume = null
+        this.editBottleFormMisc.volumeSuffix = null
+        this.editBottleForm.specs = null
+      }
+    },
+    /*
+     * 对话框方法止
+     */
+    /**
+     * @param row 所在行的原始数据
+     * @param column 所在列的定义数据
+     * @param rowIndex 从0开始的第多少行
+     * @param columnIndex 从0开始的第多少列
+     */
+    tblCellStyle ({row, column, rowIndex, columnIndex}) {
+      switch (column.label) {
+        case '序号': {
+          if (this.maxGastankid < 100) { return 'padding-right: 25px' }
+          if (this.maxGasTankId < 1000) { return 'padding-right: 20px' }
+          if (this.maxGasTankId < 10000) { return 'padding-right: 15px' }
+          if (this.maxGasTankId < 100000) { return 'padding-right: 10px' }
+          return 'padding-right: 5px'
+        }
+        case '条码编号': {
+          return 'padding-right: 3px'
+        }
+        case '制造厂商' : {
+          if (row.producter === null || row.producter.length < 21) {
+            return 'padding-left:2px'
+          }
+          return 'padding-left:0px; font-size: 12px'
+        }
+        case '最大充量': {
+          return 'padding-right: 15px'
+        }
+        case '自重': {
+          return 'padding-right: 5px'
+        }
+        case '壁厚': {
+          return 'padding-right: 4px'
+        }
+        case '容积': {
+          return 'padding-right: 4px'
+        }
+        case '充装介质': {
+          return 'font-size: 12px'
+        }
+        default: {
+          return null
+        }
+      }
+    },
+    /**
+     * 把气瓶型号由序号转为具体的字符串型号
+     * @param index 序号
+     */
+    normsToString (index) {
+      return Number.isInteger(index) ? this.selectableNormsArray[index].value.norms : null
+    }
+  }
+}
+</script>
+
+<style>
+/*
+* 表单控件之间坚直距离
+*/
+.el-form-item--medium .el-form-item__content, .el-form-item--medium .el-form-item__label {
+  line-height: 30px;
+}
+/*
+ * 表单输入框
+ */
+ .el-input__inner {
+  height: 28px;
+}
+/*
+ * 表单输入框
+ */
+.el-input--medium .el-input__inner {
+    height: 28px;
+    line-height: 28px;
+    width: 190px;
+}
+.el-input--small .el-input__inner {
+    height: 28px;
+    line-height: 28px;
+    width: 190px;
+}
+/*
+ * 选择日期区间的日期控件
+ */
+.el-date-editor--monthrange.el-input, .el-date-editor--monthrange.el-input__inner {
+    width: 190px;
+    height: 28px;
+}
+/*
+ * 选择月的日期控件
+ */
+.el-date-editor.el-input, .el-date-editor.el-input__inner {
+    width: 190px;
+    height: 28px;
+}
+/*
+ * 表单控件
+ */
+.el-form-item {
+    margin-bottom: 3px;
+}
+/*
+ * 表单控件提示信息
+ */
+ .el-form-item__error {
+    color: #F56C6C;
+    font-size: 12px;
+    line-height: 0;
+    padding-top: 3px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+}
+/*
+ * 选择日期区间的日期控件
+ */
+ .el-date-editor--daterange.el-input, .el-date-editor--daterange.el-input__inner, .el-date-editor--timerange.el-input, .el-date-editor--timerange.el-input__inner {
+    width: 190px;
+    height: 28px;
+}
+/*
+ * 表头中的小格
+ */
+ .el-table--border .el-table__cell:first-child .cell {
+  padding: 1px;
+  margin-right: 2px;
+}
+/*
+ * 表格中的每个小格
+ */
+.el-table .el-table__cell {
+  padding: 1px;
+}
+/*
+ * 表格中的每个小格中的字边距
+ */
+.el-table .cell {
+  padding: 0px;
+}
+/*
+ * 表头
+ */
+.el-table th.el-table__cell>.cell {
+  padding: 2px
+}
+.BottleArchiveMain {
+  position: relative;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: calc(100% - 2px);
+  padding: 0px;
+  margin: 0px;
+  /* background-color: black; */
+  /* overflow-y:visible; */
+}
+.BottleArchiveForm {
+    position: relative;
+    left: 0px;
+    top: 0px;
+    /* min-width: 1024px; */
+    /* overflow-x: auto; */
+    width: 100%;
+    background-color: /* #B3C0D1*/ #FFFFFF;
+}
+/*
+ * 操作列的表头样式
+ */
+.TblBottleArchinveLastColumnHeader {
+  margin-left: 10px
+}
+/*
+ * 对话框
+ */
+.el-dialog {
+    position: relative;
+    margin: 0 auto 50px;
+    background: #FFF;
+    border-radius: 2px;
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.3);
+    box-shadow: 0 1px 3px rgba(0,0,0,.3);
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 90%;
+}
+.el-upload-dragger {
+    background-color: #fff;
+    border: none;
+    width: 98px;
+    height: 28px;
+    text-align: center;
+    cursor: pointer;
+    overflow: hidden;
+}
+</style>

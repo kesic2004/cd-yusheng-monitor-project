@@ -1,0 +1,63 @@
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import Vue from 'vue'
+import App from './App'
+import router from './router'
+
+/* 导入Element UI */
+import ElementUI from 'element-ui'
+/* 导入Element UI样式 */
+import 'element-ui/lib/theme-chalk/index.css'
+/* 导入axios */
+import axios from 'axios'
+
+/* Use ElementUI */
+Vue.use(ElementUI)
+/* 全局绑定axios */
+Vue.prototype.$axios = axios
+/*
+ * 访问气瓶档案的后端
+ */
+// Vue.prototype.$axios = {}
+// Vue.prototype.$axios.gas = axios.create({
+//   baseURL: 'http://localhost:8081/',
+//   timeout: 1000,
+//   headers: [
+//     'Accept-Language', 'zh-CN,zh;q=0.9,en-US;q=0.8,en-GB;q=0.7,en;q=0.6',
+//     'Cache-Control', 'max-age=0',
+//     'Connection', 'keep-alive',
+//     'Host', 'localhost:8081',
+//     'Sec-Fetch-Dest', 'document',
+//     'Sec-Fetch-Mode', 'navigate',
+//     'Sec-Fetch-Site', 'same-origin',
+//     'Upgrade-Insecure-Requests:', '1',
+//     'User-Agent', 'Mozilla/5.0',
+//     'sec-ch-ua-platform', 'Windows',
+//     'sec-gpc', '1'
+//   ]
+// })
+
+Vue.config.productionTip = false
+
+/* eslint-disable no-new */
+var vue = new Vue({
+  el: '#app',
+  router,
+  components: { App },
+  template: '<App/>'
+})
+
+vue.$router.beforeEach((to, from, next) => {
+  console.log(Date.now())
+  console.log(to)
+  console.log(from)
+  console.log(next)
+  /*
+   * 统一使用token
+   */
+  if (window.sessionStorage.getItem('token') != null) {
+    next()
+  } else {
+    next('/Login')
+  }
+})

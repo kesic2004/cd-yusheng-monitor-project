@@ -1,0 +1,61 @@
+
+> gas_client_h5@1.0.0 production /home/gasvue2/gas_client_h5
+> webpack-dev-server --config build/webpack.prod.conf.js
+
+Project is running at [1m[34mhttp://0.0.0.0:8080/[39m[22m
+webpack output is served from [1m[34m/[39m[22m
+404s will fallback to [1m[34m/index.html[39m[22m
+{ parser: "babylon" } is deprecated; we now treat it as { parser: "babel" }.
+Hash: [1m209bc24001e672c45fec[39m[22m
+Version: webpack [1m3.12.0[39m[22m
+Time: [1m39296[39m[22mms
+                                                  [1mAsset[39m[22m       [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m           [1m[39m[22m       [1mChunk Names[39m[22m
+                [1m[32mstatic/fonts/element-icons.535877f.woff[39m[22m    28.2 kB        [1m[39m[22m  [1m[32m[emitted][39m[22m         
+                 [1m[32mstatic/fonts/element-icons.732389d.ttf[39m[22m      56 kB        [1m[39m[22m  [1m[32m[emitted][39m[22m         
+                            [1m[32mstatic/img/logo.f08ebb1.png[39m[22m    24.3 kB        [1m[39m[22m  [1m[32m[emitted][39m[22m         
+               [1m[33mstatic/js/vendor.8a2957393687f0fdcd69.js[39m[22m    [1m[33m1.18 MB[39m[22m       [1m0[39m[22m  [1m[32m[emitted][39m[22m  [1m[33m[big][39m[22m  vendor
+                  [1m[33mstatic/js/app.332b5efc6234c772338d.js[39m[22m     [1m[33m617 kB[39m[22m       [1m1[39m[22m  [1m[32m[emitted][39m[22m  [1m[33m[big][39m[22m  app
+             [1m[32mstatic/js/manifest.2ae2e69a05c33dfc65f8.js[39m[22m  857 bytes       [1m2[39m[22m  [1m[32m[emitted][39m[22m         manifest
+    [1m[32mstatic/css/app.bae7c2e2ac7d129ceda696f7840df81f.css[39m[22m     241 kB       [1m1[39m[22m  [1m[32m[emitted][39m[22m         app
+[1m[32mstatic/css/app.bae7c2e2ac7d129ceda696f7840df81f.css.map[39m[22m     342 kB        [1m[39m[22m  [1m[32m[emitted][39m[22m         
+           [1m[32mstatic/js/vendor.8a2957393687f0fdcd69.js.map[39m[22m    4.97 MB       [1m0[39m[22m  [1m[32m[emitted][39m[22m         vendor
+              [1m[32mstatic/js/app.332b5efc6234c772338d.js.map[39m[22m    1.51 MB       [1m1[39m[22m  [1m[32m[emitted][39m[22m         app
+         [1m[32mstatic/js/manifest.2ae2e69a05c33dfc65f8.js.map[39m[22m    4.97 kB       [1m2[39m[22m  [1m[32m[emitted][39m[22m         manifest
+                                             [1m[32mindex.html[39m[22m  508 bytes        [1m[39m[22m  [1m[32m[emitted][39m[22m         
+   [0] [1mmulti (webpack)-dev-server/client?http://0.0.0.0:8080 ./src/main.js[39m[22m 40 bytes {[1m[33m1[39m[22m}[1m[32m [built][39m[22m
+[02w1] [1m./node_modules/element-ui/lib/utils/resize-event.js[39m[22m 1.85 kB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+[7+uW] [1m./node_modules/vue/dist/vue.esm.js[39m[22m 418 kB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+[8o/D] [1m(webpack)-dev-server/client/overlay.js[39m[22m 3.67 kB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+[BvyM] [1m./node_modules/loglevel/lib/loglevel.js[39m[22m 9.56 kB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+[JkcU] [1m./node_modules/strip-ansi/index.js[39m[22m 161 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+[KSzy] [1m(webpack)-dev-server/client?http://0.0.0.0:8080[39m[22m 7.93 kB {[1m[33m1[39m[22m}[1m[32m [built][39m[22m
+[NHnr] [1m./src/main.js + 32 modules[39m[22m 723 kB {[1m[33m1[39m[22m}[1m[32m [built][39m[22m
+[TfA6] [1m(webpack)/hot nonrecursive ^\.\/log$[39m[22m 170 bytes {[1m[33m1[39m[22m}[1m[32m [built][39m[22m
+[U2me] [1m(webpack)/hot/emitter.js[39m[22m 77 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+[UZ5h] [1m./node_modules/url/url.js[39m[22m 23.5 kB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+[V3KU] [1m(webpack)-dev-server/client/socket.js[39m[22m 1.08 kB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+[mtWM] [1m./node_modules/axios/index.js + 37 modules[39m[22m 63.9 kB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+[tvR6] [1m./node_modules/element-ui/lib/theme-chalk/index.css[39m[22m 41 bytes {[1m[33m1[39m[22m}[1m[32m [built][39m[22m
+[zL8q] [1m./node_modules/element-ui/lib/element-ui.common.js[39m[22m 1.22 MB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+    + 217 hidden modules
+
+[1m[31mERROR in ./src/main.js
+Module not found: Error: Can't resolve '@/GlobalVariable' in '/home/gasvue2/gas_client_h5/src'
+ @ ./src/main.js 11:0-46
+ @ multi (webpack)-dev-server/client?http://0.0.0.0:8080 ./src/main.js[39m[22m
+Child [1mhtml-webpack-plugin for "index.html"[39m[22m:
+     1 asset
+    [3IRH] [1m(webpack)/buildin/module.js[39m[22m 517 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+    [DuR2] [1m(webpack)/buildin/global.js[39m[22m 509 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+    [M4fF] [1m./node_modules/lodash/lodash.js[39m[22m 544 kB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+    [XPyR] [1m./node_modules/html-webpack-plugin/lib/loader.js!./index.html[39m[22m 647 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+Child [1mextract-text-webpack-plugin node_modules/extract-text-webpack-plugin/dist node_modules/css-loader/index.js??ref--6-2!node_modules/postcss-loader/lib/index.js??ref--6-3!node_modules/element-ui/lib/theme-chalk/index.css[39m[22m:
+                                      [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m           [1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32mstatic/fonts/element-icons.535877f.woff[39m[22m  28.2 kB        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+     [1m[32mstatic/fonts/element-icons.732389d.ttf[39m[22m    56 kB        [1m[39m[22m  [1m[32m[emitted][39m[22m  
+    [FZ+f] [1m./node_modules/css-loader/lib/css-base.js[39m[22m 2.26 kB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+    [MtQs] [1m./node_modules/element-ui/lib/theme-chalk/fonts/element-icons.woff[39m[22m 85 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+    [YiW1] [1m./node_modules/element-ui/lib/theme-chalk/fonts/element-icons.ttf[39m[22m 84 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+    [kxFB] [1m./node_modules/css-loader/lib/url/escape.js[39m[22m 448 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+    [xkt3] [1m./node_modules/css-loader??ref--6-2!./node_modules/postcss-loader/lib??ref--6-3!./node_modules/element-ui/lib/theme-chalk/index.css[39m[22m 563 kB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+webpack: Failed to compile.

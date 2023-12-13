@@ -1,0 +1,337 @@
+<template>
+  <div id="app">
+    <el-container class="MyAppStyle">
+      <el-header class="MyTopHeader" :height="leftMessageHeightString">
+        <el-aside :width="leftMessageWidthString" class="MyLeftSide MyLeftUserMessage">hainan</el-aside>
+        <el-main class></el-main>
+      </el-header>
+      <el-container class="MyMiddleMain">
+        <el-aside :width="leftMenuWidthString" class="MyLeftSide MyLeftMenuSide">
+          <!-- ———————————————— -->
+          <!-- 版权声明：本文为CSDN博主「xumengxia—xu」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。 -->
+          <!-- 原文链接：https://blog.csdn.net/qq_56514785/article/details/118404670 -->
+          <!--
+            router=true 动态跳转
+          -->
+          <el-menu
+            background-color="#2f4050"
+            text-color="#cccccc"
+            active-text-color="#5FB878"
+            router
+            unique-opened
+            v-for="item in leftMenuCollapse"
+            style="overflow: hidden;text-align: left;text-indent: 20px;"
+            :key="item.index"
+            :collapse="leftMenuIsCollapse"
+            :collapse-transition="true"
+            :default-active="leftMenuDefaultActive"
+            @select="leftMainMenuSelected"
+          >
+            <!-- style="border: solid;border-width: 1pt;border-color: red;" -->
+            <el-submenu :index="item.index">
+              <template slot="title">
+                <span>{{ item.name }}</span>
+              </template>
+              <el-menu-item
+                class="menusmall"
+                v-for="i in item.items"
+                :key="i.index"
+                :index="i.index"
+              >{{ i.name }}</el-menu-item>
+            </el-submenu>
+          </el-menu>
+        </el-aside>
+        <el-main class="MyMainSide">
+          <el-header class="MySubHeader" :height="mySubHeaderHeightString">
+            <el-tabs
+              closable
+              tab-position="top"
+              v-model="myActiveClickedItem"
+              type="card"
+              @tab-click="myClickedItemClick"
+              @tab-remove="myClickedItemRemove"
+            >
+              <el-tab-pane
+                v-for="item in myClickedItems"
+                :key="item.label"
+                :label="item.label"
+                :name="item.name"
+              />
+            </el-tabs>
+          </el-header>
+          <el-main class="MySubMain">
+            <router-view />
+          </el-main>
+          <!-- style="border-style:solid" -->
+        </el-main>
+      </el-container>
+    </el-container>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'App',
+  data () {
+    return {
+      leftMessageWidth: 200, // 左上的消息栏宽度(单位像素)
+      leftMessageHeight: 60, // 左上的消息栏的高度(单位像素)
+      /* 左边的下拉菜单 */
+      leftMenuCollapse: [
+        {
+          index: '1',
+          name: '工作空间',
+          items: [
+            { index: '/Main', name: '控制台', component: () => import('@/components/Main') }
+          ]
+        },
+        {
+          index: '2',
+          name: '罐装系统',
+          items: [
+            { index: '2-1', name: '充装记录' },
+            { index: '2-2', name: '机构管理' },
+            { index: '2-3', name: '价格管理' },
+            { index: '2-4', name: '操作员管理' },
+            { index: '2-5', name: '站秤管理' },
+            { index: '2-6', name: '打印票据' }
+          ]
+        },
+        {
+          index: '3',
+          name: '站点信息',
+          items: [
+            { index: '3-1', name: '站点信息' },
+            { index: '3-2', name: '气瓶档案' },
+            { index: '3-3', name: '从业人员' },
+            { index: '3-4', name: '充检项目' },
+            { index: '3-5', name: '充前检查/充后复检' },
+            { index: '3-6', name: '常用厂家管理' }
+          ]
+        },
+        {
+          index: '4',
+          name: '气瓶配送',
+          items: [
+            { index: '4-1', name: '调拨出站' },
+            { index: '4-2', name: '配送车辆' }
+          ]
+        }
+      ],
+      leftMenuDefaultActive: '/Main', /* 默认跳转到的路径 */
+      leftMenuWelcome: '/Welcome', /* 不显示任何页面时显示的页面 */
+      leftMenuDefaultName: '控制台',
+      leftMenuWidth: 201, /* 左边菜单的宽度(单位像素) */
+      leftMenuIsCollapse: false, /* 菜单是否收起来 */
+      mySubHeaderHeight: 40, /* 标签栏的高度 */
+      /*
+       * name : path
+       * label : 显示的名字
+       */
+      myClickedItems: [],
+      myActiveClickedItem: null /* 活动的标签页 */
+    }
+  },
+  computed: {
+    leftMessageWidthString: function () {
+      return this.leftMessageWidth + 'px'
+    },
+    leftMessageHeightString: function () {
+      return this.leftMessageHeight + 'px'
+    },
+    leftMenuWidthString: function () {
+      return this.leftMenuWidth + 'px'
+    },
+    mySubHeaderHeightString: function () {
+      return this.mySubHeaderHeight + 'px'
+    }
+  },
+  watch: {
+  },
+  mounted () {
+    this.myClickedItemAddDefault()
+  },
+  methods: {
+    /**
+     * 新点击的菜单的路径
+     * @param {*} index：点击子菜单的index属性(URL)
+     * @param {*} indexPath：点击菜单的index属性的路径，是一个数组，分别是从上到下的序号，如：'1'，'1-1'
+     * @param {*} menu 菜单对象
+     *                 menu._vnode.children[0].text是菜单名
+     */
+    leftMainMenuSelected (index, indexPath, menu) {
+      for (var i1 = 0; i1 < this.myClickedItems.length; ++i1) {
+        if (this.myClickedItems[i1].name === index) {
+          this.myActiveClickedItem = index
+          return
+        }
+      }
+      var item = {}
+      this.leftMenuDefaultActive = this.myActiveClickedItem = item.name = index
+      item.label = menu._vnode.children[0].text
+      this.myClickedItems.push(item)
+    },
+    /**
+     * 点击标签
+     * @param {*} item 标签对象
+     *            item._data.index是该标签的序号
+     */
+    myClickedItemClick (item) {
+      if (this.$router.currentRoute.fullPath !== item.name) {
+        this.$router.push({ path: item.name })
+      }
+      this.leftMenuDefaultActive = this.myActiveClickedItem = item.name
+    },
+    /**
+     * 移除标签
+     * @param {*} targetName 标签名
+     */
+    myClickedItemRemove (targetName) {
+      var oldArr = this.myClickedItems
+      var newArr = []
+      for (var i = 0; i < oldArr.length; ++i) {
+        if (oldArr[i].name !== targetName) {
+          newArr.push(oldArr[i])
+        }
+      }
+      /*
+       * 如果关闭的是活动标签
+       */
+      if (this.myActiveClickedItem === targetName) {
+        this.myClickedItems = newArr
+        /*
+        * 如果标签已经没有了
+        */
+        if (newArr.length === 0) {
+          this.modifyPath(this.leftMenuWelcome) // 修改为欢迎页面
+          this.myActiveClickedItem = null
+        /*
+        * 如果关闭的是第一个标签，后移
+        */
+        } else if (oldArr[0].name === targetName) {
+          for (var j = 1; j < oldArr.length; ++j) {
+            if (oldArr[j].name !== targetName) {
+              this.myActiveClickedItem = oldArr[j].name
+              this.modifyPath(this.myActiveClickedItem) // 修改为后一个页面
+              break
+            }
+          }
+        /*
+        * 否则前移
+        */
+        } else {
+          for (var k = 0; k < oldArr.length; ++k) {
+            if (oldArr[k].name === targetName) {
+              --k
+              for (; k > -1; --k) {
+                if (oldArr[k] !== targetName) {
+                  this.myActiveClickedItem = oldArr[k].name
+                  this.modifyPath(this.myActiveClickedItem) // 修改为前一个页面
+                  return
+                }
+              }
+            }
+          }
+        }
+      } else {
+        this.myClickedItems = newArr
+        /*
+         * 如果标签已经没有了
+         */
+        if (newArr.length === 0) {
+          this.myActiveClickedItem = null
+          this.modifyPath(this.leftMenuWelcome) // 修改为欢迎页面
+        }
+      }
+    },
+    /**
+     * 设定默认页面和默认标签
+     */
+    myClickedItemAddDefault () {
+      var item = {}
+      item.name = this.leftMenuDefaultActive
+      item.label = this.leftMenuDefaultName
+      this.myClickedItems.push(item)
+      this.modifyPath(this.leftMenuDefaultActive)
+      this.myActiveClickedItem = item.name
+    },
+    /**
+     * 修改路径
+     * @param {*} path 路径
+     */
+    modifyPath (path) {
+      if (this.$router.currentRoute.fullPath !== path) {
+        this.$router.push({ path: path })
+      }
+    }
+  }
+}
+</script>
+
+<style>
+/* 整个页面的区域 */
+.MyAppStyle {
+  position: absolute; /* 绝对坐标 */
+  left: 0; /* X起始坐标 */
+  top: 0; /* Y起始坐标 */
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+/* Header */
+.MyTopHeader {
+  position: relative;
+  left: -3px;
+  top: -3px;
+  background-color: #b3c0d1;
+  padding: 0px;
+  margin: 0px;
+}
+
+/* 中间的主要区域 */
+.MyMiddleMain {
+  position: relative;
+  left: -3px;
+  top: -3px;
+  background-color: #b3c0d1;
+  padding: 0px;
+  margin: 0px;
+}
+
+/* 左边测边栏 */
+.MyLeftSide {
+  background-color: #2f4050;
+  color: #ffffff;
+}
+.MyLeftUserMessage {
+  background-color: #2f4050;
+  text-align: center;
+  line-height: 60px;
+}
+.MyLeftMenuSide {
+  text-align: center;
+  line-height: 200px;
+}
+
+.MyMainSide {
+  padding: 0px;
+  margin: 0px;
+}
+.MySubHeader {
+  position: relative;
+  left: 0px;
+  top: 0px;
+  background-color: #f0f0f0;
+  padding: 0px;
+  margin: 0px;
+}
+.MySubMain {
+  position: relative;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: calc(100% - 40px); /* 减去this.mySubHeaderHeightString的值 */
+}
+</style>

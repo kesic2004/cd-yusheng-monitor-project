@@ -1,0 +1,252 @@
+<template>
+  <div id="app">
+    <el-container class="MyAppStyle">
+      <el-header class="MyTopHeader" :height="leftMessageHeightString">
+        <el-aside :width="leftMessageWidthString" class="MyLeftSide MyLeftUserMessage">hainan</el-aside>
+        <el-main class></el-main>
+      </el-header>
+      <el-container class="MyMiddleMain">
+        <el-aside :width="leftMenuWidthString" class="MyLeftSide MyLeftMenuSide">
+          <!-- ———————————————— -->
+          <!-- 版权声明：本文为CSDN博主「xumengxia—xu」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。 -->
+          <!-- 原文链接：https://blog.csdn.net/qq_56514785/article/details/118404670 -->
+          <!--
+            router=true 动态跳转
+          -->
+          <el-menu
+            background-color="#2f4050"
+            text-color="#cccccc"
+            active-text-color="#5FB878"
+            router
+            unique-opened
+            v-for="item in leftMenuCollapse"
+            style="overflow: hidden;text-align: left;text-indent: 20px;"
+            :key="item.index"
+            :collapse="leftMenuIsCollapse"
+            :collapse-transition="true"
+            :default-active="leftMenuDefaultActive"
+            @select="leftMainMenuSelected"
+          >
+            <!-- style="border: solid;border-width: 1pt;border-color: red;" -->
+            <el-submenu :index="item.index">
+              <template slot="title">
+                <span>{{ item.name }}</span>
+              </template>
+              <el-menu-item
+                class="menusmall"
+                v-for="i in item.items"
+                :key="i.index"
+                :index="i.index"
+              >{{ i.name }}</el-menu-item>
+            </el-submenu>
+          </el-menu>
+        </el-aside>
+        <el-main class="MyMainSide">
+          <el-header class="MySubHeader" :height="mySubHeaderHeightString"></el-header>
+          <el-main class="MySubMain"><router-view /></el-main>
+        </el-main>
+        <!-- style="border-style:solid" -->
+      </el-container>
+    </el-container>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'App',
+  data () {
+    return {
+      leftMessageWidth: 200, // 左上的消息栏宽度(单位像素)
+      leftMessageHeight: 60, // 左上的消息栏的高度(单位像素)
+      /* 左边的下拉菜单 */
+      leftMenuCollapse: [
+        // {
+        //   index: '1',
+        //   name: '江雪',
+        //   items: [
+        //     { index: '1-1', name: '千山鸟飞绝' },
+        //     { index: '1-2', name: '万径人踪灭' },
+        //     { index: '1-3', name: '孤舟蓑笠翁' },
+        //     { index: '1-4', name: '独钓寒江雪' }
+        //   ]
+        // },
+        // {
+        //   index: '2',
+        //   name: '绝句',
+        //   items: [
+        //     { index: '2-1', name: '两个黄鹂鸣翠柳' },
+        //     { index: '2-2', name: '一行白鹭上青天' },
+        //     { index: '2-3', name: '窗含西岭千秋雪' },
+        //     { index: '2-4', name: '门泊东吴万里船' }
+        //   ]
+        // },
+        // {
+        //   index: '3',
+        //   name: '望庐山瀑布',
+        //   items: [
+        //     { index: '3-1', name: '横看成岭侧成峰' },
+        //     { index: '3-2', name: '远近高低各不同' },
+        //     { index: '3-3', name: '不识庐山真面目' },
+        //     { index: '3-4', name: '只缘身在此山中' }
+        //   ]
+        // },
+        // {
+        //   index: '4',
+        //   name: '登鹳雀楼',
+        //   items: [
+        //     { index: '4-1', name: '白日依山尽' },
+        //     { index: '4-2', name: '黄河入海流' },
+        //     { index: '4-3', name: '欲穷千里目' },
+        //     { index: '4-4', name: '更上一层楼' }
+        //   ]
+        // }
+        {
+          index: '1',
+          name: '工作空间',
+          items: [
+            { index: '/Main', name: '控制台', component: () => import('@/components/Main') }
+          ]
+        },
+        {
+          index: '2',
+          name: '罐装系统',
+          items: [
+            { index: '2-1', name: '充装记录' },
+            { index: '2-2', name: '机构管理' },
+            { index: '2-3', name: '价格管理' },
+            { index: '2-4', name: '操作员管理' },
+            { index: '2-5', name: '站秤管理' },
+            { index: '2-6', name: '打印票据' }
+          ]
+        },
+        {
+          index: '3',
+          name: '站点信息',
+          items: [
+            { index: '3-1', name: '站点信息' },
+            { index: '3-2', name: '气瓶档案' },
+            { index: '3-3', name: '从业人员' },
+            { index: '3-4', name: '充检项目' },
+            { index: '3-5', name: '充前检查/充后复检' },
+            { index: '3-6', name: '常用厂家管理' }
+          ]
+        },
+        {
+          index: '4',
+          name: '气瓶配送',
+          items: [
+            { index: '4-1', name: '调拨出站' },
+            { index: '4-2', name: '配送车辆' }
+          ]
+        }
+      ],
+      leftMenuDefaultActive: '/Main', /* 默认跳转到的路径 */
+      leftMenuWidth: 201, // 左边菜单的宽度(单位像素)
+      leftMenuIsCollapse: false, /* 菜单是否收起来 */
+      mySubHeaderHeight: 40 /* 标签栏的高度 */
+    }
+  },
+  computed: {
+    leftMessageWidthString: function () {
+      return this.leftMessageWidth + 'px'
+    },
+    leftMessageHeightString: function () {
+      return this.leftMessageHeight + 'px'
+    },
+    leftMenuWidthString: function () {
+      return this.leftMenuWidth + 'px'
+    },
+    mySubHeaderHeightString: function () {
+      return this.mySubHeaderHeight + 'px'
+    }
+  },
+  mounted () {
+    this.$router.push({ path: this.leftMenuDefaultActive })
+  },
+  methods: {
+    /*
+     * 新点击的菜单的路径
+     */
+    leftMainMenuSelected (index) {
+    }
+  }
+}
+</script>
+
+<style>
+/* 整个页面的区域 */
+.MyAppStyle {
+  position: absolute; /* 绝对坐标 */
+  left: 0; /* X起始坐标 */
+  top: 0; /* Y起始坐标 */
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+/* Header */
+.MyTopHeader {
+  position: relative;
+  left: -3px;
+  top: -3px;
+  background-color: #b3c0d1;
+  padding: 0px;
+  margin: 0px;
+}
+
+/* 中间的主要区域 */
+.MyMiddleMain {
+  position: relative;
+  left: -3px;
+  top: -3px;
+  background-color: #b3c0d1;
+  padding: 0px;
+  margin: 0px;
+}
+
+/* 左边测边栏 */
+.MyLeftSide {
+  background-color: #2f4050;
+  color: #ffffff;
+}
+.MyLeftUserMessage {
+  background-color: #2f4050;
+  text-align: center;
+  line-height: 60px;
+}
+.MyLeftMenuSide {
+  text-align: center;
+  line-height: 200px;
+}
+
+.MyMainSide {
+  padding: 0px;
+  margin: 0px;
+}
+.MySubHeader {
+  position: relative;
+  left: 0px;
+  top: 0px;
+  background-color: #b3c0d1;
+  padding: 0px;
+  margin: 0px;
+  /* border: solid; */
+  /* border-width: 1pt; */
+  /* border-color: red; */
+}
+.MySubMain {
+  position: relative;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: calc(100% - 40px);
+  background-color: #e9eef3;
+  color: #333;
+  text-align: center;
+  line-height: 160px;
+  /* border: solid; */
+  /* border-width: 1pt; */
+  /* border-color: red; */
+}
+</style>

@@ -1,0 +1,270 @@
+<template>
+  <!--整个页面UPDATE `gas`.`auth_left_menu_tree` SET `path` = '/Site/StationInformation' WHERE (`id` = '14');-->
+  <div style="padding: 0px; margin: 0px">
+    <!--主要部分-->
+    <el-collapse direction="vertical" style="position: relative; left: 0px; top: 0px; width: 100%; height: calc(100% - 2px); padding: 0px; margin: 0px;">
+      <el-header :height="area1heightString" style="position: relative; left: 0px; top: 0px; width: 100%; background-color: #FFFFFF;">
+        <el-divider content-position="left">基本信息</el-divider>
+        <el-collapse direction="horizontal" style="position: relative; left: 0px; top: 0px; width: 100%; height: calc(100% - 2px); padding: 0px; margin: 0px;">
+          <el-aside :width="area1leftAreaWidthString">
+            <el-form status-icon ref="baseForm" label-width="110px" :model="baseForm" :rules="baseRules">
+              <el-row :gutter="48" type="flex" justify="start" align="middle">
+                <el-col :span="24" style="padding-left: 0px; padding-right: 0px;">
+                  <el-form-item prop="corpname" label="单位名称" size="medium">
+                    <el-input type="text" size="medium" v-model="baseForm.corpname" placeholder="请填写气站名称" style="padding-left: 0px; padding-right: 0px;" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24" style="padding-left: 0px; paddin一g-right: 0px;">
+                  <el-form-item prop="creditcode" label="统社会信用代码" size="medium">
+                    <el-input type="text" size="medium" v-model="baseForm.creditcode" placeholder="请填写统一社会信用代码" style="padding-left: 0px; padding-right: 0px;" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row :gutter="48" type="flex" justify="start" align="middle">
+                <el-col :span="24" style="padding-left: 0px; padding-right: 0px;">
+                  <el-form-item prop="legalname" label="法人姓名" size="medium">
+                    <el-input type="text" size="medium" v-model="baseForm.qrcode" placeholder="请填写法人姓名" style="padding-left: 0px; padding-right: 0px;" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24" style="padding-left: 0px; padding-right: 0px;">
+                  <el-form-item prop="contactno" label="联系电话" size="medium">
+                    <el-input type="text" size="medium" v-model="baseForm.contactno" placeholder="请填写联系电话" style="padding-left: 0px; padding-right: 0px;" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row :gutter="48" type="flex" justify="start" align="middle">
+                <el-col :span="16" style="padding-left: 0px; padding-right: 0px;">
+                  <el-form-item prop="provincename" label="所在省" size="medium">
+                    <el-input type="text" size="medium" v-model="baseForm.provincename" placeholder="请选择所在省" style="padding-left: 0px; padding-right: 0px;" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="16" style="padding-left: 0px; padding-right: 0px;">
+                  <el-form-item prop="cityname" label="所在市" size="medium">
+                    <el-input type="text" size="medium" v-model="baseForm.cityname" placeholder="请选择所在市" style="padding-left: 0px; padding-right: 0px;" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="16" style="padding-left: 0px; padding-right: 0px;">
+                  <el-form-item prop="districtname" label="所在区县" size="medium">
+                    <el-input type="text" size="medium" v-model="baseForm.districtname" placeholder="所在区县" style="padding-left: 0px; padding-right: 0px;" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row :gutter="48" type="flex" justify="start" align="middle">
+                <el-col :span="24" style="padding-left: 0px; padding-right: 0px;">
+                  <el-form-item prop="address" label="详细地址" size="medium">
+                    <el-input type="text" v-model="baseForm.address" placeholder="请填写详细地址" style="padding-left: 0px; padding-right: 0px;" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form>
+          </el-aside>
+          <el-main></el-main>
+        </el-collapse>
+      </el-header>
+      <el-main :height="area2heightString" style="position: relative; left: 0px; top: 0px; width: 100%; background-color: #FFFFFF;">
+        <el-divider content-position="left">充装许可证</el-divider>
+        <el-row :gutter="48" type="flex" justify="start" align="middle">
+          <el-col :span="48" style="padding-left: 0px; padding-right: 0px;">
+          </el-col>
+        </el-row>
+      </el-main>
+      <el-footer :height="area3heightString" style="position: relative; left: 0px; top: 0px; width: 100%; background-color: #FFFFFF;">
+        <el-divider content-position="left">可充装的介质</el-divider>
+        <el-collapse direction="horizontal" style="position: relative; left: 0px; top: 0px; width: 100%; background-color: #FFFFFF;">
+          <el-aside :width="area3leftAreaWidthString">
+            <el-collapse direction="vertical" style="position: relative; left: 0px; top: 0px; width: 100%; background-color: #FFFFFF;">
+              <el-header :height="area31heightString">
+                <el-row :gutter="48" type="flex" justify="start" align="middle">
+                  <el-form status-icon ref="licenseForm" :model="licenseForm" :rules="licenseRules">
+                    <el-col :span="16" style="padding-left: 0px; padding-right: 0px;">
+                      <el-form-item prop="licenseno" label="充装许可证" size="medium">
+                        <el-input type="text" v-model="licenseForm.licenseno" placeholder="请填写充装许可证号" style="padding-left: 0px; padding-right: 0px;" />
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="16" style="padding-left: 0px; padding-right: 0px;">
+                      <el-form-item prop="permitted" label="许可证生效日期" size="medium">
+                        <el-date-picker clearable v-model="licenseForm.permitted" type="date" placeholder="请选择许可证生效日期" size="small" />
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="16" style="padding-left: 0px; padding-right: 0px;">
+                      <el-form-item prop="expired" label="许可证过期日期" size="medium">
+                        <el-date-picker clearable v-model="licenseForm.expired" type="date" placeholder="请选择许可证过期日期" size="small" />
+                      </el-form-item>
+                    </el-col>
+                  </el-form>
+                </el-row>
+              </el-header>
+              <el-main :height="area33heightString">
+                <el-table
+                  border
+                  highlight-current-row
+                  highlight-selection-row
+                  empty-text="目前暂时没有可查询的充装介质"
+                  :data="gasTypeData"
+                  :cell-style="tblCellStyle"
+                  :height="tableHeightString"
+                  style="overflow-y: hidden; width: 1460px">
+                  <el-table-column prop="gascatname"  width="60"  min-width="60"  :show-overflow-tooltip="true"  align="center"  header-align="center" label="气瓶类别操作" />
+                  <el-table-column prop="gastypename" width="100" min-width="100" :show-overflow-tooltip="true"  align="center"  header-align="center" label="充装介质" />
+                  <el-table-column prop="remark"      width="286" min-width="286" :show-overflow-tooltip="true"  align="left"    header-align="center" label="备注" />
+                  <el-table-column                    width="115" min-width="115" :show-overflow-tooltip="false" align="center"  header-align="center" label="操作">
+                    <template slot-scope="gasTypeOperator"><!-- gasTypeOperator是点击按钮时传给回调函数的参数 -->
+                      <el-button round size="mini" icon="el-icon-close" style="height: 21px; padding-top: 0px; padding-right: 7px; padding-bottom: 0px; padding-left: 7px; margin-top: 0px; margin-right: 3px; margin-bottom: 0px; margin-left: 3px; border-radius: 3px;" @click="tbl_delete_gasType(gasTypeOperator)">删除</el-button>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-main>
+            </el-collapse>
+          </el-aside>
+        </el-collapse>
+      </el-footer>
+    </el-collapse>
+  </div>
+</template>
+<script>
+/* import provinceList from '@/js/AdministrativeDivislon' */
+export default {
+  name: 'StationInformation',
+  data () {
+    return {
+      /**
+        * 基本信息表单
+        */
+      baseForm: {},
+      /**
+       * 基本信息表单校验
+       */
+      baseRules: {},
+      /**
+        * 许可证表单
+        */
+      licenseForm: {},
+      /**
+       * 许可证表单校验
+       */
+      licenseRules: {},
+      /**
+        * 可允气体
+        */
+      gasTypeData: [],
+      /**
+       * 可供选择的站点
+       */
+      selectableStation: null,
+      /**
+       * 长度变量
+       */
+      area1height: 140, // 第一块区域的高
+      area1leftAreaWidth: 1000, // 第一块区域中左边部分的宽
+      area2height: 40, // 第二块区域的高
+      area3height: 140, // 第三块区域的高
+      area3leftAreaWidth: 1000, // 第三块区域中左边部分的宽
+      area31height: 40, // area3leftAreaWidth上面一块的高
+      area33height: 100 // area3leftAreaWidth下面一块的高
+    }
+  },
+  computed: {
+    /**
+     * 第一块区域的高
+     */
+    area1heightString: function () {
+      return this.area1height + 'px'
+    },
+    /**
+     * 第一块区域中左边部分的宽
+     */
+    area1leftAreaWidthString: function () {
+      return this.area1leftAreaWidth + 'px'
+    },
+    /**
+     * 第二块区域的高
+     */
+    area2heightString: function () {
+      return this.area2height + 'px'
+    },
+    /**
+     * 第三块区域的高
+     */
+    area3heightString: function () {
+      return this.area3height + 'px'
+    },
+    /**
+     * 第三块区域中左边部分的宽
+     */
+    area3leftAreaWidthString: function () {
+      return this.area3leftAreaWidth + 'px'
+    },
+    /**
+     * TODO
+     */
+    area31heightString: function () {
+      return this.area31height + 'px'
+    },
+    /**
+     *
+     */
+    area33heightString: function () {
+      return this.area33height + 'px'
+    },
+    /**
+     * 表格的高
+     */
+    tableHeightString: function () {
+      return 0
+    }
+  },
+  mounted () {
+    var localStationString = window.sessionStorage.getItem(this.constant.STATION)
+    if (localStationString !== null) {
+      try {
+        this.selectableStation = JSON.parse(localStationString)
+      } catch (ex) {
+        this.selectableStation = []
+      }
+    }
+    // for (var i = 0; i < provinceList.length; ++i) {
+    //   if (i !== provinceList[i].value) {
+    //     console.log(provinceList[i].value + ' : ' + provinceList[i].label)
+    //   }
+    //   for (var j = 0; j < provinceList[i].cityList.length; ++j) {
+    //     if (j !== provinceList[i].cityList[j].value) {
+    //       console.log(provinceList[i].value + ' : ' + provinceList[i].label)
+    //       console.log('    ' + provinceList[i].cityList[j].value + ' < - > ' + provinceList[i].cityList[j].label)
+    //     }
+    //     for (var k = 0; k < provinceList[i].cityList[j].areaList.length; ++k) {
+    //       if (k !== provinceList[i].cityList[j].areaList[k].value) {
+    //         console.log(provinceList[i].value + ' : ' + provinceList[i].label)
+    //         console.log('    ' + provinceList[i].cityList[j].value + ' < - > ' + provinceList[i].cityList[j].label)
+    //         console.log('        ' + provinceList[i].cityList[j].areaList[k].value + ' [ === ] ' + provinceList[i].cityList[j].areaList[k].label)
+    //       }
+    //     }
+    //   }
+    // }
+  },
+  methods: {
+    /**
+     * 移除允装介质
+     */
+    tbl_delete_gasType (gasTypeOperator) {
+      console.log(gasTypeOperator)
+    },
+    /**
+     * 表格中的样式
+     * @param row 所在行的原始数据
+     * @param column 所在列的定义数据
+     * @param rowIndex 从0开始的第多少行
+     * @param columnIndex 从0开始的第多少列
+     */
+    tblCellStyle ({row, column, rowIndex, columnIndex}) {
+      /*
+       * 根据列返回样式
+       */
+      switch (column.label) {
+      }
+    }
+  }
+}
+</script>
+
+<style>
+</style>

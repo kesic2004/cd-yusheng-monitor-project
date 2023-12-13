@@ -1,0 +1,52 @@
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import Vue from 'vue'
+import App from './App'
+import router from './router'
+
+/* 导入Element UI */
+import ElementUI from 'element-ui'
+/* 导入Element UI样式 */
+import 'element-ui/lib/theme-chalk/index.css'
+/* 导入axios */
+import axios from 'axios'
+/* 导入全局常量 */
+import constant from '@/constant/index'
+
+/* Use ElementUI */
+Vue.use(ElementUI)
+/* 全局绑定axios */
+Vue.prototype.$axios = axios
+/* 绑定全局常量，通过this.constant进行访问 */
+Vue.prototype.constant = constant
+
+Vue.config.productionTip = false
+
+router.beforeEach((to, from, next) => {
+  // console.log(Date.now())
+  // console.log(to)
+  // console.log(from)
+  // console.log(next)
+  /*
+   * 统一使用token
+   */
+  if (window.sessionStorage.getItem(constant.TOKEN) != null) {
+    next()
+  } else {
+    for (var i = 0; i < constant.OPENED_FULLPATH.length; ++i) {
+      if (constant.OPENED_FULLPATH[i] === to.fullPath) {
+        next()
+        return
+      }
+    }
+    next('/Login')
+  }
+})
+
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  router,
+  components: { App },
+  template: '<App/>'
+})

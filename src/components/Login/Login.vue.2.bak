@@ -1,0 +1,541 @@
+<template>
+  <div>
+    <img src="@/assets/login.svg" class="backgroundImageStyle" />
+    <!-- class="LoginPageStyle" -->
+    <el-form v-if="loginShow" status-icon ref="myForm" label-width="80px" class="LoginPageStyle" :model="loginForm" :rules="loginRules">
+      <span style="font-size: 37pt;font-family: Kaiti;display: flex; align-items: center;"><img src="@/assets/logo.png" style="height: 15%;width: 15%;" />气瓶追溯管理</span>
+      <el-form-item prop="myKey" label="用户名" style="margin-top: 10px;">
+        <el-input type="text" v-model="loginForm.myKey" />
+      </el-form-item>
+      <el-form-item prop="myValue" label="密码">
+        <el-input type="password" v-model="loginForm.myValue" />
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="login('myForm')" style="margin-right: 45px;">登录</el-button>
+        <el-button type="primary" @click="reset()" style="margin-left: 45px;">重置</el-button>
+      </el-form-item>
+    </el-form>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Login',
+  data () {
+    return {
+      loginForm: {
+        myKey: null,
+        myValue: null
+      },
+      loginRules: {
+        myKey: [
+          {
+            required: true,
+            message: '用户名是秘填项',
+            /**
+             * 校验字段的值是否符合提交要求
+             * @param {Object} rule 当前对象
+             * @param {String} value 用户所输入的值
+             * @param {function} callback 校验时所调用的函数，如果校验通过就调用callback()且不传参，如果校验不通过就调用callback(new Error('不通过的理由'))
+             */
+            validator: (rule, value, callback) => {
+              if (value === null || value.trim().length === 0) {
+                callback(new Error('用户名是必填'))
+              }
+              callback()
+            },
+            trigger: 'blur'
+          }
+        ],
+        myValue: [
+          {
+            required: true,
+            message: '密码是必填项',
+            /**
+             * 校验字段的值是否符合提交要求
+             * @param {Object} rule 当前对象
+             * @param {String} value 用户所输入的值
+             * @param {function} callback 校验时所调用的函数，如果校验通过就调用callback()且不传参，如果校验不通过就调用callback(new Error('不通过的理由'))
+             */
+            validator: (rule, value, callback) => {
+              // console.log('myValue')
+              // console.log(rule)
+              // console.log(value)
+              // console.log(callback)
+              if (value === null || value.trim().length === 0) {
+                callback(new Error('密码是必填项'))
+              }
+              callback()
+            },
+            trigger: 'blur'
+          }
+        ]
+      },
+      loginShow: false
+    }
+  },
+  mounted () {
+    this.$axios.post(this.constant.GAS_SERVER_PREFIX + '/authorize/login/getSessionUser', { }, { headers: { 'reference': this.constant.ROOT_PATH } }).then(res => {
+      // {
+      //     "data": {
+      //         "login": {
+      //             "id": 1,
+      //             "stationId": 99,
+      //             "myValue": "5ff138bd-7d22-410e-9bee-de352d3ca5c3",
+      //             "myKey": "admin",
+      //             "status": 0,
+      //             "millis": 1698742544463
+      //         },
+      //         "leftMenuCollapse": [
+      //             {
+      //                 "id": 3,
+      //                 "myOrder": 1,
+      //                 "parent": 2,
+      //                 "status": 0,
+      //                 "index": "1",
+      //                 "name": "工作空间",
+      //                 "items": [
+      //                     {
+      //                         "id": 7,
+      //                         "myOrder": 1,
+      //                         "parent": 3,
+      //                         "status": 0,
+      //                         "index": "/Main/Console",
+      //                         "name": "控制台",
+      //                         "items": []
+      //                     }
+      //                 ]
+      //             },
+      //             {
+      //                 "id": 4,
+      //                 "myOrder": 2,
+      //                 "parent": 2,
+      //                 "status": 0,
+      //                 "index": "2",
+      //                 "name": "罐装系统",
+      //                 "items": [
+      //                     {
+      //                         "id": 8,
+      //                         "myOrder": 1,
+      //                         "parent": 4,
+      //                         "status": 0,
+      //                         "index": "/Charge/ChargeDocuments",
+      //                         "name": "充装记录",
+      //                         "items": []
+      //                     },
+      //                     {
+      //                         "id": 9,
+      //                         "myOrder": 2,
+      //                         "parent": 4,
+      //                         "status": 0,
+      //                         "index": "2-2",
+      //                         "name": "机构管理",
+      //                         "items": []
+      //                     },
+      //                     {
+      //                         "id": 10,
+      //                         "myOrder": 3,
+      //                         "parent": 4,
+      //                         "status": 0,
+      //                         "index": "2-3",
+      //                         "name": "价格管理",
+      //                         "items": []
+      //                     },
+      //                     {
+      //                         "id": 11,
+      //                         "myOrder": 4,
+      //                         "parent": 4,
+      //                         "status": 0,
+      //                         "index": "2-4",
+      //                         "name": "操作员管理",
+      //                         "items": []
+      //                     },
+      //                     {
+      //                         "id": 12,
+      //                         "myOrder": 5,
+      //                         "parent": 4,
+      //                         "status": 0,
+      //                         "index": "2-5",
+      //                         "name": "站秤管理",
+      //                         "items": []
+      //                     },
+      //                     {
+      //                         "id": 13,
+      //                         "myOrder": 6,
+      //                         "parent": 4,
+      //                         "status": 0,
+      //                         "index": "2-6",
+      //                         "name": "打印票据",
+      //                         "items": []
+      //                     }
+      //                 ]
+      //             },
+      //             {
+      //                 "id": 5,
+      //                 "myOrder": 3,
+      //                 "parent": 2,
+      //                 "status": 0,
+      //                 "index": "3",
+      //                 "name": "站点信息",
+      //                 "items": [
+      //                     {
+      //                         "id": 14,
+      //                         "myOrder": 1,
+      //                         "parent": 5,
+      //                         "status": 0,
+      //                         "index": "3-1",
+      //                         "name": "站点信息",
+      //                         "items": []
+      //                     },
+      //                     {
+      //                         "id": 15,
+      //                         "myOrder": 2,
+      //                         "parent": 5,
+      //                         "status": 0,
+      //                         "index": "/Site/BottleArchive",
+      //                         "name": "气瓶档案",
+      //                         "items": []
+      //                     },
+      //                     {
+      //                         "id": 16,
+      //                         "myOrder": 3,
+      //                         "parent": 5,
+      //                         "status": 0,
+      //                         "index": "3-3",
+      //                         "name": "从业人员",
+      //                         "items": []
+      //                     },
+      //                     {
+      //                         "id": 17,
+      //                         "myOrder": 4,
+      //                         "parent": 5,
+      //                         "status": 0,
+      //                         "index": "3-4",
+      //                         "name": "充检项目",
+      //                         "items": []
+      //                     },
+      //                     {
+      //                         "id": 18,
+      //                         "myOrder": 5,
+      //                         "parent": 5,
+      //                         "status": 0,
+      //                         "index": "3-5",
+      //                         "name": "充前检查/充后复检",
+      //                         "items": []
+      //                     },
+      //                     {
+      //                         "id": 19,
+      //                         "myOrder": 6,
+      //                         "parent": 5,
+      //                         "status": 0,
+      //                         "index": "3-6",
+      //                         "name": "常用厂家管理",
+      //                         "items": []
+      //                     }
+      //                 ]
+      //             },
+      //             {
+      //                 "id": 6,
+      //                 "myOrder": 4,
+      //                 "parent": 2,
+      //                 "status": 0,
+      //                 "index": "4",
+      //                 "name": "气瓶配送",
+      //                 "items": [
+      //                     {
+      //                         "id": 20,
+      //                         "myOrder": 1,
+      //                         "parent": 6,
+      //                         "status": 0,
+      //                         "index": "4-1",
+      //                         "name": "调拨出站",
+      //                         "items": []
+      //                     },
+      //                     {
+      //                         "id": 21,
+      //                         "myOrder": 2,
+      //                         "parent": 6,
+      //                         "status": 0,
+      //                         "index": "4-2",
+      //                         "name": "配送车辆",
+      //                         "items": []
+      //                     }
+      //                 ]
+      //             },
+      //             {
+      //                 "id": 22,
+      //                 "myOrder": 5,
+      //                 "parent": 2,
+      //                 "status": 0,
+      //                 "index": "5",
+      //                 "name": "菜单管理",
+      //                 "items": [
+      //                     {
+      //                         "id": 23,
+      //                         "myOrder": 1,
+      //                         "parent": 22,
+      //                         "status": 0,
+      //                         "index": "5-1",
+      //                         "name": "修改菜单",
+      //                         "items": []
+      //                     },
+      //                     {
+      //                         "id": 24,
+      //                         "myOrder": 2,
+      //                         "parent": 22,
+      //                         "status": 0,
+      //                         "index": "5-2",
+      //                         "name": "分配菜单",
+      //                         "items": []
+      //                     }
+      //                 ]
+      //             }
+      //         ],
+      //         "leftMenuDefaultActive": "/Main/Console",
+      //         "leftMenuDefaultName": "控制台",
+      //         "leftMenuWelcome": "/Welcome",
+      //         "millis": 1698742544463
+      //     },
+      //     "status": 200,
+      //     "statusText": "OK",
+      //     "headers": {
+      //         "connection": "close",
+      //         "content-encoding": "gzip",
+      //         "content-type": "application/json",
+      //         "date": "Tue, 31 Oct 2023 08:55:53 GMT",
+      //         "transfer-encoding": "chunked",
+      //         "vary": "Accept-Encoding",
+      //         "x-powered-by": "Express"
+      //     },
+      //     "config": {
+      //         "transitional": {
+      //             "silentJSONParsing": true,
+      //             "forcedJSONParsing": true,
+      //             "clarifyTimeoutError": false
+      //         },
+      //         "adapter": [
+      //             "xhr",
+      //             "http"
+      //         ],
+      //         "transformRequest": [
+      //             null
+      //         ],
+      //         "transformResponse": [
+      //             null
+      //         ],
+      //         "timeout": 0,
+      //         "xsrfCookieName": "XSRF-TOKEN",
+      //         "xsrfHeaderName": "X-XSRF-TOKEN",
+      //         "maxContentLength": -1,
+      //         "maxBodyLength": -1,
+      //         "env": {},
+      //         "headers": {
+      //             "Accept": "application/json, text/plain, */*",
+      //             "Content-Type": "application/json"
+      //         },
+      //         "method": "post",
+      //         "url": "/gas/authorize/login/checkKeyAndValue",
+      //         "data": "{\"myKey\":\"admin\",\"myValue\":\"123456\"}"
+      //     },
+      //     "request": {}
+      // }
+      if (res.status === 200 && res.data.login !== null && Array.isArray(res.data.leftMenuCollapse)) { /* 双重非（!!）运算符 */
+        // console.log(JSON.stringify(res.data))
+        res.data.login.millis = res.data.millis
+        window.sessionStorage.setItem(this.constant.TOKEN, JSON.stringify(res.data.login))
+        const menu = {
+          leftMenuCollapse: res.data.leftMenuCollapse,
+          leftMenuDefaultActive: res.data.leftMenuDefaultActive,
+          leftMenuDefaultName: res.data.leftMenuDefaultName,
+          leftMenuWelcome: res.data.leftMenuWelcome
+        }
+        // console.log(res.data.login)
+        // console.log(menu)
+        window.sessionStorage.setItem(this.constant.MENU, JSON.stringify(menu))
+        /*
+         * 获取用户信息成功后，刷新页面
+         */
+        this.$router.push({ path: '/' })
+        location.reload()
+      } else {
+        // console.log('Show login form')
+        window.sessionStorage.removeItem(this.constant.TOKEN)
+        window.sessionStorage.removeItem(this.constant.MENU)
+        this.loginShow = true
+      }
+    }).catch(ex => {
+      // {
+      //     "message": "Request failed with status code 401",
+      //     "name": "AxiosError",
+      //     "stack": "AxiosError: Request failed with status code 401\n    at settle (webpack-internal:///./node_modules/axios/lib/core/settle.js:21:12)\n    at XMLHttpRequest.onloadend (webpack-internal:///./node_modules/axios/lib/adapters/xhr.js:125:79)",
+      //     "config": {
+      //         "transitional": {
+      //             "silentJSONParsing": true,
+      //             "forcedJSONParsing": true,
+      //             "clarifyTimeoutError": false
+      //         },
+      //         "adapter": [
+      //             "xhr",
+      //             "http"
+      //         ],
+      //         "transformRequest": [
+      //             null
+      //         ],
+      //         "transformResponse": [
+      //             null
+      //         ],
+      //         "timeout": 0,
+      //         "xsrfCookieName": "XSRF-TOKEN",
+      //         "xsrfHeaderName": "X-XSRF-TOKEN",
+      //         "maxContentLength": -1,
+      //         "maxBodyLength": -1,
+      //         "env": {},
+      //         "headers": {
+      //             "Accept": "application/json, text/plain, */*",
+      //             "Content-Type": "application/json",
+      //             "reference": "/"
+      //         },
+      //         "method": "post",
+      //         "url": "/gas/authorize/login/getSessionUser",
+      //         "data": "{}"
+      //     },
+      //     "code": "ERR_BAD_REQUEST",
+      //     "status": 401
+      // }
+      // console.log('Show login form')
+      window.sessionStorage.removeItem(this.constant.TOKEN)
+      window.sessionStorage.removeItem(this.constant.MENU)
+      this.loginShow = true
+    })
+  },
+  methods: {
+    login (formName) {
+      this.$refs[formName].validate(valid => {
+        if (!valid) {
+          return false
+        } else {
+          this.$axios.post(this.constant.GAS_SERVER_PREFIX + '/authorize/login/checkKeyAndValue', this.loginForm).then(res => {
+            if (res.status === 200 && res.data.login !== null && Array.isArray(res.data.leftMenuCollapse)) {
+              res.data.login.millis = res.data.millis
+              /*
+               * 保存token到session
+               */
+              window.sessionStorage.setItem(this.constant.TOKEN, JSON.stringify(res.data.login))
+              const menu = {
+                leftMenuCollapse: res.data.leftMenuCollapse,
+                leftMenuDefaultActive: res.data.leftMenuDefaultActive,
+                leftMenuDefaultName: res.data.leftMenuDefaultName,
+                leftMenuWelcome: res.data.leftMenuWelcome
+              }
+              // console.log(res.data.login)
+              // console.log(menu)
+              window.sessionStorage.setItem(this.constant.MENU, JSON.stringify(menu))
+              this.$router.push({ path: '/' })
+              /*
+               * 登录成功后，刷新页面
+               */
+              location.reload()
+            } else {
+              // {
+              //     "data": {
+              //         "login": null,
+              //         "leftMenuCollapse": null,
+              //         "leftMenuDefaultActive": "用户名和密码不正确",
+              //         "leftMenuDefaultName": null,
+              //         "leftMenuWelcome": null,
+              //         "millis": 0
+              //     },
+              //     "status": 200,
+              //     "statusText": "OK",
+              //     "headers": {
+              //         "connection": "close",
+              //         "content-encoding": "gzip",
+              //         "content-type": "application/json",
+              //         "date": "Tue, 31 Oct 2023 08:46:58 GMT",
+              //         "transfer-encoding": "chunked",
+              //         "vary": "Accept-Encoding",
+              //         "x-powered-by": "Express"
+              //     },
+              //     "config": {
+              //         "transitional": {
+              //             "silentJSONParsing": true,
+              //             "forcedJSONParsing": true,
+              //             "clarifyTimeoutError": false
+              //         },
+              //         "adapter": [
+              //             "xhr",
+              //             "http"
+              //         ],
+              //         "transformRequest": [
+              //             null
+              //         ],
+              //         "transformResponse": [
+              //             null
+              //         ],
+              //         "timeout": 0,
+              //         "xsrfCookieName": "XSRF-TOKEN",
+              //         "xsrfHeaderName": "X-XSRF-TOKEN",
+              //         "maxContentLength": -1,
+              //         "maxBodyLength": -1,
+              //         "env": {},
+              //         "headers": {
+              //             "Accept": "application/json, text/plain, */*",
+              //             "Content-Type": "application/json"
+              //         },
+              //         "method": "post",
+              //         "url": "/gas/authorize/login/checkKeyAndValue",
+              //         "data": "{\"myKey\":\"admin\",\"myValue\":\"123\"}"
+              //     },
+              //     "request": {}
+              // }
+            }
+          }).catch(ex => {
+            window.sessionStorage.removeItem(this.constant.TOKEN)
+            window.sessionStorage.removeItem(this.constant.MENU)
+          })
+          return true
+        }
+      })
+    },
+    reset (formName) {
+      this.loginForm.myKey = null
+      this.loginForm.myValue = null
+    }
+  }
+}
+</script>
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+/* 背景图片 */
+.backgroundImageStyle {
+  position: absolute; /* 绝对坐标 */
+  left: 0; /* X起始坐标 */
+  top: 0; /* Y起始坐标 */
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+/* 登录表单 */
+.LoginPageStyle {
+  /* position: relative; */
+  /* left: calc(30%); */
+  /* top: calc(30%); */
+  /* right: calc(70%); */
+  /* bottom: calc(70%); */
+  /* background-color: black; */
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.5); /* 让登录框增加阴影 */
+  border-radius: 8px; /* 增加登录框的圆弧角 */
+  width: 400px;
+  max-width: 100%;
+  padding: 0px 35px 0; /* 内边距 */
+  margin: auto;
+  position: absolute; /* 绝对位置 */
+  top: 50%;
+  left: 50%;
+  margin: -160px 0 0 -160px;
+  /* ———————————————— */
+  /* 版权声明：本文为CSDN博主「聪明不喝牛奶」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。 */
+  /* 原文链接：https://blog.csdn.net/ppphill_c/article/details/118763631 */
+}
+</style>

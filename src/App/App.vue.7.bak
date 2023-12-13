@@ -1,0 +1,487 @@
+<template>
+  <div id="app">
+    <router-view v-if="!displayMain && displayOpenedFullPath" />
+    <el-container v-if="displayMain" class="MyAppStyle" hidden="true">
+      <el-header class="MyTopHeader" :height="leftMessageHeightString">
+        <el-container>
+          <el-aside :width="leftMessageWidthString" class="MyLeftSide MyLeftUserMessage">
+            <el-row v-if="leftMenuIsCollapse" :gutter="40" type="flex" justify="start" align="middle" style="margin-left: 4px; margin-right: 0px;" v-bind:style="{ width: (leftMessageWidth - 4) + 'px'}">
+              <el-col :span="30" style="padding: 0px; margin: 0px; width: 45px; height: 20px; line-height: 1;"></el-col>
+              <el-col :span="10" style="padding: 0px; margin: 0px; width: 15px;">
+                <el-button size="mini" icon="el-icon-arrow-right" style="padding-top: 0px; padding-right: 7px; padding-bottom: 0px; padding-left: 7px; margin: 0px;" v-bind:style="{ height: (leftMessageHeight - 2) + 'px' }" @click="leftMenuChangeCollapse" />
+              </el-col>
+            </el-row>
+            <el-row v-else :gutter="40" type="flex" justify="start" align="middle" style="margin-left: 5px; margin-right: 0px;" v-bind:style="{ width: (leftMessageWidth - 5) + 'px'}">
+              <el-col :span="30" style="padding: 0px; margin: 0px; width: 180px; height: 20px; line-height: 1;">
+                <el-dropdown @command="topMenuDropped">
+                  <span style="color: #FFFFFF;">{{ myKey }}<i class="el-icon-arrow-down el-icon--right"></i></span>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item command="a">退出登录</el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
+              </el-col>
+              <el-col :span="10" style="padding: 0px; margin: 0px; width: 15px;">
+                <!-- style="padding-top: 0px; padding-right: 7px; padding-bottom: 0px; padding-left: 7px; margin-top: 1px; margin-right: 3px; margin-bottom: 0px; margin-left: 3px; background-color: yellow;"-->
+                <el-button size="mini" icon="el-icon-arrow-left" style="padding-top: 0px; padding-right: 7px; padding-bottom: 0px; padding-left: 7px; margin: 0px;" v-bind:style="{ height: (leftMessageHeight - 2) + 'px' }" @click="leftMenuChangeCollapse" />
+              </el-col>
+            </el-row>
+          </el-aside>
+          <el-main style="padding: 0px; margin: 0px;">
+            <el-container>
+              <el-header class="MySubHeader" :height="mySubHeaderHeightString" style="padding-left: 0px;">
+              </el-header>
+              <el-main class="MySubMain" style="padding-left: 0px;overflow-y: hidden;">
+                <el-tabs
+                  closable
+                  tab-position="top"
+                  v-model="myActiveClickedItem"
+                  type="card"
+                  @tab-click="myClickedItemClick"
+                  @tab-remove="myClickedItemRemove"
+                >
+                  <el-tab-pane
+                    v-for="item in myClickedItems"
+                    :key="item.label"
+                    :label="item.label"
+                    :name="item.name"
+                  />
+                </el-tabs>
+              </el-main>
+            </el-container>
+          </el-main>
+        </el-container>
+      </el-header>
+      <el-container class="MyMiddleMain">
+        <el-aside :width="leftMenuWidthString" class="MyLeftSide MyLeftMenuSide">
+          <!-- ———————————————— -->
+          <!-- 版权声明：本文为CSDN博主「xumengxia—xu」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。 -->
+          <!-- 原文链接：https://blog.csdn.net/qq_56514785/article/details/118404670 -->
+          <!-- router=true 动态跳转 -->
+          <el-menu
+            router
+            unique-opened
+            background-color="#2f4050"
+            text-color="#cccccc"
+            active-text-color="#5FB878"
+            v-for="item in leftMenuCollapse"
+            style="overflow: hidden;text-align: left;text-indent: 5px; padding: 0px; margin-right: -1px;"
+            :key="item.index"
+            :collapse="leftMenuIsCollapse"
+            :collapse-transition="true"
+            :default-active="leftMenuDefaultActive"
+            @select="leftMainMenuSelected"
+          >
+            <!-- style="border: solid;border-width: 1pt;border-color: red;" -->
+            <el-submenu :index="item.index">
+              <template slot="title">
+                <i v-if="item.iconName !== null" :class="item.iconName" style="text-indent: 0px;" />
+                <span>{{ item.name }}</span>
+              </template>
+              <el-menu-item
+                class="menusmall"
+                v-for="i in item.items"
+                :key="i.index"
+                :index="i.index"
+              >{{ i.name }}</el-menu-item>
+            </el-submenu>
+          </el-menu>
+        </el-aside>
+        <el-main class="MyMainSide">
+          <router-view />
+        </el-main>
+      </el-container>
+    </el-container>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'App',
+  data () {
+    return {
+      leftMessageWidth: 200, // 左上的消息栏宽度(单位像素)
+      leftMessageHeight: 60, // 左上的消息栏的高度(单位像素)
+      /* 左边的下拉菜单 */
+      leftMenuCollapse: [],
+      leftMenuDefaultActive: null, /* 默认跳转到的路径 */
+      leftMenuDefaultName: null, /* 默认跳转到的路径名字 , */
+      leftMenuWelcome: null, /* 不显示任何页面时显示的页面 */
+      leftMenuWidth: 200, /* 左边菜单的宽度(单位像素) */
+      leftMenuIsCollapse: false, /* 菜单是否收起来 */
+      mySubHeaderHeight: 30, /* 标签栏的高度 */
+      /*
+       * name : path
+       * label : 显示的名字
+       */
+      myClickedItems: [], /* 已点击的标签页 */
+      myActiveClickedItem: null, /* 活动的标签页 */
+      displayMain: false, /* 是否显示主页面 */
+      displayOpenedFullPath: false, /* 是否显示开放页面 */
+      myKey: null,
+      pageReferencePath: this.constant.ROOT_PATH
+    }
+  },
+  computed: {
+    /**
+     * 把左上的消息栏宽度由Number类型变成像素字符串
+     */
+    leftMessageWidthString: function () {
+      return this.leftMessageWidth + 'px'
+    },
+    /**
+     * 把左上的消息栏的高度由Number类型变成像素字符串
+     */
+    leftMessageHeightString: function () {
+      return this.leftMessageHeight + 'px'
+    },
+    /**
+     * 把左边菜单的宽度由Number类型变成像素字符串
+     */
+    leftMenuWidthString: function () {
+      return this.leftMenuWidth + 'px'
+    },
+    /**
+     * 把标签栏的高度由Number类型变成像素字符串
+     */
+    mySubHeaderHeightString: function () {
+      return this.mySubHeaderHeight + 'px'
+    }
+  },
+  watch: {
+  },
+  /*
+   * 页面加载完成时，需要根据session中的token判断进行具体的展示
+   */
+  mounted () {
+    /*
+     * 获取session中的token字符串
+     */
+    var currTokenString = window.sessionStorage.getItem(this.constant.TOKEN)
+    var currMenuString = window.sessionStorage.getItem(this.constant.MENU)
+    /*
+     * 如果不为null，就把该字符串解析为JSON对象，如果解析出错就刷新页面
+     * 如果为null，则从后端，如果获取失败，remove当前session中的token。
+     * 如果路径不是开放路径，那么刷新页面
+     */
+    if (currTokenString === null || currMenuString === null) {
+      window.sessionStorage.removeItem(this.constant.TOKEN)
+      window.sessionStorage.removeItem(this.constant.MENU)
+      window.sessionStorage.removeItem(this.constant.STATION)
+      for (var i = 0; i < this.constant.OPENED_FULLPATH.length; ++i) {
+        /*
+         * 如果是开放的路径，则不需要刷新
+         */
+        if (this.constant.OPENED_FULLPATH[i] === this.$router.currentRoute.fullPath) {
+          this.displayMain = false
+          this.displayOpenedFullPath = true
+          return
+        }
+      }
+      location.reload()
+    } else {
+      try {
+        /*
+         * window.sessionStorage存储的TOKEN不一定是正确的，所以加上try...catch...
+         */
+        const currToken = JSON.parse(currTokenString)
+        const currMenu = JSON.parse(currMenuString)
+        // console.log(currToken)
+        if (Date.now() - currToken.millis > 1500000) { /* 1500000即半小时减去五分钟 */
+          window.sessionStorage.removeItem(this.constant.TOKEN)
+          window.sessionStorage.removeItem(this.constant.MENU)
+          window.sessionStorage.removeItem(this.constant.STATION)
+          location.reload()
+          return
+        }
+        this.myKey = currToken.myTitle
+        this.leftMenuCollapse = currMenu.leftMenuCollapse
+        this.leftMenuDefaultActive = currMenu.leftMenuDefaultActive
+        this.leftMenuDefaultName = currMenu.leftMenuDefaultName
+        this.leftMenuWelcome = currMenu.leftMenuWelcome
+      } catch (ex) {
+        window.sessionStorage.removeItem(this.constant.TOKEN)
+        window.sessionStorage.removeItem(this.constant.MENU)
+        window.sessionStorage.removeItem(this.constant.STATION)
+        location.reload()
+        return
+      }
+      this.displayMain = true
+      this.displayOpenedFullPath = false
+      this.myClickedItemAddDefault()
+    }
+  },
+  methods: {
+    /**
+     * 新点击的菜单的路径
+     * @param {String} index：点击子菜单的index属性(Path)
+     * @param {Array} indexPath：点击菜单的index属性的路径，必须唯一
+     * @param {Object} menu 菜单对象
+     *                 menu._vnode.children[0].text是菜单名
+     */
+    leftMainMenuSelected (index, indexPath, menu) {
+      for (var i = 0; i < this.myClickedItems.length; ++i) {
+        if (this.myClickedItems[i].name === index) {
+          this.myActiveClickedItem = index
+          return
+        }
+      }
+      var item = {}
+      this.leftMenuDefaultActive = this.myActiveClickedItem = item.name = index
+      item.label = menu._vnode.children[0].text
+      this.myClickedItems.push(item)
+    },
+    /**
+     * 点击标签
+     * @param {Object} item 标签对象
+     *            item._data.index是该标签的序号
+     */
+    myClickedItemClick (item) {
+      this.modifyPath(item.name)
+      this.leftMenuDefaultActive = this.myActiveClickedItem = item.name
+    },
+    /**
+     * 移除标签
+     * @param {String} targetName 标签name
+     */
+    myClickedItemRemove (targetName) {
+      var oldArr = this.myClickedItems
+      var newArr = []
+      for (var i = 0; i < oldArr.length; ++i) {
+        if (oldArr[i].name !== targetName) {
+          newArr.push(oldArr[i])
+        }
+      }
+      /*
+       * 如果关闭的是活动标签
+       */
+      if (this.myActiveClickedItem === targetName) {
+        this.myClickedItems = newArr
+        /*
+        * 如果标签已经没有了
+        */
+        if (newArr.length === 0) {
+          this.modifyPath(this.leftMenuWelcome) // 修改为欢迎页面
+          this.myActiveClickedItem = null
+          /*
+          * 如果关闭的是第一个标签，后移
+          */
+        } else if (oldArr[0].name === targetName) {
+          for (var j = 1; j < oldArr.length; ++j) {
+            if (oldArr[j].name !== targetName) {
+              this.myActiveClickedItem = oldArr[j].name
+              this.modifyPath(this.myActiveClickedItem) // 修改为后一个页面
+              break
+            }
+          }
+          /*
+          * 否则前移
+          */
+        } else {
+          for (var k = 0; k < oldArr.length; ++k) {
+            if (oldArr[k].name === targetName) {
+              --k
+              for (; k > -1; --k) {
+                if (oldArr[k] !== targetName) {
+                  this.myActiveClickedItem = oldArr[k].name
+                  this.modifyPath(this.myActiveClickedItem) // 修改为前一个页面
+                  return
+                }
+              }
+            }
+          }
+        }
+      } else {
+        this.myClickedItems = newArr
+        /*
+         * 如果标签已经没有了
+         */
+        if (newArr.length === 0) {
+          this.myActiveClickedItem = null
+          this.modifyPath(this.leftMenuWelcome) // 修改为欢迎页面
+        }
+      }
+    },
+    /**
+     * 设定默认页面和默认标签
+     */
+    myClickedItemAddDefault () {
+      if (this.leftMenuCollapse.length > 0) {
+        const item = {}
+        item.name = this.leftMenuDefaultActive
+        item.label = this.leftMenuDefaultName
+        this.myClickedItems.push(item)
+        this.modifyPath(this.leftMenuDefaultActive)
+        this.myActiveClickedItem = item.name
+      } else {
+        this.modifyPath(this.leftMenuWelcome)
+      }
+    },
+    /**
+     * 处理树形菜单的折叠
+     */
+    leftMenuChangeCollapse () {
+      if (this.leftMenuIsCollapse) {
+        this.leftMenuIsCollapse = false
+        this.leftMessageWidth = 200
+        this.leftMenuWidth = 200
+      } else {
+        this.leftMenuIsCollapse = true
+        this.leftMessageWidth = 64
+        this.leftMenuWidth = 64
+      }
+    },
+    /**
+     * 修改路径
+     * @param {String} path 路径
+     */
+    modifyPath (path) {
+      if (this.$router.currentRoute.fullPath !== path) {
+        this.$router.push({ path: path })
+      }
+    },
+    topMenuDropped (command) {
+      switch (command) {
+        case 'a' : /* 退出登录 */ {
+          const reference = this.$router.currentRoute.fullPath
+          this.$confirm('确定要退出登录吗？', '提示', { confirmButtonText: '退出', cancelButtonText: '取消' }).then(_ => {
+            window.sessionStorage.removeItem(this.constant.TOKEN)
+            window.sessionStorage.removeItem(this.constant.MENU)
+            window.sessionStorage.removeItem(this.constant.STATION)
+            try {
+              this.$axios.get(
+                this.constant.GAS_SERVER_PREFIX + '/authorize/login/clearKey',
+                {
+                  headers: {
+                    'reference': reference
+                  }
+                }
+              ).then(res => {
+                this.modifyPath('/Login')
+                location.reload()
+              }).catch(ex => {
+                this.modifyPath('/Login')
+                location.reload()
+              })
+            } catch (ex) {
+              this.modifyPath('/Login')
+              location.reload()
+            }
+          }).catch(ex => {
+            location.reload()
+          })
+          break
+        }
+        default: {
+          break
+        }
+      }
+    }
+  }
+}
+</script>
+
+<style>
+/* 整个页面的区域 */
+.MyAppStyle {
+  position: absolute; /* 绝对坐标 */
+  left: 0; /* X起始坐标 */
+  top: 0; /* Y起始坐标 */
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  /* overflow-y: hidden; */
+}
+
+/* Header */
+.MyTopHeader {
+  position: relative;
+  left: -3px;
+  top: -3px;
+  /* background-color: #E3C0D1; */
+  padding: 0px;
+  margin: 0px;
+}
+
+/* 中间的主要区域 */
+.MyMiddleMain {
+  position: relative;
+  left: -3px;
+  top: -3px;
+  background-color: /* #B3C0D1*/ #FFFFFF;
+  padding: 0px;
+  margin: 0px;
+}
+
+/* 左边测边栏 */
+.MyLeftSide {
+  background-color: #2f4050;
+  color: #FFFFFF;
+}
+.MyLeftUserMessage {
+  background-color: #2f4050;
+  text-align: center;
+  line-height: 60px;
+}
+.MyLeftMenuSide {
+  text-align: center;
+  line-height: 200px;
+  overflow-x: hidden;
+}
+
+.MyMainSide {
+  padding: 0px;
+  margin: 0px;
+}
+.MySubHeader {
+  position: relative;
+  left: 0px;
+  top: 0px;
+  background-color: #f0f0f0;
+  padding: 0px;
+  margin: 0px;
+}
+.MySubMain {
+  position: relative;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 30px; /* 减去this.mySubHeaderHeightString的值 */
+  padding: 0px;
+  margin: 0px;
+}
+.el-tabs__item {
+  padding-top: 8px;
+  margin-top: 0px;
+  height: 27px;
+  font-size: 14px;
+  line-height: 0px;
+  position: relative;
+  top: -1px;
+  left: 0px;
+}
+.el-tabs__item.is-active {
+  color: #409EFF;
+  font-size: 16px;
+  background-color: #E3C0D1;
+  height: 29px;
+}
+
+/* .el-tabs--card>.el-tabs__header .el-tabs__item {
+  border-bottom: none;
+  border-left: none;
+  -webkit-transition: color .3s cubic-bezier(.645,.045,.355,1),padding .3s cubic-bezier(.645,.045,.355,1);
+  transition: color .3s cubic-bezier(.645,.045,.355,1),padding .3s cubic-bezier(.645,.045,.355,1);
+} */
+/* .el-tabs--card>.el-tabs__header .el-tabs__nav {
+  border: 1px solid #E4E7ED;
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 28px;
+} */
+/* .el-tabs--card>.el-tabs__header .el-tabs__item.is-active.is-closable {
+    padding-left: 20px;
+    padding-top: 0px;
+} */
+</style>
