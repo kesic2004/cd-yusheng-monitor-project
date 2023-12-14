@@ -1,0 +1,67 @@
+/*
+ * 作者：元子不圆呀
+ * 链接：https://juejin.cn/post/7182586151071383611
+ * 来源：稀土掘金
+ * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+ */
+module.exports = {
+  /* 基于部署应用包时的基本URL */
+  publicPath: '/',
+  /* 是打包后是否让每个js文件都生成一个.map文件？true代表生成，false代表不生成。@from https://blog.csdn.net/weixin_45851208/article/details/120828769 */
+  productionSourceMap: false,
+  chainWebpack: config => {
+    /* 添加别名 */
+    config.resolve.alias
+    .set('@', resolve('src'))
+    .set('@apis', resolve('src/apis'))
+    .set('@assets', resolve('src/assets'))
+    .set('@scss', resolve('src/assets/scss'))
+    .set('@components', resolve('src/components'))
+    .set('@mixins', resolve('src/mixins'))
+    .set('@plugins', resolve('src/plugins'))
+    .set('@router', resolve('src/router'))
+    .set('@store', resolve('src/store'))
+    .set('@utils', resolve('src/utils'))
+    .set('@config', resolve('src/config'))
+    .set('@views', resolve('src/views'));
+    console.log('123')
+  },
+  devServer: {
+    /* 让浏览器 overlay 同时显示警告和错误 */
+    overlay: {
+      warnings: true,
+      errors: true
+    },
+    /* 是否打开浏览器 */
+    open: false,
+    // host: '',
+    /* 代理端口 */
+    port: '8180',
+    https: false,
+    /* 热更新 */
+    hotOnly: true,
+    proxy: {
+      '/gas': {  // 前缀
+        target: 'http://localhost:8081', // 后端接口的地址(配置成不同的)
+        secure: false,
+        ws: false,
+        changeOrigin: true,
+        pathRewrite: { // 实际调用时移除前缀
+          '^/gas': ''
+        }
+      }
+    // },
+    // /*
+    //  * 访问监视温度压强后端
+    //  */
+    // '/monitor': { // 前缀
+    //   target: 'http://localhost:8082', // 后端接口的地址(配置成不同的)
+    //   secure: false,
+    //   ws: false,
+    //   changeOrigin: true,
+    //   pathRewrite: {
+    //     '^/monitor': '' // 实际调用时移除前缀
+    //   }
+    }
+  }
+}
