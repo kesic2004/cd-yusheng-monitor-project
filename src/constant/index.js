@@ -37,6 +37,10 @@ constant.OPENED_FULLPATH = [
  * 灌装秤后端访问前缀
  */
 constant.GAS_SERVER_PREFIX = '/gas'
-constant.GAS_IMAGE_PREFIX = '/__images__'
+constant.GAS_IMAGE_PREFIX = '/__image__'
+/**
+ * constant.GAS_SERVER_PREFIX + /attachment
+ */
+constant.GAS_SERVER_ATTACHMENT_PREFIX = '/gas/attachment'
 
 export default constant

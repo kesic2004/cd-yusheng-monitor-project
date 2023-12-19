@@ -328,18 +328,18 @@
               <el-form-item prop="files" label="气瓶图片" size="medium">
                 <el-upload
                   drag
-                  multiple
                   with-credentials
                   name="file"
                   :action="addBottleUploadActionUrl"
                   :auto-upload="addBottle.autoUpload"
+                  :multiple="addBottle.multipleUpload"
                   :file-list="addBottleAttachmentUploadList"
                   :limit="addBottle.uploadLimit"
                   :headers="addBottleUploadHeaders"
                   :show-file-list="addBottle.showFileList"
                   :on-change="addBottleImageChange"
-                  :on-exceed="addBottleExceed"
-                  :on-progress="addBottleProgress"
+                  :on-exceed="addBottleImageExceed"
+                  :on-progress="addBottleImageProgress"
                 >
                   <el-button
                     round
@@ -364,9 +364,9 @@
             </el-col>
           </el-row>
           <el-row v-if="Array.isArray(addBottleAttachmentShowList) && addBottleAttachmentShowList.length > 0" :gutter="48" type="flex" justify="start" align="middle" style="padding-top: 0px; padding-right: 15px; padding-bottom: 0px; padding-left: 15px; margin-left: 3px; margin-right: 3px; height: 115px; overflow-x: scroll; overflow-y: hidden; background-color: aqua;">
-            <el-div style="position: relative; top: 8px; margin: 0px; parring: 0px; width: 115px; height: 115px;"  v-for="item in addBottleAttachmentShowList" :key="item.id">
-              <el-image style="width: 100px; height: 100px" v-bind:src='item.uri' :fit="fill" /><!-- /__images__/BottleArchive/Screenshot_2020-11-28_203914.png -->
-            </el-div>
+            <div style="position: relative; top: 8px; margin: 0px; parring: 0px; width: 115px; height: 115px;"  v-for="item in addBottleAttachmentShowList" :key="item.id">
+              <el-image style="width: 100px; height: 100px" :src='item.uri' /><!-- /__images__/BottleArchive/Screenshot_2020-11-28_203914.png -->
+            </div>
           </el-row>
         </el-form>
       </div>
@@ -574,18 +574,18 @@
               <el-form-item prop="files" label="气瓶图片" size="medium">
                 <el-upload
                   drag
-                  multiple
                   with-credentials
                   name="file"
                   :action="editBottleUploadActionUrl"
                   :auto-upload="editBottle.autoUpload"
+                  :multiple="editBottle.multipleUpload"
                   :file-list="editBottleAttachmentUploadList"
                   :limit="editBottle.uploadLimit"
                   :headers="editBottleUploadHeaders"
                   :show-file-list="editBottle.showFileList"
                   :on-change="editBottleImageChange"
-                  :on-exceed="editBottleExceed"
-                  :on-progress="editBottleProgress"
+                  :on-exceed="editBottleImageExceed"
+                  :on-progress="editBottleImageProgress"
                 >
                   <el-button
                     round
@@ -994,6 +994,7 @@ export default {
         showClose: true, // 对话框是否显示关闭按钮
         showFileList: false, // 是否显示上传文件的列表
         autoUpload: true, // 气瓶档案是否自动上传
+        multipleUpload: false, // 气瓶档案是否多文件上传
         uploadChangeTimes: 0, // 上传时的on-upload回调次数
         uploadLimit: 7, // 限制上传的文件个数
         confirmTitle: '是否关闭新增气瓶档案' // 关闭对话框时的提示
@@ -1075,6 +1076,7 @@ export default {
         showClose: true, // 对话框是否显示关闭按钮
         showFileList: false, // 是否显示上传文件的列表
         autoUpload: true, // 气瓶档案是否自动上传
+        multipleUpload: false, // 气瓶档案是否多文件上传
         uploadChangeTimes: 0, // 上传时的on-upload回调次数
         uploadLimit: 7, // 限制上传的文件个数
         confirmTitle: '是否关闭修改气瓶档案', // 关闭对话框时的提示
@@ -1221,7 +1223,8 @@ export default {
         gastankid: null, // 主键
         oldQrcode: null, // String 旧条码编号
         newQrcode: null // String 新条码编号
-      }
+      },
+      imagePrefix: this.constant.GAS_IMAGE_PREFIX + '/BottleArchive'
     }
   },
   computed: {
@@ -1235,7 +1238,8 @@ export default {
      * 新增气瓶档案的图片时用的上传路径
      */
     addBottleUploadActionUrl: function () {
-      return this.constant.GAS_SERVER_PREFIX + '/attachment/BottleArchive/uploadNewImages/' + this.addBottleForm.attachmentUuid
+      console.log(this.addBottleForm.attachmentUuid)
+      return this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/bottleArchiveAttachmentImage/uploadNew/' + this.addBottleForm.attachmentUuid
     },
     /*
      * 新增气瓶档案的图片时用的header
@@ -1249,7 +1253,8 @@ export default {
      * 修改气瓶档案的图片时用的上传路径
      */
     editBottleUploadActionUrl: function () {
-      return this.constant.GAS_SERVER_PREFIX + '/attachment/BottleArchive/uploadOldImages/' + this.addBottleForm.attachmentUuid
+      console.log(this.editBottleForm.attachmentUuid)
+      return this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/bottleArchiveAttachmentImage/uploadNew/' + this.editBottleForm.attachmentUuid
     },
     /*
      * 修改气瓶档案的图片时用的header
@@ -1821,19 +1826,74 @@ export default {
      * @param list 文件列表
      */
     addBottleImageChange (file, list) {
+      console.log(this.addBottleAttachmentShowList.length)
+      console.log(this.addBottleAttachmentUploadList.length)
+      console.log(this.addBottleAttachmentPreuploadList.length)
+      console.log(file.status)
+      console.log(file.name)
+      console.log(file.percentage)
+      console.log(file.uid)
+      console.log(file.raw.uid)
+      console.log(file.raw.lastModified)
+      console.log(file.raw.lastModifiedDate)
+      console.log(file.raw.name)
+      console.log(file.response)
+      console.log(file.raw.size)
+      console.log(file.raw.type)
+      console.log(file.raw.webkitRelativePath)
+      switch (file.status) {
+        case 'success' : {
+          for (var i = 0; i < file.response.length; ++i) {
+            const localResult = {
+              uploadName: file.response[i].uploadName,
+              filename: file.response[i].filename,
+              fileUuid: file.response[i].fileUuid,
+              ext: file.response[i].ext,
+              size: file.response[i].size,
+              width: file.response[i].width,
+              height: file.response[i].height,
+              seq: file.response[i].seq,
+              uri: this.imagePrefix + '/' + file.response[i].fileUuid + '/' + file.response[i].filename + '.' + file.response[i].ext
+            }
+            for (var j = 0; j < this.addBottleAttachmentShowList.length; ++j) {
+              if (this.addBottleAttachmentShowList[j].seq === localResult.seq) {
+                this.addBottleAttachmentShowList[j] = localResult
+                return
+              }
+            }
+            this.addBottleAttachmentShowList.unshift(localResult)
+            console.log(localResult)
+          }
+          break
+        }
+        case 'fail' : {
+          this.$message('上传文件' + file.name + '失败')
+          // TODO
+          break
+        }
+        case 'ready' : {
+          break
+        }
+        default: {
+          break
+        }
+      }
     },
     /**
      * @param files 超出的文件部分
      * @param list 已有文件列表
      */
-    addBottleExceed (files, list) {
+    addBottleImageExceed (files, list) {
     },
     /**
      * @param evt 事件
      * @param file 文件
      * @param list 文件列表
      */
-    addBottleProgress (evt, file, list) {
+    addBottleImageProgress (evt, file, list) {
+      console.log(this.addBottleAttachmentShowList)
+      console.log(this.addBottleAttachmentUploadList)
+      console.log(this.addBottleAttachmentPreuploadList)
     },
     /**
      * 新增气瓶档案对话框中的规格型号控件发生变化时
@@ -2067,19 +2127,25 @@ export default {
      * @param list 文件列表
      */
     editBottleImageChange (file, list) {
+      console.log(this.editBottleAttachmentShowList)
+      console.log(this.editBottleAttachmentUploadList)
+      console.log(this.editBottleAttachmentPreuploadList)
     },
     /**
      * @param files 超出的文件部分
      * @param list 已有文件列表
      */
-    editBottleExceed (files, list) {
+    editBottleImageExceed (files, list) {
     },
     /**
      * @param evt 事件
      * @param file 文件
      * @param list 文件列表
      */
-    editBottleProgress (evt, file, list) {
+    editBottleImageProgress (evt, file, list) {
+      console.log(this.editBottleAttachmentShowList)
+      console.log(this.editBottleAttachmentUploadList)
+      console.log(this.editBottleAttachmentPreuploadList)
     },
     /**
      * 修改气瓶档案对话框中的规格型号控件发生变化时
