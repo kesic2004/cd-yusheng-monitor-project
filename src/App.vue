@@ -201,7 +201,6 @@ export default {
         const currToken = JSON.parse(currTokenString)
         const currMenu = JSON.parse(currMenuString)
         const currStation = JSON.parse(localStationString)
-        // console.log(currToken)
         if (Date.now() - currToken.millis > 1500000) { /* 1500000即半小时减去五分钟 */
           window.sessionStorage.removeItem(this.constant.TOKEN)
           window.sessionStorage.removeItem(this.constant.MENU)
@@ -716,6 +715,21 @@ export default {
 /*   box-sizing: border-box; */
 /*   width: 90%; */
 /* } */
+/*
+ * 对话框标题
+ */
+ .el-dialog__header {
+    padding: 10px 20px 10px 20px;
+}
+/*
+ * 对话框主要内容
+ */
+.el-dialog__body {
+    padding: 0px 20px 10px 20px;
+    color: #606266;
+    font-size: 14px;
+    word-break: break-all;
+}
 .el-upload-dragger {
   background-color: #fff;
   border: none;
