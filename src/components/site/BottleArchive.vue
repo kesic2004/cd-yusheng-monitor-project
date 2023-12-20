@@ -988,7 +988,7 @@ export default {
         title: '新增气瓶档案', // 对话框标题
         visible: false, // 对话框显示状态
         width: '90%', // 相对宽度
-        digWidth: 1450, // 对度框宽度(实际宽度×90%)
+        digWidth: 1450, // 对话框宽度(实际宽度×90%)
         divWidth: 1255, // 对话框主要区域宽度
         divHeight: 630, // 对话框主要区域高度
         showClose: true, // 对话框是否显示关闭按钮
@@ -1070,7 +1070,7 @@ export default {
         title: '修改气瓶档案', // 对话框标题
         visible: false, // 对话框显示状态
         width: '90%', // 相对宽度
-        digWidth: 1450, // 对度框宽度(实际宽度×90%)
+        digWidth: 1450, // 对话框宽度(实际宽度×90%)
         divWidth: 1255, // 对话框主要区域宽度
         divHeight: 630, // 对话框主要区域高度
         showClose: true, // 对话框是否显示关闭按钮
@@ -1151,7 +1151,7 @@ export default {
         title: '查看气瓶档案', // 对话框标题
         visible: false, // 对话框显示状态
         width: '90%', // 相对宽度
-        digWidth: 1450, // 对度框宽度(实际宽度×90%)
+        digWidth: 1450, // 对话框宽度(实际宽度×90%)
         divWidth: 1255, // 对话框主要区域宽度
         divHeight: 630, // 对话框主要区域高度
         showClose: true // 对话框是否显示关闭按钮
@@ -1213,7 +1213,7 @@ export default {
         title: '修改气瓶编号', // 对话框标题
         visible: false, // 对话框显示状态
         width: '90%', // 相对宽度
-        digWidth: 370, // 对度框宽度(实际宽度×90%)
+        digWidth: 370, // 对话框宽度(实际宽度×90%)
         divWidth: 290, // 对话框主要区域宽度
         divHeight: 100, // 对话框主要区域高度
         showClose: true, // 对话框是否显示关闭按钮
