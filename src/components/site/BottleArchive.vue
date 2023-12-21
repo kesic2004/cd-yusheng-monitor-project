@@ -366,7 +366,12 @@
           </el-row>
           <el-row v-if="Array.isArray(addBottleAttachmentShowList) && addBottleAttachmentShowList.length > 0" :gutter="48" type="flex" justify="start" align="middle" style="padding-top: 0px; padding-right: 2px; padding-bottom: 0px; padding-left: 2px; margin-left: 3px; margin-right: 3px; height: 115px; overflow-x: scroll; overflow-y: hidden; background-color: whitesmoke;">
             <div style="position: relative; top: 8px; margin: 0px 2px 0px 2px; parring: 0px; width: 100px; height: 115px;"  v-for="(item, index) in addBottleAttachmentShowList" :key="item.id">
-              <el-image style="width: 100px; height: 100px" :src='item.uri' @click="addBottleImageClick(index)"><i class="el-icon-circle-close" style="position: relative; top: 0px; right: 7px;" /></el-image><!-- /__images__/BottleArchive/Screenshot_2020-11-28_203914.png -->
+              <!-- ———————————————— -->
+              <!-- 版权声明：本文为CSDN博主「喜大普奔⁶⁶⁶」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。 -->
+              <!-- 原文链接：https://blog.csdn.net/qq_38652871/article/details/115081612 -->
+              <!-- ———————————————— -->
+              <span class="el-image-viewer__btn" @click="addBottleImageRemove(index)"><i class="el-icon-error" style="margin-left: 80px; margin-top: 0px; font-size: 14pt;"></i></span>
+              <el-image style="width: 100px; height: 100px" fill="fill" :src='item.uri' @click="addBottleImageClick(index)" /><!-- /__images__/BottleArchive/Screenshot_2020-11-28_203914.png -->
             </div>
           </el-row>
         </el-form>
@@ -379,7 +384,10 @@
         </el-row>
       </div>
       <!-- style="background-color: aqua; border: solid; border-color: brown; border-width: 1pt;" -->
-      <div :style="{ width: addBottleDivWidthString, height: addBottleDivHeightString, display: addBottlePictureDisplayString }" style="background-color: aqua; border: solid; border-color: brown; border-width: 1pt;"></div>
+      <!-- position: relative; top: 0px; left: 0px; -->
+      <div :style="{ width: addBottleDivWidthString, height: addBottleDivHeightString, display: addBottlePictureDisplayString }" style="background-color: aqua; border: solid; border-color: brown; border-width: 1pt;">
+        <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding: 0px; 0px; 0px; 0px;"></el-row>
+      </div>
     </el-dialog>
     <!-- 修改气瓶档案对话框 -->
     <el-dialog
@@ -609,7 +617,12 @@
           </el-row>
           <el-row v-if="Array.isArray(editBottleAttachmentShowList) && editBottleAttachmentShowList.length > 0" :gutter="48" type="flex" justify="start" align="middle" style="padding-top: 0px; padding-right: 2px; padding-bottom: 0px; padding-left: 2px; margin-left: 3px; margin-right: 3px; height: 115px; overflow-x: scroll; overflow-y: hidden; background-color: whitesmoke;">
             <div style="position: relative; top: 8px; margin-top: 0px; margin-right: 2px; margin-bottom: 0px; margin-left: 0px; parring: 0px; width: 100px; height: 115px;"  v-for="(item, index) in editBottleAttachmentShowList" :key="item.id">
-              <el-image style="width: 100px; height: 100px" v-bind:src='item.uri' @click="editBottleImageClick(index)"><i class="el-icon-circle-close" style="postion: relative; top: 0px; right: 7px" /></el-image><!-- /__images__/BottleArchive/Screenshot_2020-11-28_203914.png -->
+              <!-- ———————————————— -->
+              <!-- 版权声明：本文为CSDN博主「喜大普奔⁶⁶⁶」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。 -->
+              <!-- 原文链接：https://blog.csdn.net/qq_38652871/article/details/115081612 -->
+              <!-- ———————————————— -->
+              <span class="el-image-viewer__btn" @click="editBottleImageRemove(index)"><i class="el-icon-error" style="margin-left: 80px; margin-top: 0px; font-size: 14pt;"></i></span>
+              <el-image style="width: 100px; height: 100px" fill="fill" v-bind:src='item.uri' @click="editBottleImageClick(index)" /><!-- /__images__/BottleArchive/Screenshot_2020-11-28_203914.png -->
             </div>
           </el-row>
         </el-form>
@@ -622,7 +635,11 @@
         </el-row>
       </div>
       <!-- style="background-color: aqua; border: solid; border-color: brown; border-width: 1pt;" -->
-      <div :style="{ width: editBottleDivWidthString, height: editBottleDivHeightString, display: editBottlePictureDisplayString }" style="background-color: aqua; border: solid; border-color: brown; border-width: 1pt;"></div>
+      <!-- position: relative; top: 0px; left: 0px; -->
+      <!-- position: relative; left: 0px; -->
+      <div :style="{ width: editBottleDivWidthString, height: editBottleDivHeightString, display: editBottlePictureDisplayString }" style="background-color: aqua; border: solid; border-color: brown; border-width: 1pt;">
+        <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding: 0px; 0px; 0px; 0px;"></el-row>
+      </div>
     </el-dialog>
     <!--查看气瓶档案-->
     <el-dialog
@@ -827,13 +844,21 @@
           </el-row>
           <el-row v-if="Array.isArray(viewBottleAttachmentShowList) && viewBottleAttachmentShowList.length > 0" :gutter="48" type="flex" justify="start" align="middle" style="padding-top: 0px; padding-right: 2px; padding-bottom: 0px; padding-left: 2px; margin-left: 3px; margin-right: 3px; height: 115px; overflow-x: scroll; overflow-y: hidden; background-color: whitesmoke;">
             <div style="position: relative; top: 8px; margin-top: 0px; margin-right: 2px; margin-bottom: 0px; margin-left: 2px; parring: 0px; width: 100px; height: 115px;"  v-for="(item,index) in viewBottleAttachmentShowList" :key="item.id">
-              <el-image style="width: 100px; height: 100px" v-bind:src='item.uri' @click="viewBottleImageClick(index)" /><!-- /__images__/BottleArchive/Screenshot_2020-11-28_203914.png -->
+              <!-- ———————————————— -->
+              <!-- 版权声明：本文为CSDN博主「喜大普奔⁶⁶⁶」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。 -->
+              <!-- 原文链接：https://blog.csdn.net/qq_38652871/article/details/115081612 -->
+              <!-- ———————————————— -->
+              <!--<span class="el-image-viewer__btn"><i class="el-icon-error" style="margin-left: 80px; margin-top: 0px; font-size: 14pt;"></i></span>-->
+              <el-image style="width: 100px; height: 100px" fill="fill" v-bind:src='item.uri' @click="viewBottleImageClick(index)" /><!-- /__images__/BottleArchive/Screenshot_2020-11-28_203914.png -->
             </div>
           </el-row>
         </el-form>
       </div>
       <!-- style="background-color: aqua; border: solid; border-color: brown; border-width: 1pt;" -->
-      <div :style="{ width: viewBottleDivWidthString, height: viewBottleDivHeightString, display: viewBottlePictureDisplayString }" style="background-color: aqua; border: solid; border-color: brown; border-width: 1pt;"></div>
+      <!-- position: relative; top: 0px; left: 0px; -->
+      <div :style="{ width: viewBottleDivWidthString, height: viewBottleDivHeightString, display: viewBottlePictureDisplayString }" style="background-color: aqua; border: solid; border-color: brown; border-width: 1pt;">
+        <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding: 0px 0px 0px 0px;"></el-row>
+      </div>
     </el-dialog>
     <!--修改气瓶编号对话框-->
     <el-dialog
@@ -1004,8 +1029,9 @@ export default {
         marginLeft: [300, 0], // (new)对话框的左边距
         formDisplay: ['block', 'none'], // (new)表单的显示方式
         pictureDisplay: ['none', 'block'], // (new)图片的显示方式
-        pictureTop: 160, // 图片上边距
-        pictureRight: 42, // 图片右边距
+        pictureAreaTop: 48, // 图片区域上边距
+        pictureAreaRight: 42, // 图片区域右边距
+        pictureRowHeight: -123, // 图片下边的小图的扣减高度
         pictureIndex: 0, // 显示第几张图
         showClose: true, // 对话框是否显示关闭按钮
         showFileList: false, // 是否显示上传文件的列表
@@ -1132,8 +1158,9 @@ export default {
         marginLeft: [300, 0], // (new)对话框的左边距
         formDisplay: ['block', 'none'], // (new)表单的显示方式
         pictureDisplay: ['none', 'block'], // (new)图片的显示方式
-        pictureTop: 160, // 图片上边距
-        pictureRight: 42, // 图片右边距
+        pictureAreaTop: 48, // 图片区域上边距
+        pictureAreaRight: 42, // 图片区域右边距
+        pictureRowHeight: -123, // 图片下边的小图的扣减高度
         pictureIndex: 0, // 显示第几张图
         showClose: true, // 对话框是否显示关闭按钮
         showFileList: false, // 是否显示上传文件的列表
@@ -1259,8 +1286,9 @@ export default {
         marginLeft: [300, 0], // (new)对话框的左边距
         formDisplay: ['block', 'none'], // (new)表单的显示方式
         pictureDisplay: ['none', 'block'], // (new)图片的显示方式
-        pictureTop: 160, // 图片上边距
-        pictureRight: 42, // 图片右边距
+        pictureAreaTop: 48, // 图片区域上边距
+        pictureAreaRight: 42, // 图片区域右边距
+        pictureRowHeight: -123, // 图片下边的小图的扣减高度
         pictureIndex: 0, // 显示第几张图
         showClose: true // 对话框是否显示关闭按钮
       },
@@ -1411,6 +1439,7 @@ export default {
     addBottleMarginLeftString: function () { return this.addBottle.marginLeft[this.addBottle.displayIndex] + 'px' },
     addBottleFormDisplayString: function () { return this.addBottle.formDisplay[this.addBottle.displayIndex] },
     addBottlePictureDisplayString: function () { return this.addBottle.pictureDisplay[this.addBottle.displayIndex] },
+    addBottlePictureRowHeightString: function () { return this.addBottle.divHeight[this.addBottle.displayIndex] + this.addBottle.pictureRowHeight },
     editBottleWidthString: function () { return this.editBottle.width[this.editBottle.displayIndex] },
     editBottleDialogWidthString: function () { return this.editBottle.digWidth[this.editBottle.displayIndex] + 'px' },
     editBottleDialogTopString: function () { return this.editBottle.digTop[this.editBottle.displayIndex] },
@@ -1419,6 +1448,7 @@ export default {
     editBottleMarginLeftString: function () { return this.editBottle.marginLeft[this.editBottle.displayIndex] + 'px' },
     editBottleFormDisplayString: function () { return this.editBottle.formDisplay[this.editBottle.displayIndex] },
     editBottlePictureDisplayString: function () { return this.editBottle.pictureDisplay[this.editBottle.displayIndex] },
+    editBottlePictureRowHeightString: function () { return this.editBottle.divHeight[this.editBottle.displayIndex] + this.editBottle.pictureRowHeight },
     viewBottleWidthString: function () { return this.viewBottle.width[this.viewBottle.displayIndex] },
     viewBottleDialogWidthString: function () { return this.viewBottle.digWidth[this.viewBottle.displayIndex] + 'px' },
     viewBottleDialogTopString: function () { return this.viewBottle.digTop[this.viewBottle.displayIndex] },
@@ -1427,6 +1457,7 @@ export default {
     viewBottleMarginLeftString: function () { return this.viewBottle.marginLeft[this.viewBottle.displayIndex] + 'px' },
     viewBottleFormDisplayString: function () { return this.viewBottle.formDisplay[this.viewBottle.displayIndex] },
     viewBottlePictureDisplayString: function () { return this.viewBottle.pictureDisplay[this.viewBottle.displayIndex] },
+    viewBottlePictureRowHeightString: function () { return this.viewBottle.divHeight[this.viewBottle.displayIndex] + this.viewBottle.pictureRowHeight },
     /*
      * 表格高度
      */
@@ -2078,12 +2109,36 @@ export default {
      */
     addBottleImageClick (index) {
       this.addBottle.digWidth[1] = window.innerWidth
-      this.addBottle.divWidth[1] = this.addBottle.digWidth[1] - this.addBottle.pictureRight
-      this.addBottle.divHeight[1] = window.innerHeight - this.addBottle.pictureTop
+      this.addBottle.divWidth[1] = this.addBottle.digWidth[1] - this.addBottle.pictureAreaRight
+      this.addBottle.divHeight[1] = window.innerHeight - this.addBottle.pictureAreaTop
       /*
        * 修改显示的模式为显示图片
        */
       this.addBottle.displayIndex = 1
+      this.addBottle.pictureIndex = index
+    },
+    /**
+     * 移除指定的图片
+     */
+    addBottleImageRemove (index) {
+      this.$confirm('确定要删除该图片？', '提示', { confirmButtonText: '删除', cancelButtonText: '取消' }).then(_ => {
+        const oldArr = this.addBottleAttachmentShowList
+        const newArr = Array(oldArr.length - 1)
+        for (var i = 0, idx = 0; i < oldArr.length; ++i) {
+          if (i === index) {
+            continue
+          }
+          newArr[idx] = oldArr[i]
+          ++idx
+        }
+        this.addBottleAttachmentShowList = newArr
+      }).catch(_ => {})
+    },
+    /**
+     * 显示指定的图片
+     */
+    addBottleImageDetailClick (index) {
+      console.log('正在显示图片[' + index + '], addBottleImageDetailClick')
     },
     /**
      * 新增气瓶档案对话框中的规格型号控件发生变化时
@@ -2345,12 +2400,37 @@ export default {
      */
     editBottleImageClick (index) {
       this.editBottle.digWidth[1] = window.innerWidth
-      this.editBottle.divWidth[1] = this.editBottle.digWidth[1] - this.editBottle.pictureRight
-      this.editBottle.divHeight[1] = window.innerHeight - this.editBottle.pictureTop
+      this.editBottle.divWidth[1] = this.editBottle.digWidth[1] - this.editBottle.pictureAreaRight
+      this.editBottle.divHeight[1] = window.innerHeight - this.editBottle.pictureAreaTop
       /*
        * 修改显示的模式为显示图片
        */
       this.editBottle.displayIndex = 1
+      this.editBottle.pictureIndex = index
+    },
+    /**
+     * 移除指定的图片
+     */
+    editBottleImageRemove (index) {
+      console.log('正在移除图片[' + index + ']')
+      this.$confirm('确认要删除该图片吗？', '提示', { confirmButtonText: '删除', cancelButtonText: '取消' }).then(_ => {
+        const oldArr = this.editBottleAttachmentShowList
+        const newArr = Array(oldArr.length - 1)
+        for (var i = 0, idx = 0; i < oldArr.length; ++i) {
+          if (i === index) {
+            continue
+          }
+          newArr[idx] = oldArr[i]
+          ++idx
+        }
+        this.editBottleAttachmentShowList = newArr
+      }).catch(_ => {})
+    },
+    /**
+     * 显示指定的图片
+     */
+    editBottleImageDetailClick (index) {
+      console.log('正在显示图片[' + index + '], editBottleImageDetailClick')
     },
     /**
      * 修改气瓶档案对话框中的规格型号控件发生变化时
@@ -2483,12 +2563,19 @@ export default {
      */
     viewBottleImageClick (index) {
       this.viewBottle.digWidth[1] = window.innerWidth
-      this.viewBottle.divWidth[1] = this.viewBottle.digWidth[1] - this.viewBottle.pictureRight
-      this.viewBottle.divHeight[1] = window.innerHeight - this.viewBottle.pictureTop
+      this.viewBottle.divWidth[1] = this.viewBottle.digWidth[1] - this.viewBottle.pictureAreaRight
+      this.viewBottle.divHeight[1] = window.innerHeight - this.viewBottle.pictureAreaTop
       /*
        * 修改显示的模式为显示图片
        */
       this.viewBottle.displayIndex = 1
+      this.viewBottle.pictureIndex = index
+    },
+    /**
+     * 显示指定的图片
+     */
+    viewBottleImageDetailClick (index) {
+      console.log('正在显示图片[' + index + '], viewBottleImageDetailClick')
     },
     tbl_modify_qrcode_submit (formName) {
       this.$refs[formName].validate(valid => {
@@ -2602,95 +2689,6 @@ export default {
 </script>
 
 <style>
-/*
- * 表单控件之间坚直距离
- */
-/* .el-form-item--medium .el-form-item__content, .el-form-item--medium .el-form-item__label { */
-/*   line-height: 30px; */
-/* } */
-/*
- * 表单输入框
- */
-/* .el-input__inner { */
-/*   height: 28px; */
-/* } */
-/*
- * 表单输入框
- */
-/* .el-input--medium .el-input__inner { */
-/*   height: 28px; */
-/*   line-height: 28px; */
-/*   width: 190px; */
-/* } */
-/* .el-input--small .el-input__inner { */
-/*   height: 28px; */
-/*   line-height: 28px; */
-/*   width: 190px; */
-/* } */
-/*
- * 选择日期区间的日期控件
- */
-/* .el-date-editor--monthrange.el-input, .el-date-editor--monthrange.el-input__inner { */
-/*     width: 190px; */
-/*     height: 28px; */
-/* } */
-/*
- * 选择月的日期控件
- */
-/* .el-date-editor.el-input, .el-date-editor.el-input__inner { */
-/*     width: 190px; */
-/*     height: 28px; */
-/* } */
-/*
- * 表单控件
- */
-/* .el-form-item { */
-/*   margin-bottom: 3px; */
-/* } */
-/*
- * 表单控件提示信息
- */
-/* .el-form-item__error { */
-/*   color: #F56C6C; */
-/*   font-size: 12px; */
-/*   line-height: 0; */
-/*   padding-top: 3px; */
-/*   position: absolute; */
-/*   top: 100%; */
-/*   left: 0; */
-/* } */
-/*
- * 选择日期区间的日期控件
- */
-/* .el-date-editor--daterange.el-input, .el-date-editor--daterange.el-input__inner, .el-date-editor--timerange.el-input, .el-date-editor--timerange.el-input__inner { */
-/*   width: 190px; */
-/*   height: 28px; */
-/* } */
-/*
- * 表头中的小格
- */
-/* .el-table--border .el-table__cell:first-child .cell { */
-/*   padding: 1px; */
-/*   margin-right: 2px; */
-/* } */
-/*
- * 表格中的每个小格
- */
-/* .el-table .el-table__cell { */
-/*   padding: 1px; */
-/* } */
-/*
- * 表格中的每个小格中的字边距
- */
-/* .el-table .cell { */
-/*   padding: 0px; */
-/* } */
-/*
- * 表头
- */
-/* .el-table th.el-table__cell>.cell { */
-/*   padding: 2px */
-/* } */
 .BottleArchiveMain {
   position: relative;
   left: 0px;
@@ -2699,17 +2697,13 @@ export default {
   height: calc(100% - 2px);
   padding: 0px;
   margin: 0px;
-  /* background-color: black; */
-  /* overflow-y:visible; */
 }
 .BottleArchiveForm {
     position: relative;
     left: 0px;
     top: 0px;
-    /* min-width: 1024px; */
-    /* overflow-x: auto; */
     width: 100%;
-    background-color: /* #B3C0D1*/ #FFFFFF;
+    background-color:  #FFFFFF;
 }
 /*
  * 操作列的表头样式
@@ -2717,27 +2711,4 @@ export default {
 .TblBottleArchinveLastColumnHeader {
   margin-left: 10px
 }
-/*
- * 对话框
- */
-/* .el-dialog { */
-/*     position: relative; */
-/*     margin: 0 auto 50px; */
-/*     background: #FFF; */
-/*     border-radius: 2px; */
-/*     -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.3); */
-/*     box-shadow: 0 1px 3px rgba(0,0,0,.3); */
-/*     -webkit-box-sizing: border-box; */
-/*     box-sizing: border-box; */
-/*     width: 90%; */
-/* } */
-/* .el-upload-dragger { */
-/*     background-color: #fff; */
-/*     border: none; */
-/*     width: 98px; */
-/*     height: 28px; */
-/*     text-align: center; */
-/*     cursor: pointer; */
-/*     overflow: hidden; */
-/* } */
 </style>
