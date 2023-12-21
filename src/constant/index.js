@@ -37,10 +37,14 @@ constant.OPENED_FULLPATH = [
  * 灌装秤后端访问前缀
  */
 constant.GAS_SERVER_PREFIX = '/gas'
-constant.GAS_IMAGE_PREFIX = '/__image__'
+constant.GAS_IMAGE_PREFIX = '/__images__'
 /**
  * constant.GAS_SERVER_PREFIX + /attachment
  */
 constant.GAS_SERVER_ATTACHMENT_PREFIX = '/gas/attachment'
+/**
+ * 常用图片扩展名，在Windows环境时自动忽略大小写
+ */
+constant.GAS_SERVER_ATTACHMENT_PICTURE_EXT = '.APNG, .AVIF, .GIF, .JPG, .JPEG, .JFIF, .PJPEG, .PJP, .PNG, .SVG, .WEBP'
 
 export default constant
