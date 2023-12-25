@@ -325,7 +325,7 @@
           </el-row>
           <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item prop="files" label="气瓶图片" size="medium">
+              <el-form-item prop="files" label="气瓶图片" size="medium" v-show="addBottleForm.attachmentYmd !== null && addBottleForm.attachmentUuid !== null">
                 <el-upload
                   drag
                   with-credentials
@@ -333,7 +333,7 @@
                   :accept="addBottle.accept"
                   :action="addBottleUploadActionUrl"
                   :auto-upload="addBottle.autoUpload"
-                  :multiple="addBottle.multipleUpload"
+                  :multiple="addBottle.multipleUpload && addBottleForm.attachmentYmd !== null && addBottleForm.attachmentUuid !== null"
                   :file-list="addBottleAttachmentUploadList"
                   :limit="addBottle.uploadLimit"
                   :headers="addBottleUploadHeaders"
@@ -582,7 +582,7 @@
           </el-row>
           <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item prop="files" label="气瓶图片" size="medium">
+              <el-form-item prop="files" label="气瓶图片" size="medium" v-show="editBottleForm.attachmentYmd !== null && editBottleForm.attachmentUuid !== null">
                 <el-upload
                   drag
                   with-credentials
@@ -590,7 +590,7 @@
                   :accept="editBottle.accept"
                   :action="editBottleUploadActionUrl"
                   :auto-upload="editBottle.autoUpload"
-                  :multiple="editBottle.multipleUpload"
+                  :multiple="editBottle.multipleUpload && editBottleForm.attachmentYmd !== null && editBottleForm.attachmentUuid !== null"
                   :file-list="editBottleAttachmentUploadList"
                   :limit="editBottle.uploadLimit"
                   :headers="editBottleUploadHeaders"
@@ -909,7 +909,7 @@
  * 69e316f229d54b92917ece59f1245555     uuidv4.v4().replaceAll('-', '')
  */
 /* console.log(uuidv4.v4().replaceAll('-', '')) */
-import { v4 as uuidv4 } from 'uuid'
+/* import { v4 as uuidv4 } from 'uuid' */
 
 export default {
   name: 'BottleArchive',
@@ -1036,7 +1036,7 @@ export default {
         showClose: true, // 对话框是否显示关闭按钮
         showFileList: false, // 是否显示上传文件的列表
         autoUpload: true, // 气瓶档案是否自动上传
-        multipleUpload: false, // 气瓶档案是否多文件上传
+        multipleUpload: true, // 气瓶档案是否多文件上传
         accept: this.constant.GAS_SERVER_ATTACHMENT_PICTURE_EXT, // 目前只允许上传常用图片
         uploadChangeTimes: 0, // 上传时的on-upload回调次数
         uploadLimit: 7, // 限制上传的文件个数
@@ -1083,6 +1083,7 @@ export default {
         checkdate: null, // Date 安评日期
         onlyused: null, // Integer 是否专用
         attachmentUuid: null, // String 气瓶档案的图片UUID
+        attachmentYmd: null, // String 气瓶档案的图片yyyymmdd
         testcount: null, // Integer 已检次
         usedstatus: null, // Integer 气瓶状态
         stationid: null, // 站点
@@ -1098,42 +1099,42 @@ export default {
        * 新增气瓶档案表单的附件(显示已经上传的列表中)
        */
       addBottleAttachmentShowList: [
-        { uri: '/__images__/BottleArchive/014746e64ec44dfeba28b38b3da3a198/f90d3defdea0422f95812986477cfdb2.png' },
-        { uri: '/__images__/BottleArchive/0426d84b7d444ef69fcb43031ebcae0e/f744f7746b2c41c48adb08c8ee53ba21.png' },
-        { uri: '/__images__/BottleArchive/0b28f33727754777abc246c67765a71e/06618713e89544eaa973ef1deecf20a9.png' },
-        { uri: '/__images__/BottleArchive/0e286c1cd2e04298a450dfc51168839c/55fc06395eaf474ba05b90e16d234fdc.png' },
-        { uri: '/__images__/BottleArchive/1292a558a36e4616a031baa306a2e84b/a146be98b3814e04b3703972bada3afc.png' },
-        { uri: '/__images__/BottleArchive/1a6fe9270a344f0aadf3ec73d8cd8594/b0b96cfdae8d4ed2ae7aaf81a363e286.png' },
-        { uri: '/__images__/BottleArchive/1ad8ae222f224e20911c7ae57d368c3d/c1bb2be17a474b6fb1feea47b0aa526c.png' },
-        { uri: '/__images__/BottleArchive/1b186bf7998f41079db6b93fc582b05b/8aa91eacf62141b8a0feb0395b990def.png' },
-        { uri: '/__images__/BottleArchive/251c95dd018d40d68befbe82616b3056/5f56f06d7d4545f1902cba5a4ded8c4e.png' },
-        { uri: '/__images__/BottleArchive/281404eb93c14047b3c0970bc59fa5b4/af9168daa0784a098d50b8845027e3e9.png' },
-        { uri: '/__images__/BottleArchive/2d6dd31b45274bc2b7e7488dd9ba6888/0d10ff570dad419fb0aae15fb7ed65b2.png' },
-        { uri: '/__images__/BottleArchive/343b5f5c26bb45299a35b13e518b8a02/bce4b7432dad4a6ba83263f293fcea3c.png' },
-        { uri: '/__images__/BottleArchive/4ff42af7e9ce4930bffaf3496d1440e8/7afb33332e184f43a3d66a97db3d29f0.png' },
-        { uri: '/__images__/BottleArchive/52b241a26cad4e6abb4fb9e858e1ac81/ffc366c88d894dde803beb2634aab182.png' },
-        { uri: '/__images__/BottleArchive/64bdc46fc3b04e8d8e29c9ff829004ae/d9e60e53744344a18822aa7190295dc1.png' },
-        { uri: '/__images__/BottleArchive/6568ff3e5a21493594e7aa7f81e81947/a5dfbe98d84d4df5b1cfce5b21a29031.png' },
-        { uri: '/__images__/BottleArchive/6655865d2580487c81373b6620dfcc6f/c0e5624ebca44791971e9937025194f0.png' },
-        { uri: '/__images__/BottleArchive/669fe660bf3b46a69ff13aae0e4997b7/b31094277c3346439b203566519a844a.png' },
-        { uri: '/__images__/BottleArchive/6764cbfb43654a2c8f111428b57f0fc2/96c69bfd32b84d5286e26c5c9cdaace4.png' },
-        { uri: '/__images__/BottleArchive/687abfd2affe4e46b2f29a6bd5c55a6b/dad2d408ba64413d8826a54e699efd7f.png' },
-        { uri: '/__images__/BottleArchive/69b4abc8fa9c4a45a2d21043d5150355/af3ddf546a5247b4aa675848c88b44f7.png' },
-        { uri: '/__images__/BottleArchive/7ff99bfb57374b3b9347f2a772da5842/63fb7366c4eb4372a8445c49cb9d5794.png' },
-        { uri: '/__images__/BottleArchive/80323d65f4204a0f932a0bec45f062ef/e02d2148109f4ebba319bc1845ab0446.png' },
-        { uri: '/__images__/BottleArchive/85f35d711bd34785bb5cf9a7ea146307/7fa65b0dd59a42d69eccd1ca5abcce88.png' },
-        { uri: '/__images__/BottleArchive/90a3785cf5c54bb095d5724346ab6cf8/a17bfd7f1d5641cbb054d23f4e70984c.png' },
-        { uri: '/__images__/BottleArchive/924d3b7a93f447af883a94131b247c8b/60e16af6790645f2945fd15a3f2c862e.png' },
-        { uri: '/__images__/BottleArchive/93c2f51726694cfc823850e50ce2fc36/ff967aba7a1240b68a7345ae87066db7.png' },
-        { uri: '/__images__/BottleArchive/a42994945e384362948aef6cef345677/24c154ab4a8442b5b548f96200966ad3.png' },
-        { uri: '/__images__/BottleArchive/a72905be20c84368aadb3954b4bc4af6/0b24b10247fb47e38848c6d748dd99fd.png' },
-        { uri: '/__images__/BottleArchive/ab89211071f0465ba5144d84c374ba03/3fc3d2bbd80e47dc80de2cbab7dc34b6.png' },
-        { uri: '/__images__/BottleArchive/bce50a46a374468db9c37ac9d7c6a0b9/beccdbeb7ee7435593c196e1d010c5a6.png' },
-        { uri: '/__images__/BottleArchive/c4cbb129e9764e48bfb2fbd198cf6619/f7bea7228def4941b701cf31a7fbed78.png' },
-        { uri: '/__images__/BottleArchive/c56d4c8a2054438b868b74a9977e8d86/690a2fa04ec144918ad81765dd4210f8.png' },
-        { uri: '/__images__/BottleArchive/d0cdc91c7b404ce490224db9c434d68c/4f72da54e4e54d40a66f2b7cf295ccd8.png' },
-        { uri: '/__images__/BottleArchive/d895f8828d854a9784efb4a1fd60c922/aa30dda3d19f4fb496bf32426ed22f70.png' },
-        { uri: '/__images__/BottleArchive/ecdcd84f13b54887b22c170a4d4bc98d/79d8843b53954490a489aa2a85efd3b2.png' }
+        // { uri: '/__images__/BottleArchive/014746e64ec44dfeba28b38b3da3a198/f90d3defdea0422f95812986477cfdb2.png' },
+        // { uri: '/__images__/BottleArchive/0426d84b7d444ef69fcb43031ebcae0e/f744f7746b2c41c48adb08c8ee53ba21.png' },
+        // { uri: '/__images__/BottleArchive/0b28f33727754777abc246c67765a71e/06618713e89544eaa973ef1deecf20a9.png' },
+        // { uri: '/__images__/BottleArchive/0e286c1cd2e04298a450dfc51168839c/55fc06395eaf474ba05b90e16d234fdc.png' },
+        // { uri: '/__images__/BottleArchive/1292a558a36e4616a031baa306a2e84b/a146be98b3814e04b3703972bada3afc.png' },
+        // { uri: '/__images__/BottleArchive/1a6fe9270a344f0aadf3ec73d8cd8594/b0b96cfdae8d4ed2ae7aaf81a363e286.png' },
+        // { uri: '/__images__/BottleArchive/1ad8ae222f224e20911c7ae57d368c3d/c1bb2be17a474b6fb1feea47b0aa526c.png' },
+        // { uri: '/__images__/BottleArchive/1b186bf7998f41079db6b93fc582b05b/8aa91eacf62141b8a0feb0395b990def.png' },
+        // { uri: '/__images__/BottleArchive/251c95dd018d40d68befbe82616b3056/5f56f06d7d4545f1902cba5a4ded8c4e.png' },
+        // { uri: '/__images__/BottleArchive/281404eb93c14047b3c0970bc59fa5b4/af9168daa0784a098d50b8845027e3e9.png' },
+        // { uri: '/__images__/BottleArchive/2d6dd31b45274bc2b7e7488dd9ba6888/0d10ff570dad419fb0aae15fb7ed65b2.png' },
+        // { uri: '/__images__/BottleArchive/343b5f5c26bb45299a35b13e518b8a02/bce4b7432dad4a6ba83263f293fcea3c.png' },
+        // { uri: '/__images__/BottleArchive/4ff42af7e9ce4930bffaf3496d1440e8/7afb33332e184f43a3d66a97db3d29f0.png' },
+        // { uri: '/__images__/BottleArchive/52b241a26cad4e6abb4fb9e858e1ac81/ffc366c88d894dde803beb2634aab182.png' },
+        // { uri: '/__images__/BottleArchive/64bdc46fc3b04e8d8e29c9ff829004ae/d9e60e53744344a18822aa7190295dc1.png' },
+        // { uri: '/__images__/BottleArchive/6568ff3e5a21493594e7aa7f81e81947/a5dfbe98d84d4df5b1cfce5b21a29031.png' },
+        // { uri: '/__images__/BottleArchive/6655865d2580487c81373b6620dfcc6f/c0e5624ebca44791971e9937025194f0.png' },
+        // { uri: '/__images__/BottleArchive/669fe660bf3b46a69ff13aae0e4997b7/b31094277c3346439b203566519a844a.png' },
+        // { uri: '/__images__/BottleArchive/6764cbfb43654a2c8f111428b57f0fc2/96c69bfd32b84d5286e26c5c9cdaace4.png' },
+        // { uri: '/__images__/BottleArchive/687abfd2affe4e46b2f29a6bd5c55a6b/dad2d408ba64413d8826a54e699efd7f.png' },
+        // { uri: '/__images__/BottleArchive/69b4abc8fa9c4a45a2d21043d5150355/af3ddf546a5247b4aa675848c88b44f7.png' },
+        // { uri: '/__images__/BottleArchive/7ff99bfb57374b3b9347f2a772da5842/63fb7366c4eb4372a8445c49cb9d5794.png' },
+        // { uri: '/__images__/BottleArchive/80323d65f4204a0f932a0bec45f062ef/e02d2148109f4ebba319bc1845ab0446.png' },
+        // { uri: '/__images__/BottleArchive/85f35d711bd34785bb5cf9a7ea146307/7fa65b0dd59a42d69eccd1ca5abcce88.png' },
+        // { uri: '/__images__/BottleArchive/90a3785cf5c54bb095d5724346ab6cf8/a17bfd7f1d5641cbb054d23f4e70984c.png' },
+        // { uri: '/__images__/BottleArchive/924d3b7a93f447af883a94131b247c8b/60e16af6790645f2945fd15a3f2c862e.png' },
+        // { uri: '/__images__/BottleArchive/93c2f51726694cfc823850e50ce2fc36/ff967aba7a1240b68a7345ae87066db7.png' },
+        // { uri: '/__images__/BottleArchive/a42994945e384362948aef6cef345677/24c154ab4a8442b5b548f96200966ad3.png' },
+        // { uri: '/__images__/BottleArchive/a72905be20c84368aadb3954b4bc4af6/0b24b10247fb47e38848c6d748dd99fd.png' },
+        // { uri: '/__images__/BottleArchive/ab89211071f0465ba5144d84c374ba03/3fc3d2bbd80e47dc80de2cbab7dc34b6.png' },
+        // { uri: '/__images__/BottleArchive/bce50a46a374468db9c37ac9d7c6a0b9/beccdbeb7ee7435593c196e1d010c5a6.png' },
+        // { uri: '/__images__/BottleArchive/c4cbb129e9764e48bfb2fbd198cf6619/f7bea7228def4941b701cf31a7fbed78.png' },
+        // { uri: '/__images__/BottleArchive/c56d4c8a2054438b868b74a9977e8d86/690a2fa04ec144918ad81765dd4210f8.png' },
+        // { uri: '/__images__/BottleArchive/d0cdc91c7b404ce490224db9c434d68c/4f72da54e4e54d40a66f2b7cf295ccd8.png' },
+        // { uri: '/__images__/BottleArchive/d895f8828d854a9784efb4a1fd60c922/aa30dda3d19f4fb496bf32426ed22f70.png' },
+        // { uri: '/__images__/BottleArchive/ecdcd84f13b54887b22c170a4d4bc98d/79d8843b53954490a489aa2a85efd3b2.png' }
       ],
       /*
        * 新增气瓶档案表单的附件(el-upload控件中)
@@ -1165,7 +1166,7 @@ export default {
         showClose: true, // 对话框是否显示关闭按钮
         showFileList: false, // 是否显示上传文件的列表
         autoUpload: true, // 气瓶档案是否自动上传
-        multipleUpload: false, // 气瓶档案是否多文件上传
+        multipleUpload: true, // 气瓶档案是否多文件上传
         accept: this.constant.GAS_SERVER_ATTACHMENT_PICTURE_EXT, // 目前只允许上传常用图片
         uploadChangeTimes: 0, // 上传时的on-upload回调次数
         uploadLimit: 7, // 限制上传的文件个数
@@ -1214,9 +1215,11 @@ export default {
         checkdate: null, // Date 安评日期
         onlyused: null, // Integer 是否专用
         attachmentUuid: null, // String 气瓶档案的图片UUID
+        attachmentYmd: null, // String 气瓶档案的图片Ymd
         testcount: null, // Integer 已检次
         usedstatus: null, // Integer 气瓶状态
-        lastused: null // 最后使用
+        lastused: null, // 最后使用
+        attachmentOldUuid: null // String 气瓶档案的图片旧的UUID
       },
       /*
        * 修改气瓶档案表单的校验
@@ -1226,42 +1229,42 @@ export default {
        * 修改气瓶档案表单的附件(显示已经上传的列表中)
        */
       editBottleAttachmentShowList: [
-        { uri: '/__images__/BottleArchive/014746e64ec44dfeba28b38b3da3a198/f90d3defdea0422f95812986477cfdb2.png' },
-        { uri: '/__images__/BottleArchive/0426d84b7d444ef69fcb43031ebcae0e/f744f7746b2c41c48adb08c8ee53ba21.png' },
-        { uri: '/__images__/BottleArchive/0b28f33727754777abc246c67765a71e/06618713e89544eaa973ef1deecf20a9.png' },
-        { uri: '/__images__/BottleArchive/0e286c1cd2e04298a450dfc51168839c/55fc06395eaf474ba05b90e16d234fdc.png' },
-        { uri: '/__images__/BottleArchive/1292a558a36e4616a031baa306a2e84b/a146be98b3814e04b3703972bada3afc.png' },
-        { uri: '/__images__/BottleArchive/1a6fe9270a344f0aadf3ec73d8cd8594/b0b96cfdae8d4ed2ae7aaf81a363e286.png' },
-        { uri: '/__images__/BottleArchive/1ad8ae222f224e20911c7ae57d368c3d/c1bb2be17a474b6fb1feea47b0aa526c.png' },
-        { uri: '/__images__/BottleArchive/1b186bf7998f41079db6b93fc582b05b/8aa91eacf62141b8a0feb0395b990def.png' },
-        { uri: '/__images__/BottleArchive/251c95dd018d40d68befbe82616b3056/5f56f06d7d4545f1902cba5a4ded8c4e.png' },
-        { uri: '/__images__/BottleArchive/281404eb93c14047b3c0970bc59fa5b4/af9168daa0784a098d50b8845027e3e9.png' },
-        { uri: '/__images__/BottleArchive/2d6dd31b45274bc2b7e7488dd9ba6888/0d10ff570dad419fb0aae15fb7ed65b2.png' },
-        { uri: '/__images__/BottleArchive/343b5f5c26bb45299a35b13e518b8a02/bce4b7432dad4a6ba83263f293fcea3c.png' },
-        { uri: '/__images__/BottleArchive/4ff42af7e9ce4930bffaf3496d1440e8/7afb33332e184f43a3d66a97db3d29f0.png' },
-        { uri: '/__images__/BottleArchive/52b241a26cad4e6abb4fb9e858e1ac81/ffc366c88d894dde803beb2634aab182.png' },
-        { uri: '/__images__/BottleArchive/64bdc46fc3b04e8d8e29c9ff829004ae/d9e60e53744344a18822aa7190295dc1.png' },
-        { uri: '/__images__/BottleArchive/6568ff3e5a21493594e7aa7f81e81947/a5dfbe98d84d4df5b1cfce5b21a29031.png' },
-        { uri: '/__images__/BottleArchive/6655865d2580487c81373b6620dfcc6f/c0e5624ebca44791971e9937025194f0.png' },
-        { uri: '/__images__/BottleArchive/669fe660bf3b46a69ff13aae0e4997b7/b31094277c3346439b203566519a844a.png' },
-        { uri: '/__images__/BottleArchive/6764cbfb43654a2c8f111428b57f0fc2/96c69bfd32b84d5286e26c5c9cdaace4.png' },
-        { uri: '/__images__/BottleArchive/687abfd2affe4e46b2f29a6bd5c55a6b/dad2d408ba64413d8826a54e699efd7f.png' },
-        { uri: '/__images__/BottleArchive/69b4abc8fa9c4a45a2d21043d5150355/af3ddf546a5247b4aa675848c88b44f7.png' },
-        { uri: '/__images__/BottleArchive/7ff99bfb57374b3b9347f2a772da5842/63fb7366c4eb4372a8445c49cb9d5794.png' },
-        { uri: '/__images__/BottleArchive/80323d65f4204a0f932a0bec45f062ef/e02d2148109f4ebba319bc1845ab0446.png' },
-        { uri: '/__images__/BottleArchive/85f35d711bd34785bb5cf9a7ea146307/7fa65b0dd59a42d69eccd1ca5abcce88.png' },
-        { uri: '/__images__/BottleArchive/90a3785cf5c54bb095d5724346ab6cf8/a17bfd7f1d5641cbb054d23f4e70984c.png' },
-        { uri: '/__images__/BottleArchive/924d3b7a93f447af883a94131b247c8b/60e16af6790645f2945fd15a3f2c862e.png' },
-        { uri: '/__images__/BottleArchive/93c2f51726694cfc823850e50ce2fc36/ff967aba7a1240b68a7345ae87066db7.png' },
-        { uri: '/__images__/BottleArchive/a42994945e384362948aef6cef345677/24c154ab4a8442b5b548f96200966ad3.png' },
-        { uri: '/__images__/BottleArchive/a72905be20c84368aadb3954b4bc4af6/0b24b10247fb47e38848c6d748dd99fd.png' },
-        { uri: '/__images__/BottleArchive/ab89211071f0465ba5144d84c374ba03/3fc3d2bbd80e47dc80de2cbab7dc34b6.png' },
-        { uri: '/__images__/BottleArchive/bce50a46a374468db9c37ac9d7c6a0b9/beccdbeb7ee7435593c196e1d010c5a6.png' },
-        { uri: '/__images__/BottleArchive/c4cbb129e9764e48bfb2fbd198cf6619/f7bea7228def4941b701cf31a7fbed78.png' },
-        { uri: '/__images__/BottleArchive/c56d4c8a2054438b868b74a9977e8d86/690a2fa04ec144918ad81765dd4210f8.png' },
-        { uri: '/__images__/BottleArchive/d0cdc91c7b404ce490224db9c434d68c/4f72da54e4e54d40a66f2b7cf295ccd8.png' },
-        { uri: '/__images__/BottleArchive/d895f8828d854a9784efb4a1fd60c922/aa30dda3d19f4fb496bf32426ed22f70.png' },
-        { uri: '/__images__/BottleArchive/ecdcd84f13b54887b22c170a4d4bc98d/79d8843b53954490a489aa2a85efd3b2.png' }
+        // { uri: '/__images__/BottleArchive/014746e64ec44dfeba28b38b3da3a198/f90d3defdea0422f95812986477cfdb2.png' },
+        // { uri: '/__images__/BottleArchive/0426d84b7d444ef69fcb43031ebcae0e/f744f7746b2c41c48adb08c8ee53ba21.png' },
+        // { uri: '/__images__/BottleArchive/0b28f33727754777abc246c67765a71e/06618713e89544eaa973ef1deecf20a9.png' },
+        // { uri: '/__images__/BottleArchive/0e286c1cd2e04298a450dfc51168839c/55fc06395eaf474ba05b90e16d234fdc.png' },
+        // { uri: '/__images__/BottleArchive/1292a558a36e4616a031baa306a2e84b/a146be98b3814e04b3703972bada3afc.png' },
+        // { uri: '/__images__/BottleArchive/1a6fe9270a344f0aadf3ec73d8cd8594/b0b96cfdae8d4ed2ae7aaf81a363e286.png' },
+        // { uri: '/__images__/BottleArchive/1ad8ae222f224e20911c7ae57d368c3d/c1bb2be17a474b6fb1feea47b0aa526c.png' },
+        // { uri: '/__images__/BottleArchive/1b186bf7998f41079db6b93fc582b05b/8aa91eacf62141b8a0feb0395b990def.png' },
+        // { uri: '/__images__/BottleArchive/251c95dd018d40d68befbe82616b3056/5f56f06d7d4545f1902cba5a4ded8c4e.png' },
+        // { uri: '/__images__/BottleArchive/281404eb93c14047b3c0970bc59fa5b4/af9168daa0784a098d50b8845027e3e9.png' },
+        // { uri: '/__images__/BottleArchive/2d6dd31b45274bc2b7e7488dd9ba6888/0d10ff570dad419fb0aae15fb7ed65b2.png' },
+        // { uri: '/__images__/BottleArchive/343b5f5c26bb45299a35b13e518b8a02/bce4b7432dad4a6ba83263f293fcea3c.png' },
+        // { uri: '/__images__/BottleArchive/4ff42af7e9ce4930bffaf3496d1440e8/7afb33332e184f43a3d66a97db3d29f0.png' },
+        // { uri: '/__images__/BottleArchive/52b241a26cad4e6abb4fb9e858e1ac81/ffc366c88d894dde803beb2634aab182.png' },
+        // { uri: '/__images__/BottleArchive/64bdc46fc3b04e8d8e29c9ff829004ae/d9e60e53744344a18822aa7190295dc1.png' },
+        // { uri: '/__images__/BottleArchive/6568ff3e5a21493594e7aa7f81e81947/a5dfbe98d84d4df5b1cfce5b21a29031.png' },
+        // { uri: '/__images__/BottleArchive/6655865d2580487c81373b6620dfcc6f/c0e5624ebca44791971e9937025194f0.png' },
+        // { uri: '/__images__/BottleArchive/669fe660bf3b46a69ff13aae0e4997b7/b31094277c3346439b203566519a844a.png' },
+        // { uri: '/__images__/BottleArchive/6764cbfb43654a2c8f111428b57f0fc2/96c69bfd32b84d5286e26c5c9cdaace4.png' },
+        // { uri: '/__images__/BottleArchive/687abfd2affe4e46b2f29a6bd5c55a6b/dad2d408ba64413d8826a54e699efd7f.png' },
+        // { uri: '/__images__/BottleArchive/69b4abc8fa9c4a45a2d21043d5150355/af3ddf546a5247b4aa675848c88b44f7.png' },
+        // { uri: '/__images__/BottleArchive/7ff99bfb57374b3b9347f2a772da5842/63fb7366c4eb4372a8445c49cb9d5794.png' },
+        // { uri: '/__images__/BottleArchive/80323d65f4204a0f932a0bec45f062ef/e02d2148109f4ebba319bc1845ab0446.png' },
+        // { uri: '/__images__/BottleArchive/85f35d711bd34785bb5cf9a7ea146307/7fa65b0dd59a42d69eccd1ca5abcce88.png' },
+        // { uri: '/__images__/BottleArchive/90a3785cf5c54bb095d5724346ab6cf8/a17bfd7f1d5641cbb054d23f4e70984c.png' },
+        // { uri: '/__images__/BottleArchive/924d3b7a93f447af883a94131b247c8b/60e16af6790645f2945fd15a3f2c862e.png' },
+        // { uri: '/__images__/BottleArchive/93c2f51726694cfc823850e50ce2fc36/ff967aba7a1240b68a7345ae87066db7.png' },
+        // { uri: '/__images__/BottleArchive/a42994945e384362948aef6cef345677/24c154ab4a8442b5b548f96200966ad3.png' },
+        // { uri: '/__images__/BottleArchive/a72905be20c84368aadb3954b4bc4af6/0b24b10247fb47e38848c6d748dd99fd.png' },
+        // { uri: '/__images__/BottleArchive/ab89211071f0465ba5144d84c374ba03/3fc3d2bbd80e47dc80de2cbab7dc34b6.png' },
+        // { uri: '/__images__/BottleArchive/bce50a46a374468db9c37ac9d7c6a0b9/beccdbeb7ee7435593c196e1d010c5a6.png' },
+        // { uri: '/__images__/BottleArchive/c4cbb129e9764e48bfb2fbd198cf6619/f7bea7228def4941b701cf31a7fbed78.png' },
+        // { uri: '/__images__/BottleArchive/c56d4c8a2054438b868b74a9977e8d86/690a2fa04ec144918ad81765dd4210f8.png' },
+        // { uri: '/__images__/BottleArchive/d0cdc91c7b404ce490224db9c434d68c/4f72da54e4e54d40a66f2b7cf295ccd8.png' },
+        // { uri: '/__images__/BottleArchive/d895f8828d854a9784efb4a1fd60c922/aa30dda3d19f4fb496bf32426ed22f70.png' },
+        // { uri: '/__images__/BottleArchive/ecdcd84f13b54887b22c170a4d4bc98d/79d8843b53954490a489aa2a85efd3b2.png' }
       ],
       /*
        * 修改气瓶档案表单的附件(el-upload控件中)
@@ -1342,42 +1345,42 @@ export default {
        * 查看气瓶档案表单的附件
        */
       viewBottleAttachmentShowList: [
-        { uri: '/__images__/BottleArchive/014746e64ec44dfeba28b38b3da3a198/f90d3defdea0422f95812986477cfdb2.png' },
-        { uri: '/__images__/BottleArchive/0426d84b7d444ef69fcb43031ebcae0e/f744f7746b2c41c48adb08c8ee53ba21.png' },
-        { uri: '/__images__/BottleArchive/0b28f33727754777abc246c67765a71e/06618713e89544eaa973ef1deecf20a9.png' },
-        { uri: '/__images__/BottleArchive/0e286c1cd2e04298a450dfc51168839c/55fc06395eaf474ba05b90e16d234fdc.png' },
-        { uri: '/__images__/BottleArchive/1292a558a36e4616a031baa306a2e84b/a146be98b3814e04b3703972bada3afc.png' },
-        { uri: '/__images__/BottleArchive/1a6fe9270a344f0aadf3ec73d8cd8594/b0b96cfdae8d4ed2ae7aaf81a363e286.png' },
-        { uri: '/__images__/BottleArchive/1ad8ae222f224e20911c7ae57d368c3d/c1bb2be17a474b6fb1feea47b0aa526c.png' },
-        { uri: '/__images__/BottleArchive/1b186bf7998f41079db6b93fc582b05b/8aa91eacf62141b8a0feb0395b990def.png' },
-        { uri: '/__images__/BottleArchive/251c95dd018d40d68befbe82616b3056/5f56f06d7d4545f1902cba5a4ded8c4e.png' },
-        { uri: '/__images__/BottleArchive/281404eb93c14047b3c0970bc59fa5b4/af9168daa0784a098d50b8845027e3e9.png' },
-        { uri: '/__images__/BottleArchive/2d6dd31b45274bc2b7e7488dd9ba6888/0d10ff570dad419fb0aae15fb7ed65b2.png' },
-        { uri: '/__images__/BottleArchive/343b5f5c26bb45299a35b13e518b8a02/bce4b7432dad4a6ba83263f293fcea3c.png' },
-        { uri: '/__images__/BottleArchive/4ff42af7e9ce4930bffaf3496d1440e8/7afb33332e184f43a3d66a97db3d29f0.png' },
-        { uri: '/__images__/BottleArchive/52b241a26cad4e6abb4fb9e858e1ac81/ffc366c88d894dde803beb2634aab182.png' },
-        { uri: '/__images__/BottleArchive/64bdc46fc3b04e8d8e29c9ff829004ae/d9e60e53744344a18822aa7190295dc1.png' },
-        { uri: '/__images__/BottleArchive/6568ff3e5a21493594e7aa7f81e81947/a5dfbe98d84d4df5b1cfce5b21a29031.png' },
-        { uri: '/__images__/BottleArchive/6655865d2580487c81373b6620dfcc6f/c0e5624ebca44791971e9937025194f0.png' },
-        { uri: '/__images__/BottleArchive/669fe660bf3b46a69ff13aae0e4997b7/b31094277c3346439b203566519a844a.png' },
-        { uri: '/__images__/BottleArchive/6764cbfb43654a2c8f111428b57f0fc2/96c69bfd32b84d5286e26c5c9cdaace4.png' },
-        { uri: '/__images__/BottleArchive/687abfd2affe4e46b2f29a6bd5c55a6b/dad2d408ba64413d8826a54e699efd7f.png' },
-        { uri: '/__images__/BottleArchive/69b4abc8fa9c4a45a2d21043d5150355/af3ddf546a5247b4aa675848c88b44f7.png' },
-        { uri: '/__images__/BottleArchive/7ff99bfb57374b3b9347f2a772da5842/63fb7366c4eb4372a8445c49cb9d5794.png' },
-        { uri: '/__images__/BottleArchive/80323d65f4204a0f932a0bec45f062ef/e02d2148109f4ebba319bc1845ab0446.png' },
-        { uri: '/__images__/BottleArchive/85f35d711bd34785bb5cf9a7ea146307/7fa65b0dd59a42d69eccd1ca5abcce88.png' },
-        { uri: '/__images__/BottleArchive/90a3785cf5c54bb095d5724346ab6cf8/a17bfd7f1d5641cbb054d23f4e70984c.png' },
-        { uri: '/__images__/BottleArchive/924d3b7a93f447af883a94131b247c8b/60e16af6790645f2945fd15a3f2c862e.png' },
-        { uri: '/__images__/BottleArchive/93c2f51726694cfc823850e50ce2fc36/ff967aba7a1240b68a7345ae87066db7.png' },
-        { uri: '/__images__/BottleArchive/a42994945e384362948aef6cef345677/24c154ab4a8442b5b548f96200966ad3.png' },
-        { uri: '/__images__/BottleArchive/a72905be20c84368aadb3954b4bc4af6/0b24b10247fb47e38848c6d748dd99fd.png' },
-        { uri: '/__images__/BottleArchive/ab89211071f0465ba5144d84c374ba03/3fc3d2bbd80e47dc80de2cbab7dc34b6.png' },
-        { uri: '/__images__/BottleArchive/bce50a46a374468db9c37ac9d7c6a0b9/beccdbeb7ee7435593c196e1d010c5a6.png' },
-        { uri: '/__images__/BottleArchive/c4cbb129e9764e48bfb2fbd198cf6619/f7bea7228def4941b701cf31a7fbed78.png' },
-        { uri: '/__images__/BottleArchive/c56d4c8a2054438b868b74a9977e8d86/690a2fa04ec144918ad81765dd4210f8.png' },
-        { uri: '/__images__/BottleArchive/d0cdc91c7b404ce490224db9c434d68c/4f72da54e4e54d40a66f2b7cf295ccd8.png' },
-        { uri: '/__images__/BottleArchive/d895f8828d854a9784efb4a1fd60c922/aa30dda3d19f4fb496bf32426ed22f70.png' },
-        { uri: '/__images__/BottleArchive/ecdcd84f13b54887b22c170a4d4bc98d/79d8843b53954490a489aa2a85efd3b2.png' }
+        // { uri: '/__images__/BottleArchive/014746e64ec44dfeba28b38b3da3a198/f90d3defdea0422f95812986477cfdb2.png' },
+        // { uri: '/__images__/BottleArchive/0426d84b7d444ef69fcb43031ebcae0e/f744f7746b2c41c48adb08c8ee53ba21.png' },
+        // { uri: '/__images__/BottleArchive/0b28f33727754777abc246c67765a71e/06618713e89544eaa973ef1deecf20a9.png' },
+        // { uri: '/__images__/BottleArchive/0e286c1cd2e04298a450dfc51168839c/55fc06395eaf474ba05b90e16d234fdc.png' },
+        // { uri: '/__images__/BottleArchive/1292a558a36e4616a031baa306a2e84b/a146be98b3814e04b3703972bada3afc.png' },
+        // { uri: '/__images__/BottleArchive/1a6fe9270a344f0aadf3ec73d8cd8594/b0b96cfdae8d4ed2ae7aaf81a363e286.png' },
+        // { uri: '/__images__/BottleArchive/1ad8ae222f224e20911c7ae57d368c3d/c1bb2be17a474b6fb1feea47b0aa526c.png' },
+        // { uri: '/__images__/BottleArchive/1b186bf7998f41079db6b93fc582b05b/8aa91eacf62141b8a0feb0395b990def.png' },
+        // { uri: '/__images__/BottleArchive/251c95dd018d40d68befbe82616b3056/5f56f06d7d4545f1902cba5a4ded8c4e.png' },
+        // { uri: '/__images__/BottleArchive/281404eb93c14047b3c0970bc59fa5b4/af9168daa0784a098d50b8845027e3e9.png' },
+        // { uri: '/__images__/BottleArchive/2d6dd31b45274bc2b7e7488dd9ba6888/0d10ff570dad419fb0aae15fb7ed65b2.png' },
+        // { uri: '/__images__/BottleArchive/343b5f5c26bb45299a35b13e518b8a02/bce4b7432dad4a6ba83263f293fcea3c.png' },
+        // { uri: '/__images__/BottleArchive/4ff42af7e9ce4930bffaf3496d1440e8/7afb33332e184f43a3d66a97db3d29f0.png' },
+        // { uri: '/__images__/BottleArchive/52b241a26cad4e6abb4fb9e858e1ac81/ffc366c88d894dde803beb2634aab182.png' },
+        // { uri: '/__images__/BottleArchive/64bdc46fc3b04e8d8e29c9ff829004ae/d9e60e53744344a18822aa7190295dc1.png' },
+        // { uri: '/__images__/BottleArchive/6568ff3e5a21493594e7aa7f81e81947/a5dfbe98d84d4df5b1cfce5b21a29031.png' },
+        // { uri: '/__images__/BottleArchive/6655865d2580487c81373b6620dfcc6f/c0e5624ebca44791971e9937025194f0.png' },
+        // { uri: '/__images__/BottleArchive/669fe660bf3b46a69ff13aae0e4997b7/b31094277c3346439b203566519a844a.png' },
+        // { uri: '/__images__/BottleArchive/6764cbfb43654a2c8f111428b57f0fc2/96c69bfd32b84d5286e26c5c9cdaace4.png' },
+        // { uri: '/__images__/BottleArchive/687abfd2affe4e46b2f29a6bd5c55a6b/dad2d408ba64413d8826a54e699efd7f.png' },
+        // { uri: '/__images__/BottleArchive/69b4abc8fa9c4a45a2d21043d5150355/af3ddf546a5247b4aa675848c88b44f7.png' },
+        // { uri: '/__images__/BottleArchive/7ff99bfb57374b3b9347f2a772da5842/63fb7366c4eb4372a8445c49cb9d5794.png' },
+        // { uri: '/__images__/BottleArchive/80323d65f4204a0f932a0bec45f062ef/e02d2148109f4ebba319bc1845ab0446.png' },
+        // { uri: '/__images__/BottleArchive/85f35d711bd34785bb5cf9a7ea146307/7fa65b0dd59a42d69eccd1ca5abcce88.png' },
+        // { uri: '/__images__/BottleArchive/90a3785cf5c54bb095d5724346ab6cf8/a17bfd7f1d5641cbb054d23f4e70984c.png' },
+        // { uri: '/__images__/BottleArchive/924d3b7a93f447af883a94131b247c8b/60e16af6790645f2945fd15a3f2c862e.png' },
+        // { uri: '/__images__/BottleArchive/93c2f51726694cfc823850e50ce2fc36/ff967aba7a1240b68a7345ae87066db7.png' },
+        // { uri: '/__images__/BottleArchive/a42994945e384362948aef6cef345677/24c154ab4a8442b5b548f96200966ad3.png' },
+        // { uri: '/__images__/BottleArchive/a72905be20c84368aadb3954b4bc4af6/0b24b10247fb47e38848c6d748dd99fd.png' },
+        // { uri: '/__images__/BottleArchive/ab89211071f0465ba5144d84c374ba03/3fc3d2bbd80e47dc80de2cbab7dc34b6.png' },
+        // { uri: '/__images__/BottleArchive/bce50a46a374468db9c37ac9d7c6a0b9/beccdbeb7ee7435593c196e1d010c5a6.png' },
+        // { uri: '/__images__/BottleArchive/c4cbb129e9764e48bfb2fbd198cf6619/f7bea7228def4941b701cf31a7fbed78.png' },
+        // { uri: '/__images__/BottleArchive/c56d4c8a2054438b868b74a9977e8d86/690a2fa04ec144918ad81765dd4210f8.png' },
+        // { uri: '/__images__/BottleArchive/d0cdc91c7b404ce490224db9c434d68c/4f72da54e4e54d40a66f2b7cf295ccd8.png' },
+        // { uri: '/__images__/BottleArchive/d895f8828d854a9784efb4a1fd60c922/aa30dda3d19f4fb496bf32426ed22f70.png' },
+        // { uri: '/__images__/BottleArchive/ecdcd84f13b54887b22c170a4d4bc98d/79d8843b53954490a489aa2a85efd3b2.png' }
       ],
       /**
        * 修改气瓶编号对话框
@@ -1405,8 +1408,12 @@ export default {
      * 新增气瓶档案的图片时用的上传路径
      */
     addBottleUploadActionUrl: function () {
-      console.log(this.addBottleForm.attachmentUuid)
-      return this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/bottleArchiveAttachmentImage/uploadNew/' + this.addBottleForm.attachmentUuid
+      const localList = this.addBottleAttachmentShowList
+      if (localList.length > 0) {
+        const localItem = localList[0]
+        return this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/bottleArchiveAttachmentImage/uploadOld/' + localItem.ymd + '/' + localItem.fileUuid
+      }
+      return (this.addBottleForm.attachmentYmd === null || this.addBottleForm.attachmentUuid === null) ? this.constant.GAS_SERVER_ATTACHMENT_PREFIX : this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/bottleArchiveAttachmentImage/uploadNew/' + this.addBottleForm.attachmentYmd + '/' + this.addBottleForm.attachmentUuid
     },
     /*
      * 新增气瓶档案的图片时用的header
@@ -1420,8 +1427,12 @@ export default {
      * 修改气瓶档案的图片时用的上传路径
      */
     editBottleUploadActionUrl: function () {
-      console.log(this.editBottleForm.attachmentUuid)
-      return this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/bottleArchiveAttachmentImage/uploadNew/' + this.editBottleForm.attachmentUuid
+      const localList = this.editBottleAttachmentShowList
+      if (localList.length > 0) {
+        const localItem = localList[0]
+        return this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/bottleArchiveAttachmentImage/uploadOld/' + localItem.ymd + '/' + localItem.fileUuid
+      }
+      return (this.editBottleForm.attachmentYmd === null || this.editBottleForm.attachmentUuid === null) ? this.constant.GAS_SERVER_ATTACHMENT_PREFIX : this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/bottleArchiveAttachmentImage/uploadNew/' + this.editBottleForm.attachmentYmd + '/' + this.editBottleForm.attachmentUuid
     },
     /*
      * 修改气瓶档案的图片时用的header
@@ -1877,6 +1888,7 @@ export default {
     tbl_before_hide_add_dialog_only (ok) {
       this.$confirm(this.addBottle.confirmTitle, '提示', { confirmButtonText: '关闭', cancelButtonText: '取消' }).then(_ => {
         ok()
+        this.tbl_add_data_finish()
         this.tbl_hide_add_dialog_only()
         this.tbl_add_data_reset()
       }).catch(_ => {})
@@ -1884,8 +1896,9 @@ export default {
     tbl_before_hide_edit_dialog_only (ok) {
       this.$confirm(this.viewBottle.confirmTitle, '提示', { confirmButtonText: '关闭', cancelButtonText: '取消' }).then(_ => {
         ok()
+        this.tbl_edit_data_finish()
         this.tbl_hide_edit_dialog_only()
-        this.tbl_edit_dat_reset()
+        this.tbl_edit_data_reset()
       }).catch(_ => {})
     },
     tbl_before_hide_view_dialog_only (ok) {
@@ -1897,7 +1910,9 @@ export default {
      * 新增数据
      */
     tbl_add_data () {
-      this.addBottleForm.attachmentUuid = uuidv4.v4().replaceAll('-', '')
+      this.addBottleAttachmentShowList = []
+      this.addBottleAttachmentUploadList = []
+      setTimeout(this.tbl_add_data_before(), 5)
       this.tbl_show_add_dialog_only()
     },
     /**
@@ -1911,10 +1926,15 @@ export default {
      *        _self 表格自身的数据等信息
      */
     tbl_edit_data ({$index, column, isExpanded, isSelected, row, store, _self}) {
+      console.log('tbl_edit_data ： ' + Date.now())
       this.tbl_show_edit_dialog_only()
+      this.editBottleAttachmentShowList = []
+      this.editBottleAttachmentUploadList = []
       this.editBottleForm.gastankid = row.gastankid
       this.editBottle.currentGasTankIndex = $index
       this.tbl_edit_data_copy_value(row, this.editBottleForm)
+      setTimeout(this.editBottleImageQueryByArchiveUuid(row.attachmentUuid), 35)
+      console.log('tbl_edit_data ： ' + Date.now())
       /*
        * 字符串转下标
        */
@@ -1932,9 +1952,11 @@ export default {
      *        _self 表格自身的数据等信息
      */
     tbl_view_data ({$index, column, isExpanded, isSelected, row, store, _self}) {
+      this.viewBottleAttachmentShowList = []
       this.tbl_show_view_dialog_only()
       this.viewBottleForm.gastankid = row.gastankid
       this.tbl_view_data_copy_value(row, this.viewBottleForm)
+      this.tbl_view_data_query_picture(row.attachmentUuid)
     },
     /**
      * @param scope所在行的信息，包含以下属性：
@@ -1952,6 +1974,27 @@ export default {
       this.modifyQrcodeForm.gastankid = row.gastankid
       this.modifyQrcodeForm.oldQrcode = row.qrcode
       this.modifyQrcode.currentGasTankIndex = $index
+    },
+    /**
+     * 请求Uuid
+     */
+    tbl_add_data_before () {
+      if (this.addBottleForm.attachmentYmd === null || this.addBottleForm.attachmentUuid === null) {
+        this.addBottleForm.attachmentYmd = null
+        this.addBottleForm.attachmentUuid = null
+        this.$axios.get(this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/bottleArchiveAttachmentImage/before', { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {
+          if (res.status === 200) {
+            this.addBottleForm.attachmentYmd = res.data.yyyymmdd
+            this.addBottleForm.attachmentUuid = res.data.uuid
+          } else {
+            this.addBottleForm.attachmentYmd = null
+            this.addBottleForm.attachmentUuid = null
+          }
+        }).catch(ex => {
+          this.addBottleForm.attachmentYmd = null
+          this.addBottleForm.attachmentUuid = null
+        })
+      }
     },
     /**
      * 新增气瓶档案
@@ -2015,6 +2058,7 @@ export default {
               this.queryForm()
             }
             this.tbl_add_data_reset(formName)
+            this.tbl_add_data_finish()
             this.tbl_hide_add_dialog_only()
           }
         }).catch(ex => {
@@ -2025,7 +2069,21 @@ export default {
     },
     tbl_add_data_reset (formName) {
       this.$refs[formName].resetFields()
-      this.addBottleForm.attachmentUuid = uuidv4.v4().replaceAll('-', '')
+    },
+    /**
+     * 取消Uuid
+     */
+    tbl_add_data_finish () {
+      if (this.addBottleForm.attachmentYmd === null || this.addBottleForm.attachmentUuid === null) {
+        this.addBottleForm.attachmentYmd = null
+        this.addBottleForm.attachmentUuid = null
+        return
+      }
+      this.$axios.get(this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/bottleArchiveAttachmentImage/finish/' + this.addBottleForm.attachmentYmd + '/' + this.addBottleForm.attachmentUuid, { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {
+      }).catch(ex => {
+      })
+      this.addBottleForm.attachmentYmd = null
+      this.addBottleForm.attachmentUuid = null
     },
     /**
      * @param file 文件信息
@@ -2043,38 +2101,74 @@ export default {
       console.log(file.raw.lastModified)
       console.log(file.raw.lastModifiedDate)
       console.log(file.raw.name)
-      console.log(file.response)
       console.log(file.raw.size)
       console.log(file.raw.type)
+      console.log(file.response)
       console.log(file.raw.webkitRelativePath)
+      if (Array.isArray(file.response)) {
+        for (var idx = 0; idx < file.response.length; ++idx) {
+          console.log('----------------------------')
+          console.log(file.response[idx].uploadName)
+          console.log(file.response[idx].filename)
+          console.log(file.response[idx].fileUuid)
+          console.log(file.response[idx].ext)
+          console.log(file.response[idx].size)
+          console.log(file.response[idx].yyyymmdd)
+          console.log(file.response[idx].note)
+          console.log(file.response[idx].seq)
+        }
+      }
       switch (file.status) {
         case 'success' : {
-          for (var i = 0; i < file.response.length; ++i) {
-            const localResult = {
-              uploadName: file.response[i].uploadName,
-              filename: file.response[i].filename,
-              fileUuid: file.response[i].fileUuid,
-              ext: file.response[i].ext,
-              size: file.response[i].size,
-              width: file.response[i].width,
-              height: file.response[i].height,
-              seq: file.response[i].seq,
-              uri: this.imagePrefix + '/' + file.response[i].fileUuid + '/' + file.response[i].filename + '.' + file.response[i].ext
-            }
-            for (var j = 0; j < this.addBottleAttachmentShowList.length; ++j) {
-              if (this.addBottleAttachmentShowList[j].seq === localResult.seq) {
-                this.addBottleAttachmentShowList[j] = localResult
-                return
+          if (Array.isArray(file.response)) {
+            const localArray = this.addBottleAttachmentShowList
+            const localList = Array(file.response.length)
+            for (var i = 0; i < file.response.length; ++i) {
+              let found = false
+              localList[i] = {
+                uploadName: file.response[i].uploadName,
+                filename: file.response[i].filename,
+                fileUuid: file.response[i].fileUuid,
+                ymd: file.response[i].yyyymmdd,
+                ext: file.response[i].ext,
+                size: file.response[i].size,
+                width: file.response[i].width,
+                height: file.response[i].height,
+                seq: file.response[i].seq,
+                uri: this.imagePrefix + '/' + file.response[i].yyyymmdd + '/' + file.response[i].fileUuid + '/' + file.response[i].filename + '.' + file.response[i].ext
+              }
+              for (var j = 0; j < localArray.length; ++j) {
+                if (localArray[j].seq === localList[i].seq) {
+                  localArray[j] = localList[i]
+                  found = true
+                  break
+                }
+              }
+              if (found) {
+                continue
               }
             }
-            this.addBottleAttachmentShowList.unshift(localResult)
-            console.log(localResult)
+            console.log(this.addBottleAttachmentShowList)
+            this.addBottleAttachmentShowList = localList.concat(this.addBottleAttachmentShowList)
+            console.log(this.addBottleAttachmentShowList)
           }
           break
         }
         case 'fail' : {
-          this.$message('上传文件' + file.name + '失败')
-          // TODO
+          this.$message('上传文件 ' + file.name + ' 失败')
+          const localYmd = this.addBottleForm.attachmentYmd
+          const localUuid = this.addBottleForm.attachmentUuid
+          const localList = this.addBottleAttachmentShowList
+          if (localYmd !== null && localUuid !== null && localList.length === 0) {
+            this.$axios.get(this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/bottleArchiveAttachmentImage/check/' + localYmd + '/' + localUuid, { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {
+              if (res.status === 200 && res.data === false) {
+                this.addBottleForm.attachmentYmd = null
+                this.addBottleForm.attachmentUuid = null
+                this.tbl_add_data_before()
+              }
+            }).catch(ex => {
+            })
+          }
           break
         }
         case 'ready' : {
@@ -2126,6 +2220,10 @@ export default {
         const newArr = Array(oldArr.length - 1)
         for (var i = 0, idx = 0; i < oldArr.length; ++i) {
           if (i === index) {
+            this.$axios.post(this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/bottleArchiveAttachmentImage/removeById/' + oldArr[i].seq, {}, { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {
+            }).catch(ex => {
+              this.$message('删除失败')
+            })
             continue
           }
           newArr[idx] = oldArr[i]
@@ -2165,6 +2263,86 @@ export default {
         this.addBottleForm.volume = null
         this.addBottleFormMisc.volumeSuffix = null
         this.addBottleForm.specs = null
+      }
+    },
+    /**
+     * 根据 archive uuid查询
+     */
+    editBottleImageQueryByArchiveUuid (uuid) {
+      console.log('editBottleImageQueryByArchiveUuid : ' + uuid + ' ' + Date.now())
+      if (uuid === null) {
+        this.editBottleForm.attachmentOldUuid = null
+        this.editBottleForm.attachmentYmd = null
+        this.editBottleForm.attachmentUuid = null
+        const localGasTankId = this.editBottleForm.gastankid
+        this.$axios(this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/bottleArchiveAttachmentImage/before', { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {
+          if (res.status === 200) {
+            const requestForm = new FormData()
+            const localYmd = res.data.yyyymmdd
+            const localUuid = res.data.uuid
+            requestForm.append('id', localGasTankId)
+            requestForm.append('uuid', localUuid)
+            this.$axios.postForm(this.constant.GAS_SERVER_PREFIX + '/gastankinfo/gastankinfo/modifyAttachmentUuidByGastankid', requestForm, { headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'reference': this.$router.currentRoute.fullPath } }).then(resp => {
+              if (resp.status === 200 && resp.data.success === true) {
+                this.editBottleForm.attachmentYmd = localYmd
+                this.editBottleForm.attachmentUuid = localUuid
+              } else {
+                this.editBottleForm.attachmentYmd = null
+                this.editBottleForm.attachmentUuid = null
+              }
+            }).catch(ex => {
+              this.editBottleForm.attachmentYmd = null
+              this.editBottleForm.attachmentUuid = null
+            })
+          } else {
+            this.editBottleForm.attachmentYmd = null
+            this.editBottleForm.attachmentUuid = null
+          }
+        }).catch(ex => {
+          this.editBottleForm.attachmentYmd = null
+          this.editBottleForm.attachmentUuid = null
+        })
+      } else {
+        this.editBottleForm.attachmentOldUuid = uuid
+        this.editBottleForm.attachmentYmd = null
+        this.editBottleForm.attachmentUuid = null
+        this.$axios.post(this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/bottleArchiveAttachmentImage/queryByArchiveUuid/' + uuid, {}, { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {
+          if (res.status === 200) {
+            if (Array.isArray(res.data) && res.data.length > 0) {
+              this.editBottleForm.attachmentYmd = res.data[0].yyyymmdd
+              this.editBottleForm.attachmentUuid = res.data[0].archiveUuid
+              const localList = Array(res.data.length)
+              for (var i = 0; i < res.data.length; ++i) {
+                localList[i] = {
+                  uploadName: res.data[i].attachmentName,
+                  filename: res.data[i].archiveName,
+                  fileUuid: res.data[i].archiveUuid,
+                  ext: res.data[i].archiveExt,
+                  ymd: res.data[i].yyyymmdd,
+                  size: res.data[i].archiveLength,
+                  width: res.data[i].pictureWidth,
+                  height: res.data[i].pictureHeight,
+                  seq: res.data[i].id,
+                  uri: this.imagePrefix + '/' + res.data[i].yyyymmdd + '/' + res.data[i].archiveUuid + '/' + res.data[i].archiveName + '.' + res.data[i].archiveExt
+                }
+              }
+              console.log(localList)
+              console.log(this.editBottleAttachmentShowList)
+              this.editBottleAttachmentShowList = localList.concat(this.editBottleAttachmentShowList)
+              console.log(this.editBottleAttachmentShowList)
+            } else {
+              this.editBottleImageQueryByArchiveUuid(null)
+            }
+          } else {
+            this.editBottleForm.attachmentYmd = null
+            this.editBottleForm.attachmentUuid = null
+            this.editBottleForm.attachmentOldUuid = null
+          }
+        }).catch(ex => {
+          this.editBottleForm.attachmentYmd = null
+          this.editBottleForm.attachmentUuid = null
+          this.editBottleForm.attachmentOldUuid = null
+        })
       }
     },
     /**
@@ -2238,6 +2416,7 @@ export default {
              */
             this.tbl_edit_data_copy_value(obj, this.tableData[this.editBottle.currentGasTankIndex])
             this.tableData[this.editBottle.currentGasTankIndex].norms = obj.norms
+            this.tbl_edit_data_finish()
             this.tbl_edit_data_clear()
             this.tbl_hide_edit_dialog_only()
           }
@@ -2249,6 +2428,19 @@ export default {
     },
     tbl_edit_data_reset (formName) {
       this.$refs[formName].resetFields()
+    },
+    /**
+     * 取消uuid
+     */
+    tbl_edit_data_finish () {
+      if (this.editBottleForm.attachmentYmd !== null && this.editBottleForm.attachmentUuid !== null && this.editBottleForm.attachmentOldUuid === null) {
+        this.$axios.get(this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/bottleArchiveAttachmentImage/finish/' + this.editBottleForm.attachmentYmd + '/' + this.editBottleForm.attachmentUuid, { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {
+        }).catch(ex => {
+        })
+      }
+      this.editBottleForm.attachmentYmd = null
+      this.editBottleForm.attachmentUuid = null
+      this.editBottleForm.attachmentOldUuid = null
     },
     /**
      * 把编辑气瓶档案表单中的数据清空
@@ -2282,7 +2474,6 @@ export default {
       this.editBottleForm.checkresult = null
       this.editBottleForm.checkdate = null
       this.editBottleForm.onlyused = null
-      this.editBottleForm.attachmentUuid = null
       this.editBottleForm.testcount = null
       this.editBottleForm.usedstatus = null
       this.editBottleForm.lastused = null
@@ -2322,7 +2513,6 @@ export default {
         target.checkresult = source.checkresult
         target.checkdate = source.checkdate
         target.onlyused = source.onlyused
-        target.attachmentUuid = source.attachmentUuid
         target.testcount = source.testcount
         target.usedstatus = source.usedstatus
         target.lastused = source.lastused
@@ -2372,9 +2562,100 @@ export default {
      * @param list 文件列表
      */
     editBottleImageChange (file, list) {
-      console.log(this.editBottleAttachmentShowList)
-      console.log(this.editBottleAttachmentUploadList)
-      console.log(this.editBottleAttachmentPreuploadList)
+      console.log(this.editBottleAttachmentShowList.length)
+      console.log(this.editBottleAttachmentUploadList.length)
+      console.log(this.editBottleAttachmentPreuploadList.length)
+      console.log(file.status)
+      console.log(file.name)
+      console.log(file.size)
+      console.log(file.percentage)
+      console.log(file.uid)
+      console.log(file.raw.uid)
+      console.log(file.raw.name)
+      console.log(file.raw.lastModified)
+      console.log(file.raw.lastModifiedDate)
+      console.log(file.raw.webkitRelativePath)
+      console.log(file.raw.size)
+      console.log(file.raw.type)
+      console.log(file.raw.arrayBuffer)
+      console.log(file.raw.slice)
+      console.log(file.raw.stream)
+      console.log(file.raw.text)
+      console.log(file.response)
+      if (Array.isArray(file.response)) {
+        for (var idx = 0; idx < file.response.length; ++idx) {
+          console.log('----------------------------')
+          console.log(file.response[idx].uploadName)
+          console.log(file.response[idx].filename)
+          console.log(file.response[idx].fileUuid)
+          console.log(file.response[idx].ext)
+          console.log(file.response[idx].size)
+          console.log(file.response[idx].yyyymmdd)
+          console.log(file.response[idx].note)
+          console.log(file.response[idx].seq)
+        }
+      }
+      switch (file.status) {
+        case 'success': {
+          if (Array.isArray(file.response)) {
+            const localArray = this.editBottleAttachmentShowList
+            const localList = Array(file.response.length)
+            for (var i = 0; i < file.response.length; ++i) {
+              let found = false
+              localList[i] = {
+                uploadName: file.response[i].uploadName,
+                filename: file.response[i].filename,
+                fileUuid: file.response[i].fileUuid,
+                ymd: file.response[i].yyyymmdd,
+                ext: file.response[i].ext,
+                size: file.response[i].size,
+                width: file.response[i].width,
+                height: file.response[i].height,
+                seq: file.response[i].seq,
+                uri: this.imagePrefix + '/' + file.response[i].yyyymmdd + '/' + file.response[i].fileUuid + '/' + file.response[i].filename + '.' + file.response[i].ext
+              }
+              for (var j = 0; j < localArray.length; ++j) {
+                if (localArray[j].seq === localList[i].seq) {
+                  localArray[j] = localList[i]
+                  found = true
+                  break
+                }
+              }
+              if (found) {
+                continue
+              }
+              console.log(localList[i])
+            }
+            console.log(this.editBottleAttachmentShowList)
+            this.editBottleAttachmentShowList = localList.concat(this.editBottleAttachmentShowList)
+            console.log(this.editBottleAttachmentShowList)
+          }
+          break
+        }
+        case 'fail': {
+          this.$message('上传文件 ' + file.name + ' 失败')
+          const localYmd = this.editBottleForm.attachmentYmd
+          const localUuid = this.editBottleForm.attachmentUuid
+          const localList = this.editBottleAttachmentShowList
+          if (localYmd !== null && localUuid !== null && localList.length === 0) {
+            this.$axios.get(this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/bottleArchiveAttachmentImage/check/' + localYmd + '/' + localUuid, { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {
+              if (res.status === 200 && res.data === false) {
+                this.editBottleForm.attachmentYmd = null
+                this.editBottleForm.attachmentUuid = null
+                this.editBottleImageQueryByArchiveUuid(localUuid)
+              }
+            }).catch(ex => {
+            })
+          }
+          break
+        }
+        case 'ready': {
+          break
+        }
+        default: {
+          break
+        }
+      }
     },
     /**
      * @param files 超出的文件部分
@@ -2388,9 +2669,9 @@ export default {
      * @param list 文件列表
      */
     editBottleImageProgress (evt, file, list) {
-      console.log(this.editBottleAttachmentShowList)
-      console.log(this.editBottleAttachmentUploadList)
-      console.log(this.editBottleAttachmentPreuploadList)
+      console.log(this.editBottleAttachmentShowList.length)
+      console.log(this.editBottleAttachmentUploadList.length)
+      console.log(this.editBottleAttachmentPreuploadList.length)
     },
     /**
      * 修改对话框的显示模式为显示图片
@@ -2418,6 +2699,10 @@ export default {
         const newArr = Array(oldArr.length - 1)
         for (var i = 0, idx = 0; i < oldArr.length; ++i) {
           if (i === index) {
+            this.$axios.post(this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/bottleArchiveAttachmentImage/removeById/' + oldArr[i].seq, {}, { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {
+            }).catch(ex => {
+              this.$message('删除失败')
+            })
             continue
           }
           newArr[idx] = oldArr[i]
@@ -2459,6 +2744,29 @@ export default {
         this.editBottleForm.specs = null
       }
     },
+    tbl_view_data_query_picture (uuid) {
+      this.$axios.post(this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/bottleArchiveAttachmentImage/queryByArchiveUuid/' + uuid, {}, { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {
+        if (res.status === 200 && Array.isArray(res.data) && res.data.length > 0) {
+          const localList = Array(res.data.length)
+          for (var i = 0; i < res.data.length; ++i) {
+            localList[i] = {
+              uploadName: res.data[i].attachmentName,
+              filename: res.data[i].archiveName,
+              fileUuid: res.data[i].archiveUuid,
+              ext: res.data[i].archiveExt,
+              ymd: res.data[i].yyyymmdd,
+              size: res.data[i].archiveLength,
+              width: res.data[i].pictureWidth,
+              height: res.data[i].pictureHeight,
+              seq: res.data[i].id,
+              uri: this.imagePrefix + '/' + res.data[i].yyyymmdd + '/' + res.data[i].archiveUuid + '/' + res.data[i].archiveName + '.' + res.data[i].archiveExt
+            }
+          }
+          this.viewBottleAttachmentShowList = localList
+        }
+      }).catch(ex => {
+      })
+    },
     /**
      * 把查看气瓶档案表单中的数据清空
      */
@@ -2491,7 +2799,6 @@ export default {
       this.viewBottleForm.checkresult = null
       this.viewBottleForm.checkdate = null
       this.viewBottleForm.onlyused = null
-      this.viewBottleForm.attachmentUuid = null
       this.viewBottleForm.testcount = null
       this.viewBottleForm.usedstatus = null
       this.viewBottleForm.lastused = null
@@ -2532,7 +2839,6 @@ export default {
         target.checkresult = source.checkresult
         target.checkdate = source.checkdate
         target.onlyused = source.onlyused
-        target.attachmentUuid = source.attachmentUuid
         target.testcount = source.testcount
         target.usedstatus = source.usedstatus
         target.lastused = source.lastused
