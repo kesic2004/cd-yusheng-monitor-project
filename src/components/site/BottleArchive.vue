@@ -364,7 +364,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row v-if="Array.isArray(addBottleAttachmentShowList) && addBottleAttachmentShowList.length > 0" :gutter="48" type="flex" justify="start" align="middle" style="padding-top: 0px; padding-right: 2px; padding-bottom: 0px; padding-left: 2px; margin-left: 3px; margin-right: 3px; height: 115px; overflow-x: scroll; overflow-y: hidden; background-color: whitesmoke;">
+          <el-row v-if="Array.isArray(addBottleAttachmentShowList) && addBottleAttachmentShowList.length > 0" :gutter="48" type="flex" justify="start" align="middle" style="padding-top: 0px; padding-right: 2px; padding-bottom: 0px; padding-left: 2px; margin-left: 3px; margin-right: 3px; height: 115px; overflow-x: auto; overflow-y: hidden; background-color: whitesmoke;">
             <div style="position: relative; top: 8px; margin: 0px 2px 0px 2px; parring: 0px; width: 100px; height: 115px;"  v-for="(item, index) in addBottleAttachmentShowList" :key="item.id">
               <!-- ———————————————— -->
               <!-- 版权声明：本文为CSDN博主「喜大普奔⁶⁶⁶」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。 -->
@@ -385,8 +385,21 @@
       </div>
       <!-- style="background-color: aqua; border: solid; border-color: brown; border-width: 1pt;" -->
       <!-- position: relative; top: 0px; left: 0px; -->
-      <div :style="{ width: addBottleDivWidthString, height: addBottleDivHeightString, display: addBottlePictureDisplayString }" style="background-color: aqua; border: solid; border-color: brown; border-width: 1pt;">
-        <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding: 0px; 0px; 0px; 0px;"></el-row>
+      <div :style="{ width: addBottleDivWidthString, height: addBottleDivHeightString, display: addBottlePictureDisplayString }">
+        <el-container>
+          <el-header :height="addBottlePictureRowHeightString" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px;">
+            <el-image :src="addBottleAttachmentShowList[addBottle.pictureIndex].uri" fill="none" v-if="Array.isArray(addBottleAttachmentShowList) && addBottleAttachmentShowList.length > 0" />
+          </el-header>
+          <el-main style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px; height: 3px;" />
+          <el-footer height="115px" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px;">
+            <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px; overflow-x: auto; overflow-y: hidden; background-color: whitesmoke;">
+              <div style="position: relative; top: 8px; margin: 0px 2px 0px 2px; parring: 0px; width: 100px; height: 115px;"  v-for="(item, index) in addBottleAttachmentShowList" :key="item.id">
+                <span class="el-image-viewer__btn" @click="addBottleImageRemove(index)"><i class="el-icon-error" style="margin-left: 80px; margin-top: 0px; font-size: 14pt;"></i></span>
+                <el-image style="width: 100px; height: 100px" fill="fill" :src='item.uri' @click="addBottleImageDetailClick(index)" /><!-- /__images__/BottleArchive/Screenshot_2020-11-28_203914.png -->
+              </div>
+            </el-row>
+          </el-footer>
+        </el-container>
       </div>
     </el-dialog>
     <!-- 修改气瓶档案对话框 -->
@@ -615,7 +628,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row v-if="Array.isArray(editBottleAttachmentShowList) && editBottleAttachmentShowList.length > 0" :gutter="48" type="flex" justify="start" align="middle" style="padding-top: 0px; padding-right: 2px; padding-bottom: 0px; padding-left: 2px; margin-left: 3px; margin-right: 3px; height: 115px; overflow-x: scroll; overflow-y: hidden; background-color: whitesmoke;">
+          <el-row v-if="Array.isArray(editBottleAttachmentShowList) && editBottleAttachmentShowList.length > 0" :gutter="48" type="flex" justify="start" align="middle" style="padding-top: 0px; padding-right: 2px; padding-bottom: 0px; padding-left: 2px; margin-left: 3px; margin-right: 3px; height: 115px; overflow-x: auto; overflow-y: hidden; background-color: whitesmoke;">
             <div style="position: relative; top: 8px; margin-top: 0px; margin-right: 2px; margin-bottom: 0px; margin-left: 0px; parring: 0px; width: 100px; height: 115px;"  v-for="(item, index) in editBottleAttachmentShowList" :key="item.id">
               <!-- ———————————————— -->
               <!-- 版权声明：本文为CSDN博主「喜大普奔⁶⁶⁶」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。 -->
@@ -637,8 +650,21 @@
       <!-- style="background-color: aqua; border: solid; border-color: brown; border-width: 1pt;" -->
       <!-- position: relative; top: 0px; left: 0px; -->
       <!-- position: relative; left: 0px; -->
-      <div :style="{ width: editBottleDivWidthString, height: editBottleDivHeightString, display: editBottlePictureDisplayString }" style="background-color: aqua; border: solid; border-color: brown; border-width: 1pt;">
-        <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding: 0px; 0px; 0px; 0px;"></el-row>
+      <div :style="{ width: editBottleDivWidthString, height: editBottleDivHeightString, display: editBottlePictureDisplayString }">
+        <el-container>
+          <el-header :height="editBottlePictureRowHeightString" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px;">
+            <el-image :src="editBottleAttachmentShowList[editBottle.pictureIndex].uri" fill="none" v-if="Array.isArray(editBottleAttachmentShowList) && editBottleAttachmentShowList.length > 0" />
+          </el-header>
+          <el-main style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px; height: 3px;" />
+          <el-footer height="115px" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px;">
+            <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px; overflow-x: auto; overflow-y: hidden; background-color: whitesmoke;">
+              <div style="position: relative; top: 8px; margin-top: 0px; margin-right: 2px; margin-bottom: 0px; margin-left: 0px; parring: 0px; width: 100px; height: 115px;"  v-for="(item, index) in editBottleAttachmentShowList" :key="item.id">
+                <span class="el-image-viewer__btn" @click="editBottleImageRemove(index)"><i class="el-icon-error" style="margin-left: 80px; margin-top: 0px; font-size: 14pt;"></i></span>
+                <el-image style="width: 100px; height: 100px" fill="fill" v-bind:src='item.uri' @click="editBottleImageDetailClick(index)" /><!-- /__images__/BottleArchive/Screenshot_2020-11-28_203914.png -->
+              </div>
+            </el-row>
+          </el-footer>
+        </el-container>
       </div>
     </el-dialog>
     <!--查看气瓶档案-->
@@ -856,8 +882,20 @@
       </div>
       <!-- style="background-color: aqua; border: solid; border-color: brown; border-width: 1pt;" -->
       <!-- position: relative; top: 0px; left: 0px; -->
-      <div :style="{ width: viewBottleDivWidthString, height: viewBottleDivHeightString, display: viewBottlePictureDisplayString }" style="background-color: aqua; border: solid; border-color: brown; border-width: 1pt;">
-        <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding: 0px 0px 0px 0px;"></el-row>
+      <div :style="{ width: viewBottleDivWidthString, height: viewBottleDivHeightString, display: viewBottlePictureDisplayString }">
+        <el-container>
+          <el-header :height="viewBottlePictureRowHeightString" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px;">
+            <el-image :src="viewBottleAttachmentShowList[viewBottle.pictureIndex].uri" fill="none" v-if="Array.isArray(viewBottleAttachmentShowList) && viewBottleAttachmentShowList.length > 0" />
+          </el-header>
+          <el-main style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px; height: 3px;" />
+          <el-footer height="115px" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px;">
+            <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px; overflow-x: auto; overflow-y: hidden; background-color: whitesmoke;">
+              <div style="position: relative; top: 8px; margin-top: 0px; margin-right: 2px; margin-bottom: 0px; margin-left: 2px; parring: 0px; width: 100px; height: 115px;"  v-for="(item,index) in viewBottleAttachmentShowList" :key="item.id">
+                <el-image style="width: 100px; height: 100px" fill="fill" v-bind:src='item.uri' @click="viewBottleImageDetailClick(index)" /><!-- /__images__/BottleArchive/Screenshot_2020-11-28_203914.png -->
+              </div>
+            </el-row>
+          </el-footer>
+        </el-container>
       </div>
     </el-dialog>
     <!--修改气瓶编号对话框-->
@@ -1029,9 +1067,9 @@ export default {
         marginLeft: [300, 0], // (new)对话框的左边距
         formDisplay: ['block', 'none'], // (new)表单的显示方式
         pictureDisplay: ['none', 'block'], // (new)图片的显示方式
-        pictureAreaTop: 48, // 图片区域上边距
+        pictureAreaTop: 46, // 图片区域上边距
         pictureAreaRight: 42, // 图片区域右边距
-        pictureRowHeight: -123, // 图片下边的小图的扣减高度
+        pictureRowHeight: -133, // 顶部扣减
         pictureIndex: 0, // 显示第几张图
         showClose: true, // 对话框是否显示关闭按钮
         showFileList: false, // 是否显示上传文件的列表
@@ -1099,42 +1137,42 @@ export default {
        * 新增气瓶档案表单的附件(显示已经上传的列表中)
        */
       addBottleAttachmentShowList: [
-        // { uri: '/__images__/BottleArchive/014746e64ec44dfeba28b38b3da3a198/f90d3defdea0422f95812986477cfdb2.png' },
-        // { uri: '/__images__/BottleArchive/0426d84b7d444ef69fcb43031ebcae0e/f744f7746b2c41c48adb08c8ee53ba21.png' },
-        // { uri: '/__images__/BottleArchive/0b28f33727754777abc246c67765a71e/06618713e89544eaa973ef1deecf20a9.png' },
-        // { uri: '/__images__/BottleArchive/0e286c1cd2e04298a450dfc51168839c/55fc06395eaf474ba05b90e16d234fdc.png' },
-        // { uri: '/__images__/BottleArchive/1292a558a36e4616a031baa306a2e84b/a146be98b3814e04b3703972bada3afc.png' },
-        // { uri: '/__images__/BottleArchive/1a6fe9270a344f0aadf3ec73d8cd8594/b0b96cfdae8d4ed2ae7aaf81a363e286.png' },
-        // { uri: '/__images__/BottleArchive/1ad8ae222f224e20911c7ae57d368c3d/c1bb2be17a474b6fb1feea47b0aa526c.png' },
-        // { uri: '/__images__/BottleArchive/1b186bf7998f41079db6b93fc582b05b/8aa91eacf62141b8a0feb0395b990def.png' },
-        // { uri: '/__images__/BottleArchive/251c95dd018d40d68befbe82616b3056/5f56f06d7d4545f1902cba5a4ded8c4e.png' },
-        // { uri: '/__images__/BottleArchive/281404eb93c14047b3c0970bc59fa5b4/af9168daa0784a098d50b8845027e3e9.png' },
-        // { uri: '/__images__/BottleArchive/2d6dd31b45274bc2b7e7488dd9ba6888/0d10ff570dad419fb0aae15fb7ed65b2.png' },
-        // { uri: '/__images__/BottleArchive/343b5f5c26bb45299a35b13e518b8a02/bce4b7432dad4a6ba83263f293fcea3c.png' },
-        // { uri: '/__images__/BottleArchive/4ff42af7e9ce4930bffaf3496d1440e8/7afb33332e184f43a3d66a97db3d29f0.png' },
-        // { uri: '/__images__/BottleArchive/52b241a26cad4e6abb4fb9e858e1ac81/ffc366c88d894dde803beb2634aab182.png' },
-        // { uri: '/__images__/BottleArchive/64bdc46fc3b04e8d8e29c9ff829004ae/d9e60e53744344a18822aa7190295dc1.png' },
-        // { uri: '/__images__/BottleArchive/6568ff3e5a21493594e7aa7f81e81947/a5dfbe98d84d4df5b1cfce5b21a29031.png' },
-        // { uri: '/__images__/BottleArchive/6655865d2580487c81373b6620dfcc6f/c0e5624ebca44791971e9937025194f0.png' },
-        // { uri: '/__images__/BottleArchive/669fe660bf3b46a69ff13aae0e4997b7/b31094277c3346439b203566519a844a.png' },
-        // { uri: '/__images__/BottleArchive/6764cbfb43654a2c8f111428b57f0fc2/96c69bfd32b84d5286e26c5c9cdaace4.png' },
-        // { uri: '/__images__/BottleArchive/687abfd2affe4e46b2f29a6bd5c55a6b/dad2d408ba64413d8826a54e699efd7f.png' },
-        // { uri: '/__images__/BottleArchive/69b4abc8fa9c4a45a2d21043d5150355/af3ddf546a5247b4aa675848c88b44f7.png' },
-        // { uri: '/__images__/BottleArchive/7ff99bfb57374b3b9347f2a772da5842/63fb7366c4eb4372a8445c49cb9d5794.png' },
-        // { uri: '/__images__/BottleArchive/80323d65f4204a0f932a0bec45f062ef/e02d2148109f4ebba319bc1845ab0446.png' },
-        // { uri: '/__images__/BottleArchive/85f35d711bd34785bb5cf9a7ea146307/7fa65b0dd59a42d69eccd1ca5abcce88.png' },
-        // { uri: '/__images__/BottleArchive/90a3785cf5c54bb095d5724346ab6cf8/a17bfd7f1d5641cbb054d23f4e70984c.png' },
-        // { uri: '/__images__/BottleArchive/924d3b7a93f447af883a94131b247c8b/60e16af6790645f2945fd15a3f2c862e.png' },
-        // { uri: '/__images__/BottleArchive/93c2f51726694cfc823850e50ce2fc36/ff967aba7a1240b68a7345ae87066db7.png' },
-        // { uri: '/__images__/BottleArchive/a42994945e384362948aef6cef345677/24c154ab4a8442b5b548f96200966ad3.png' },
-        // { uri: '/__images__/BottleArchive/a72905be20c84368aadb3954b4bc4af6/0b24b10247fb47e38848c6d748dd99fd.png' },
-        // { uri: '/__images__/BottleArchive/ab89211071f0465ba5144d84c374ba03/3fc3d2bbd80e47dc80de2cbab7dc34b6.png' },
-        // { uri: '/__images__/BottleArchive/bce50a46a374468db9c37ac9d7c6a0b9/beccdbeb7ee7435593c196e1d010c5a6.png' },
-        // { uri: '/__images__/BottleArchive/c4cbb129e9764e48bfb2fbd198cf6619/f7bea7228def4941b701cf31a7fbed78.png' },
-        // { uri: '/__images__/BottleArchive/c56d4c8a2054438b868b74a9977e8d86/690a2fa04ec144918ad81765dd4210f8.png' },
-        // { uri: '/__images__/BottleArchive/d0cdc91c7b404ce490224db9c434d68c/4f72da54e4e54d40a66f2b7cf295ccd8.png' },
-        // { uri: '/__images__/BottleArchive/d895f8828d854a9784efb4a1fd60c922/aa30dda3d19f4fb496bf32426ed22f70.png' },
-        // { uri: '/__images__/BottleArchive/ecdcd84f13b54887b22c170a4d4bc98d/79d8843b53954490a489aa2a85efd3b2.png' }
+        { uri: '/__images__/BottleArchive/0231219/014746e64ec44dfeba28b38b3da3a198/f90d3defdea0422f95812986477cfdb2.png' },
+        { uri: '/__images__/BottleArchive/0231219/0426d84b7d444ef69fcb43031ebcae0e/f744f7746b2c41c48adb08c8ee53ba21.png' },
+        { uri: '/__images__/BottleArchive/0231219/0b28f33727754777abc246c67765a71e/06618713e89544eaa973ef1deecf20a9.png' },
+        { uri: '/__images__/BottleArchive/0231218/0e286c1cd2e04298a450dfc51168839c/55fc06395eaf474ba05b90e16d234fdc.png' },
+        { uri: '/__images__/BottleArchive/0231218/1292a558a36e4616a031baa306a2e84b/a146be98b3814e04b3703972bada3afc.png' },
+        { uri: '/__images__/BottleArchive/0231218/1a6fe9270a344f0aadf3ec73d8cd8594/b0b96cfdae8d4ed2ae7aaf81a363e286.png' },
+        { uri: '/__images__/BottleArchive/0231219/1ad8ae222f224e20911c7ae57d368c3d/c1bb2be17a474b6fb1feea47b0aa526c.png' },
+        { uri: '/__images__/BottleArchive/0231219/1b186bf7998f41079db6b93fc582b05b/8aa91eacf62141b8a0feb0395b990def.png' },
+        { uri: '/__images__/BottleArchive/0231219/251c95dd018d40d68befbe82616b3056/5f56f06d7d4545f1902cba5a4ded8c4e.png' },
+        { uri: '/__images__/BottleArchive/0231218/281404eb93c14047b3c0970bc59fa5b4/af9168daa0784a098d50b8845027e3e9.png' },
+        { uri: '/__images__/BottleArchive/0231219/2d6dd31b45274bc2b7e7488dd9ba6888/0d10ff570dad419fb0aae15fb7ed65b2.png' },
+        { uri: '/__images__/BottleArchive/0231218/343b5f5c26bb45299a35b13e518b8a02/bce4b7432dad4a6ba83263f293fcea3c.png' },
+        { uri: '/__images__/BottleArchive/0231219/4ff42af7e9ce4930bffaf3496d1440e8/7afb33332e184f43a3d66a97db3d29f0.png' },
+        { uri: '/__images__/BottleArchive/0231219/52b241a26cad4e6abb4fb9e858e1ac81/ffc366c88d894dde803beb2634aab182.png' },
+        { uri: '/__images__/BottleArchive/0231218/64bdc46fc3b04e8d8e29c9ff829004ae/d9e60e53744344a18822aa7190295dc1.png' },
+        { uri: '/__images__/BottleArchive/0231218/6568ff3e5a21493594e7aa7f81e81947/a5dfbe98d84d4df5b1cfce5b21a29031.png' },
+        { uri: '/__images__/BottleArchive/0231218/6655865d2580487c81373b6620dfcc6f/c0e5624ebca44791971e9937025194f0.png' },
+        { uri: '/__images__/BottleArchive/0231219/669fe660bf3b46a69ff13aae0e4997b7/b31094277c3346439b203566519a844a.png' },
+        { uri: '/__images__/BottleArchive/0231218/6764cbfb43654a2c8f111428b57f0fc2/96c69bfd32b84d5286e26c5c9cdaace4.png' },
+        { uri: '/__images__/BottleArchive/0231219/687abfd2affe4e46b2f29a6bd5c55a6b/dad2d408ba64413d8826a54e699efd7f.png' },
+        { uri: '/__images__/BottleArchive/0231218/69b4abc8fa9c4a45a2d21043d5150355/af3ddf546a5247b4aa675848c88b44f7.png' },
+        { uri: '/__images__/BottleArchive/0231219/7ff99bfb57374b3b9347f2a772da5842/63fb7366c4eb4372a8445c49cb9d5794.png' },
+        { uri: '/__images__/BottleArchive/0231219/80323d65f4204a0f932a0bec45f062ef/e02d2148109f4ebba319bc1845ab0446.png' },
+        { uri: '/__images__/BottleArchive/0231219/85f35d711bd34785bb5cf9a7ea146307/7fa65b0dd59a42d69eccd1ca5abcce88.png' },
+        { uri: '/__images__/BottleArchive/0231219/90a3785cf5c54bb095d5724346ab6cf8/a17bfd7f1d5641cbb054d23f4e70984c.png' },
+        { uri: '/__images__/BottleArchive/0231218/924d3b7a93f447af883a94131b247c8b/60e16af6790645f2945fd15a3f2c862e.png' },
+        { uri: '/__images__/BottleArchive/0231219/93c2f51726694cfc823850e50ce2fc36/ff967aba7a1240b68a7345ae87066db7.png' },
+        { uri: '/__images__/BottleArchive/0231218/a42994945e384362948aef6cef345677/24c154ab4a8442b5b548f96200966ad3.png' },
+        { uri: '/__images__/BottleArchive/0231219/a72905be20c84368aadb3954b4bc4af6/0b24b10247fb47e38848c6d748dd99fd.png' },
+        { uri: '/__images__/BottleArchive/0231219/ab89211071f0465ba5144d84c374ba03/3fc3d2bbd80e47dc80de2cbab7dc34b6.png' },
+        { uri: '/__images__/BottleArchive/0231218/bce50a46a374468db9c37ac9d7c6a0b9/beccdbeb7ee7435593c196e1d010c5a6.png' },
+        { uri: '/__images__/BottleArchive/0231218/c4cbb129e9764e48bfb2fbd198cf6619/f7bea7228def4941b701cf31a7fbed78.png' },
+        { uri: '/__images__/BottleArchive/0231219/c56d4c8a2054438b868b74a9977e8d86/690a2fa04ec144918ad81765dd4210f8.png' },
+        { uri: '/__images__/BottleArchive/0231218/d0cdc91c7b404ce490224db9c434d68c/4f72da54e4e54d40a66f2b7cf295ccd8.png' },
+        { uri: '/__images__/BottleArchive/0231218/d895f8828d854a9784efb4a1fd60c922/aa30dda3d19f4fb496bf32426ed22f70.png' },
+        { uri: '/__images__/BottleArchive/0231219/ecdcd84f13b54887b22c170a4d4bc98d/79d8843b53954490a489aa2a85efd3b2.png' }
       ],
       /*
        * 新增气瓶档案表单的附件(el-upload控件中)
@@ -1159,9 +1197,9 @@ export default {
         marginLeft: [300, 0], // (new)对话框的左边距
         formDisplay: ['block', 'none'], // (new)表单的显示方式
         pictureDisplay: ['none', 'block'], // (new)图片的显示方式
-        pictureAreaTop: 48, // 图片区域上边距
+        pictureAreaTop: 46, // 图片区域上边距
         pictureAreaRight: 42, // 图片区域右边距
-        pictureRowHeight: -123, // 图片下边的小图的扣减高度
+        pictureRowHeight: -133, // 顶部扣减
         pictureIndex: 0, // 显示第几张图
         showClose: true, // 对话框是否显示关闭按钮
         showFileList: false, // 是否显示上传文件的列表
@@ -1289,9 +1327,9 @@ export default {
         marginLeft: [300, 0], // (new)对话框的左边距
         formDisplay: ['block', 'none'], // (new)表单的显示方式
         pictureDisplay: ['none', 'block'], // (new)图片的显示方式
-        pictureAreaTop: 48, // 图片区域上边距
+        pictureAreaTop: 46, // 图片区域上边距
         pictureAreaRight: 42, // 图片区域右边距
-        pictureRowHeight: -123, // 图片下边的小图的扣减高度
+        pictureRowHeight: -133, // 顶部扣减
         pictureIndex: 0, // 显示第几张图
         showClose: true // 对话框是否显示关闭按钮
       },
@@ -1450,7 +1488,7 @@ export default {
     addBottleMarginLeftString: function () { return this.addBottle.marginLeft[this.addBottle.displayIndex] + 'px' },
     addBottleFormDisplayString: function () { return this.addBottle.formDisplay[this.addBottle.displayIndex] },
     addBottlePictureDisplayString: function () { return this.addBottle.pictureDisplay[this.addBottle.displayIndex] },
-    addBottlePictureRowHeightString: function () { return this.addBottle.divHeight[this.addBottle.displayIndex] + this.addBottle.pictureRowHeight },
+    addBottlePictureRowHeightString: function () { return (this.addBottle.divHeight[this.addBottle.displayIndex] + this.addBottle.pictureRowHeight) + 'px' },
     editBottleWidthString: function () { return this.editBottle.width[this.editBottle.displayIndex] },
     editBottleDialogWidthString: function () { return this.editBottle.digWidth[this.editBottle.displayIndex] + 'px' },
     editBottleDialogTopString: function () { return this.editBottle.digTop[this.editBottle.displayIndex] },
@@ -1459,7 +1497,7 @@ export default {
     editBottleMarginLeftString: function () { return this.editBottle.marginLeft[this.editBottle.displayIndex] + 'px' },
     editBottleFormDisplayString: function () { return this.editBottle.formDisplay[this.editBottle.displayIndex] },
     editBottlePictureDisplayString: function () { return this.editBottle.pictureDisplay[this.editBottle.displayIndex] },
-    editBottlePictureRowHeightString: function () { return this.editBottle.divHeight[this.editBottle.displayIndex] + this.editBottle.pictureRowHeight },
+    editBottlePictureRowHeightString: function () { return (this.editBottle.divHeight[this.editBottle.displayIndex] + this.editBottle.pictureRowHeight) + 'px' },
     viewBottleWidthString: function () { return this.viewBottle.width[this.viewBottle.displayIndex] },
     viewBottleDialogWidthString: function () { return this.viewBottle.digWidth[this.viewBottle.displayIndex] + 'px' },
     viewBottleDialogTopString: function () { return this.viewBottle.digTop[this.viewBottle.displayIndex] },
@@ -1468,7 +1506,7 @@ export default {
     viewBottleMarginLeftString: function () { return this.viewBottle.marginLeft[this.viewBottle.displayIndex] + 'px' },
     viewBottleFormDisplayString: function () { return this.viewBottle.formDisplay[this.viewBottle.displayIndex] },
     viewBottlePictureDisplayString: function () { return this.viewBottle.pictureDisplay[this.viewBottle.displayIndex] },
-    viewBottlePictureRowHeightString: function () { return this.viewBottle.divHeight[this.viewBottle.displayIndex] + this.viewBottle.pictureRowHeight },
+    viewBottlePictureRowHeightString: function () { return (this.viewBottle.divHeight[this.viewBottle.displayIndex] + this.viewBottle.pictureRowHeight) + 'px' },
     /*
      * 表格高度
      */
@@ -1910,8 +1948,8 @@ export default {
      * 新增数据
      */
     tbl_add_data () {
-      this.addBottleAttachmentShowList = []
-      this.addBottleAttachmentUploadList = []
+      /* this.addBottleAttachmentShowList = [] */
+      /* this.addBottleAttachmentUploadList = [] */
       setTimeout(this.tbl_add_data_before(), 5)
       this.tbl_show_add_dialog_only()
     },
@@ -2237,6 +2275,7 @@ export default {
      */
     addBottleImageDetailClick (index) {
       console.log('正在显示图片[' + index + '], addBottleImageDetailClick')
+      this.addBottle.pictureIndex = index
     },
     /**
      * 新增气瓶档案对话框中的规格型号控件发生变化时
@@ -2724,6 +2763,7 @@ export default {
      */
     editBottleImageDetailClick (index) {
       console.log('正在显示图片[' + index + '], editBottleImageDetailClick')
+      this.editBottle.pictureIndex = index
     },
     /**
      * 修改气瓶档案对话框中的规格型号控件发生变化时
@@ -2890,6 +2930,7 @@ export default {
      */
     viewBottleImageDetailClick (index) {
       console.log('正在显示图片[' + index + '], viewBottleImageDetailClick')
+      this.viewBottle.pictureIndex = index
     },
     tbl_modify_qrcode_submit (formName) {
       this.$refs[formName].validate(valid => {
