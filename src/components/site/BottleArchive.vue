@@ -2275,25 +2275,33 @@ export default {
         this.editBottleForm.attachmentYmd = null
         this.editBottleForm.attachmentUuid = null
         const localGasTankId = this.editBottleForm.gastankid
-        this.$axios(this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/bottleArchiveAttachmentImage/before', { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {
-          if (res.status === 200) {
-            const requestForm = new FormData()
-            const localYmd = res.data.yyyymmdd
-            const localUuid = res.data.uuid
-            requestForm.append('id', localGasTankId)
-            requestForm.append('uuid', localUuid)
-            this.$axios.postForm(this.constant.GAS_SERVER_PREFIX + '/gastankinfo/gastankinfo/modifyAttachmentUuidByGastankid', requestForm, { headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'reference': this.$router.currentRoute.fullPath } }).then(resp => {
-              if (resp.status === 200 && resp.data.success === true) {
-                this.editBottleForm.attachmentYmd = localYmd
-                this.editBottleForm.attachmentUuid = localUuid
-              } else {
-                this.editBottleForm.attachmentYmd = null
-                this.editBottleForm.attachmentUuid = null
+        const requestForm = new FormData()
+        requestForm.append('id', localGasTankId)
+        this.$axios.postForm(this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/bottleArchiveAttachmentImage/modifyAttachmentUuidByGastankid', requestForm, { headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'reference': this.$router.currentRoute.fullPath } }).then(resp => {
+          if (resp.status === 200 && resp.data.success === true) {
+            this.editBottleForm.attachmentYmd = resp.data.yyyymmdd
+            this.tableData[this.editBottle.currentGasTankIndex].attachmentUuid = this.editBottleForm.attachmentUuid = resp.data.uuid
+            if (Array.isArray(resp.data.items) && resp.data.items.length > 0) {
+              const localArray = Array(resp.data.items.length)
+              for (var idx = 0; idx < resp.data.items.length; ++idx) {
+                localArray[idx] = {
+                  uploadName: resp.data.items[idx].attachmentName,
+                  filename: resp.data.items[idx].archiveName,
+                  fileUuid: resp.data.items[idx].archiveUuid,
+                  ext: resp.data.items[idx].archiveExt,
+                  ymd: resp.data.items[idx].yyyymmdd,
+                  size: resp.data.items[idx].archiveLength,
+                  width: resp.data.items[idx].pictureWidth,
+                  height: resp.data.items[idx].pictureHeight,
+                  seq: resp.data.items[idx].id,
+                  uri: this.imagePrefix + '/' + resp.data.items[idx].yyyymmdd + '/' + resp.data.items[idx].archiveUuid + '/' + resp.data.items[idx].archiveName + '.' + resp.data.items[idx].archiveExt
+                }
               }
-            }).catch(ex => {
-              this.editBottleForm.attachmentYmd = null
-              this.editBottleForm.attachmentUuid = null
-            })
+              console.log(localArray)
+              console.log(this.editBottleAttachmentShowList)
+              this.editBottleAttachmentShowList = localArray.concat(this.editBottleAttachmentShowList)
+              console.log(this.editBottleAttachmentShowList)
+            }
           } else {
             this.editBottleForm.attachmentYmd = null
             this.editBottleForm.attachmentUuid = null
