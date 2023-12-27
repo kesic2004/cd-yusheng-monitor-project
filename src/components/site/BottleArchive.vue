@@ -4,7 +4,7 @@
     <!--查询表单和表格-->
     <el-collapse class="BottleArchiveMain">
       <el-header height="140px" class="BottleArchiveForm">
-        <el-form status-icon ref="queryForm" label-width="80px" :model="queryForm" :rules="queryRules"><!-- class="BottleArchiveFormStyle" -->
+        <el-form status-icon ref="queryForm" label-width="80px" :model="queryForm" :rules="queryRules">
           <el-row :gutter="48" type="flex" justify="start" align="middle" style="width: 1126px;padding-top: 2px;">
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
               <el-form-item prop="qrcode" label="条码编号" size="medium">
@@ -101,26 +101,26 @@
           :data="tableData"
           :cell-style="tblCellStyle"
           :height="tableHeightString"
-          style="overflow-y: hidden; width: 1460px"><!-- 60 + 100 + 286 + 125 + 63 + 63 + 63 + 63 + 50 + 50 + 63 + 100 + 50 + 63 + 35 + 35 + 40 + 35 + 115 + 1 = 1460 --><!-- 48,80 -->
-          <el-table-column prop="gastankid"   width="60"  min-width="60"  :show-overflow-tooltip="false" align="right"  header-align="center"   label="序号" /><!--  align="left/center/right" header-align="left/center/right" :formatter="tbl_gastankid_formatter(row, column, cellValue, index)" -->
-          <el-table-column prop="qrcode"      width="100" min-width="100" :show-overflow-tooltip="false" align="right"  header-align="center"   label="条码编号" /><!--  align="left/center/right" header-align="left/center/right" :formatter="tbl_qrcode_formatter(row, column, cellValue, index)" -->
-          <el-table-column prop="producter"   width="286" min-width="286" :show-overflow-tooltip="true"  align="left"   header-align="center"   label="制造厂商" /><!-- align="left/center/right" header-align="left/center/right":formatter="tbl_producter_formatter(row, column, cellValue, index)" -->
-          <el-table-column prop="productno"   width="125" min-width="125" :show-overflow-tooltip="false" align="left"   header-align="center"   label="钢印号"   /><!--  align="left/center/right": header-align="left/center/right" formatter="tbl_productno_formatter(row, column, cellValue, index)" -->
-          <el-table-column prop="producted"   width="63"  min-width="63"  :show-overflow-tooltip="false" align="center" header-align="center" :formatter="tbl_producted_formatter"   label="出厂日期" /><!--  align="left/center/right" header-align="left/center/right" (row, column, cellValue, index) -->
-          <el-table-column prop="nexttested"  width="63"  min-width="63"  :show-overflow-tooltip="false" align="center" header-align="center" :formatter="tbl_nexttested_formatter"  label="下检日期" /><!--  align="left/center/right" header-align="left/center/right" (row, column, cellValue, index) -->
-          <el-table-column prop="expired"     width="63"  min-width="63"  :show-overflow-tooltip="false" align="center" header-align="center" :formatter="tbl_expired_formatter"     label="报废日期" /><!--  align="left/center/right" header-align="left/center/right" (row, column, cellValue, index) -->
-          <el-table-column prop="lasttested"  width="63"  min-width="63"  :show-overflow-tooltip="false" align="center" header-align="center" :formatter="tbl_lasttested_formatter"  label="上检日期" /><!--  align="left/center/right" header-align="left/center/right" (row, column, cellValue, index) -->
-          <el-table-column prop="testcount"   width="50"  min-width="50"  :show-overflow-tooltip="false" align="center" header-align="center"   label="已检次"   /><!--  align="left/center/right" header-align="left/center/right" :formatter="tbl_testcount_formatter(row, column, cellValue, index)" -->
-          <el-table-column prop="maxuseyears" width="50"  min-width="50"  :show-overflow-tooltip="false" align="center" header-align="center" label="报废年"   /><!--  align="left/center/right" header-align="left/center/right" :formatter="tbl_maxuseyears_formatter(row, column, cellValue, index)" -->
-          <el-table-column prop="mediumname"  width="63"  min-width="63"  :show-overflow-tooltip="false" align="right"  header-align="center" label="充装介质" /><!--  align="left/center/right" header-align="left/center/right" :formatter="tbl_mediumname_formatter(row, column, cellValue, index)" -->
-          <el-table-column prop="norms"       width="100" min-width="100" :show-overflow-tooltip="false" align="left"   header-align="center" :formatter="tbl_norms_formatter"       label="规格型号" /><!--  align="left/center/right" header-align="left/center/right" (row, column, cellValue, index) -->
-          <el-table-column prop="usedstatus"  width="50"  min-width="50"  :show-overflow-tooltip="false" align="center" header-align="center" :formatter="tbl_usedstatus_formatter"  label="状态"     /><!--  align="left/center/right" header-align="left/center/right" (row, column, cellValue, index) -->
-          <el-table-column prop="maxcapacity" width="63"  min-width="63"  :show-overflow-tooltip="false" align="right"  header-align="center" :formatter="tbl_maxcapacity_formatter" label="最大充量" /><!--  align="left/center/right" header-align="left/center/right" :formatter="tbl_maxcapacity_formatter(row, column, cellValue, index)" -->
-          <el-table-column prop="selfweight"  width="35"  min-width="35"  :show-overflow-tooltip="false" align="right"  header-align="center" :formatter="tbl_selfweight_formatter"  label="自重"     /><!--  align="left/center/right" header-align="left/center/right" :formatter="tbl_selfweight_formatter(row, column, cellValue, index)" -->
-          <el-table-column prop="thickness"   width="35"  min-width="35"  :show-overflow-tooltip="false" align="right"  header-align="center" :formatter="tbl_thickness_formatter"   label="壁厚"     /><!--  align="left/center/right": header-align="left/center/right" :formatter="tbl_thickness_formatter(row, column, cellValue, index)" -->
-          <el-table-column prop="volume"      width="40"  min-width="40"  :show-overflow-tooltip="false" align="right"  header-align="center" :formatter="tbl_volume_formatter"      label="容积"     /><!--  align="left/center/right": header-align="left/center/right" :formatter="tbl_volume_formatter(row, column, cellValue, index)" -->
-          <el-table-column prop="onlyused"    width="35"  min-width="35"  :show-overflow-tooltip="false" align="center" header-align="center" :formatter="tbl_onlyused_formatter"    label="专用"     /><!--  align="left/center/right" header-align="left/center/right" (row, column, cellValue, index) -->
-          <el-table-column                    width="115" min-width="115" :show-overflow-tooltip="false" align="center" header-align="left"    label="操作"      label-class-name="TblBottleArchinveLastColumnHeader"><!-- fixed="right" align="left/center/right" header-align="left/center/right" -->
+          style="overflow-y: hidden; width: 1460px">
+          <el-table-column prop="gastankid"   width="60"  min-width="60"  :show-overflow-tooltip="false" align="right"  header-align="center"   label="序号" />
+          <el-table-column prop="qrcode"      width="100" min-width="100" :show-overflow-tooltip="false" align="right"  header-align="center"   label="条码编号" />
+          <el-table-column prop="producter"   width="286" min-width="286" :show-overflow-tooltip="true"  align="left"   header-align="center"   label="制造厂商" />
+          <el-table-column prop="productno"   width="125" min-width="125" :show-overflow-tooltip="false" align="left"   header-align="center"   label="钢印号"   />
+          <el-table-column prop="producted"   width="63"  min-width="63"  :show-overflow-tooltip="false" align="center" header-align="center" :formatter="tbl_producted_formatter"   label="出厂日期" />
+          <el-table-column prop="nexttested"  width="63"  min-width="63"  :show-overflow-tooltip="false" align="center" header-align="center" :formatter="tbl_nexttested_formatter"  label="下检日期" />
+          <el-table-column prop="expired"     width="63"  min-width="63"  :show-overflow-tooltip="false" align="center" header-align="center" :formatter="tbl_expired_formatter"     label="报废日期" />
+          <el-table-column prop="lasttested"  width="63"  min-width="63"  :show-overflow-tooltip="false" align="center" header-align="center" :formatter="tbl_lasttested_formatter"  label="上检日期" />
+          <el-table-column prop="testcount"   width="50"  min-width="50"  :show-overflow-tooltip="false" align="center" header-align="center"   label="已检次"   />
+          <el-table-column prop="maxuseyears" width="50"  min-width="50"  :show-overflow-tooltip="false" align="center" header-align="center" label="报废年"   />
+          <el-table-column prop="mediumname"  width="63"  min-width="63"  :show-overflow-tooltip="false" align="right"  header-align="center" label="充装介质" />
+          <el-table-column prop="norms"       width="100" min-width="100" :show-overflow-tooltip="false" align="left"   header-align="center" :formatter="tbl_norms_formatter"       label="规格型号" />
+          <el-table-column prop="usedstatus"  width="50"  min-width="50"  :show-overflow-tooltip="false" align="center" header-align="center" :formatter="tbl_usedstatus_formatter"  label="状态"     />
+          <el-table-column prop="maxcapacity" width="63"  min-width="63"  :show-overflow-tooltip="false" align="right"  header-align="center" :formatter="tbl_maxcapacity_formatter" label="最大充量" />
+          <el-table-column prop="selfweight"  width="35"  min-width="35"  :show-overflow-tooltip="false" align="right"  header-align="center" :formatter="tbl_selfweight_formatter"  label="自重"     />
+          <el-table-column prop="thickness"   width="35"  min-width="35"  :show-overflow-tooltip="false" align="right"  header-align="center" :formatter="tbl_thickness_formatter"   label="壁厚"     />
+          <el-table-column prop="volume"      width="40"  min-width="40"  :show-overflow-tooltip="false" align="right"  header-align="center" :formatter="tbl_volume_formatter"      label="容积"     />
+          <el-table-column prop="onlyused"    width="35"  min-width="35"  :show-overflow-tooltip="false" align="center" header-align="center" :formatter="tbl_onlyused_formatter"    label="专用"     />
+          <el-table-column                    width="115" min-width="115" :show-overflow-tooltip="false" align="center" header-align="left"    label="操作"      label-class-name="TblBottleArchinveLastColumnHeader">
             <template slot-scope="gasOperator"><!-- gasOperator是点击按钮时传给回调函数的参数 -->
               <el-button round size="mini" icon="el-icon-document" style="height: 21px; padding-top: 0px; padding-right: 7px; padding-bottom: 0px; padding-left: 7px; margin-top: 0px; margin-right: 3px; margin-bottom: 0px; margin-left: 3px; border-radius: 3px;" @click="tbl_view_data(gasOperator)" />
               <el-button round size="mini" icon="el-icon-edit" style="height: 21px; padding-top: 0px; padding-right: 7px; padding-bottom: 0px; padding-left: 7px; margin-top: 0px; margin-right: 3px; margin-bottom: 0px; margin-left: 3px; border-radius: 3px;" @click="tbl_edit_data(gasOperator)" />
@@ -139,12 +139,11 @@
       modal
       :visible.sync="addBottle.visible"
       :title="addBottle.title"
-      :show-close="addBottle.showClose"
+      :show-close="addBottleShowClose"
       :width="addBottleWidthString"
       :style="{ width: addBottleDialogWidthString, marginLeft: addBottleMarginLeftString }"
       :before-close="tbl_before_hide_add_dialog_only"
       :top="addBottleDialogTopString">
-      <!-- background-color: aqua;气瓶图片 style="border: solid; border-color: brown; border-width: 1pt;" -->
       <div :style="{ width: addBottleDivWidthString, height: addBottleDivHeightString, display: addBottleFormDisplayString }">
         <el-form status-icon ref="addForm" label-width="125px" :model="addBottleForm" :rules="addBottleRules">
           <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
@@ -246,28 +245,28 @@
           <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
               <el-form-item prop="maxcapacity" label="最大充量" size="medium">
-                <el-input clearable readonly type="text" v-model="addBottleForm.maxcapacity" style="padding-left: 0px; padding-right: 0px;" slot-type="suffix"><!--㎏-->
+                <el-input clearable readonly type="text" v-model="addBottleForm.maxcapacity" style="padding-left: 0px; padding-right: 0px;" slot-type="suffix">
                   <i v-if="addBottleFormMisc.maxcapacitySuffix !== null" slot="suffix">{{ addBottleFormMisc.maxcapacitySuffix }}</i>
                 </el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
               <el-form-item prop="selfweight" label="自重" size="medium">
-                <el-input readonly type="text" v-model="addBottleForm.selfweight" style="padding-left: 0px; padding-right: 0px;"><!--㎏-->
+                <el-input readonly type="text" v-model="addBottleForm.selfweight" style="padding-left: 0px; padding-right: 0px;">
                   <i v-if="addBottleFormMisc.selfweightSuffix !== null" slot="suffix">{{ addBottleFormMisc.selfweightSuffix }}</i>
                 </el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
               <el-form-item prop="thickness" label="壁厚" size="medium">
-                <el-input readonly type="text" v-model="addBottleForm.thickness" style="padding-left: 0px; padding-right: 0px;"><!--㎜-->
+                <el-input readonly type="text" v-model="addBottleForm.thickness" style="padding-left: 0px; padding-right: 0px;">
                   <i v-if="addBottleFormMisc.thicknessSuffix !== null" slot="suffix">{{ addBottleFormMisc.thicknessSuffix }}</i>
                 </el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
               <el-form-item prop="volume" label="容积" size="medium">
-                <el-input readonly type="text" v-model="addBottleForm.volume" style="padding-left: 0px; padding-right: 0px;"><!--L-->
+                <el-input readonly type="text" v-model="addBottleForm.volume" style="padding-left: 0px; padding-right: 0px;">
                   <i v-if="addBottleFormMisc.volumeSuffix !== null" slot="suffix">{{ addBottleFormMisc.volumeSuffix }}</i>
                 </el-input>
               </el-form-item>
@@ -364,38 +363,36 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row v-if="Array.isArray(addBottleAttachmentShowList) && addBottleAttachmentShowList.length > 0" :gutter="48" type="flex" justify="start" align="middle" style="padding-top: 0px; padding-right: 2px; padding-bottom: 0px; padding-left: 2px; margin-left: 3px; margin-right: 3px; height: 115px; overflow-x: auto; overflow-y: hidden; background-color: whitesmoke;">
-            <div style="position: relative; top: 8px; margin: 0px 2px 0px 2px; parring: 0px; width: 100px; height: 115px;"  v-for="(item, index) in addBottleAttachmentShowList" :key="item.id">
+          <el-row v-if="Array.isArray(addBottleAttachmentShowList) && addBottleAttachmentShowList.length > 0" :gutter="48" type="flex" justify="start" align="middle" style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; height: 119px; overflow-x: auto; overflow-y: hidden; background-color: #FFFFFF;">
+            <div style="position: relative; top: 5px; padding: 0px; width: 100px; height: 115px;" :class="{BottleArchiveSelectedPictureMargin: addBottleImageBorderLine(index), BottleArchiveUnselectedPictureMargin: !addBottleImageBorderLine(index)}" v-for="(item, index) in addBottleAttachmentShowList" :key="item.id">
               <!-- ———————————————— -->
               <!-- 版权声明：本文为CSDN博主「喜大普奔⁶⁶⁶」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。 -->
               <!-- 原文链接：https://blog.csdn.net/qq_38652871/article/details/115081612 -->
               <!-- ———————————————— -->
               <span class="el-image-viewer__btn" @click="addBottleImageRemove(index)"><i class="el-icon-error" style="margin-left: 80px; margin-top: 0px; font-size: 14pt;"></i></span>
-              <el-image style="width: 100px; height: 100px" fill="fill" :src='item.uri' @click="addBottleImageClick(index)" /><!-- /__images__/BottleArchive/Screenshot_2020-11-28_203914.png -->
+              <el-image style="width: 100px; height: 100px; padding: 0px;" fill="fill" :src='item.uri' :class="{ BottleArchiveSelectedPictureBorder: addBottleImageBorderLine(index), BottleArchiveUnselectedPictureBorder: !addBottleImageBorderLine(index) }" @click="addBottleImageClick(index)" />
             </div>
           </el-row>
         </el-form>
       </div>
-      <!-- border: solid; border-color: brown; border-width: 1pt; -->
       <div style="height: 30px;" :style="{ width: addBottle.divWidth + 'px', display: addBottleFormDisplayString }">
         <el-row :gutter="48" type="flex" justify="end" align="middle" style="padding: 0px; margin: 0px;">
           <el-button round @click="tbl_add_data_submit('addForm')" size="small" style="height: 24px; width: 60px; background: #E3E3E3; padding-top: 0px; padding-right: 7px; padding-bottom: 0px; padding-left: 7px; margin-top: 0px; margin-right: 3px; margin-bottom: 0px; margin-left: 3px; border-color: #66b1ff; border: solid; border-width: 1pt; line-height: 0px; border-radius: 4px;">新增</el-button>
           <el-button round @click="tbl_add_data_reset('addForm')" size="small" style="height: 24px; width: 60px; background: #E3E3E3; padding-top: 0px; padding-right: 7px; padding-bottom: 0px; padding-left: 7px; margin-top: 0px; margin-right: 3px; margin-bottom: 0px; margin-left: 3px; border-color: #66b1ff; border: solid; border-width: 1pt; line-height: 0px; border-radius: 4px;">重置</el-button>
         </el-row>
       </div>
-      <!-- style="background-color: aqua; border: solid; border-color: brown; border-width: 1pt;" -->
-      <!-- position: relative; top: 0px; left: 0px; -->
       <div :style="{ width: addBottleDivWidthString, height: addBottleDivHeightString, display: addBottlePictureDisplayString }">
         <el-container>
           <el-header :height="addBottlePictureRowHeightString" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px;">
+            <span class="el-image-viewer__btn" v-if="Array.isArray(addBottleAttachmentShowList) && addBottleAttachmentShowList.length > 0" :style="{ display: addBottleChangeDisplayString }" @click="tbl_add_data_change_to_form" ><i class="el-icon-error" style="position: fixed; top: 9px; font-size: 18pt;" :style="{ left: addBottleChangeDisplayXOffsetString }"></i></span>
             <el-image :src="addBottleAttachmentShowList[addBottle.pictureIndex].uri" fill="none" v-if="Array.isArray(addBottleAttachmentShowList) && addBottleAttachmentShowList.length > 0" />
           </el-header>
           <el-main style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px; height: 3px;" />
           <el-footer height="115px" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px;">
-            <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px; overflow-x: auto; overflow-y: hidden; background-color: whitesmoke;">
-              <div style="position: relative; top: 8px; margin: 0px 2px 0px 2px; parring: 0px; width: 100px; height: 115px;"  v-for="(item, index) in addBottleAttachmentShowList" :key="item.id">
+            <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px; overflow-x: auto; overflow-y: hidden; background-color: #FFFFFF;">
+              <div style="position: relative; top: 8px; padding: 0px; width: 100px; height: 115px;" :class="{BottleArchiveSelectedPictureMargin: addBottleImageBorderLine(index), BottleArchiveUnselectedPictureMargin: !addBottleImageBorderLine(index)}" v-for="(item, index) in addBottleAttachmentShowList" :key="item.id">
                 <span class="el-image-viewer__btn" @click="addBottleImageRemove(index)"><i class="el-icon-error" style="margin-left: 80px; margin-top: 0px; font-size: 14pt;"></i></span>
-                <el-image style="width: 100px; height: 100px" fill="fill" :src='item.uri' @click="addBottleImageDetailClick(index)" /><!-- /__images__/BottleArchive/Screenshot_2020-11-28_203914.png -->
+                <el-image style="width: 100px; height: 100px; padding: 0px;" fill="fill" :src='item.uri' :class="{ BottleArchiveSelectedPictureBorder: addBottleImageBorderLine(index), BottleArchiveUnselectedPictureBorder: !addBottleImageBorderLine(index) }" @click="addBottleImageDetailClick(index)" />
               </div>
             </el-row>
           </el-footer>
@@ -409,12 +406,11 @@
       modal
       :visible.sync="editBottle.visible"
       :title="editBottle.title"
-      :show-close="editBottle.showClose"
+      :show-close="editBottleShowClose"
       :width="editBottleWidthString"
       :style="{ width: editBottleDialogWidthString, marginLeft: editBottleMarginLeftString }"
       :before-close="tbl_before_hide_edit_dialog_only"
       :top="editBottleDialogTopString">
-      <!-- background-color: aqua;气瓶图片 style="border: solid; border-color: brown; border-width: 1pt;" -->
       <div :style="{ width: editBottleDivWidthString, height: editBottleDivHeightString, display: editBottleFormDisplayString }">
         <el-form status-icon ref="editForm" label-width="125px" :model="editBottleForm" :rules="editBottleRules">
           <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
@@ -516,28 +512,28 @@
           <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
               <el-form-item prop="maxcapacity" label="最大充量" size="medium">
-                <el-input clearable readonly type="text" v-model="editBottleForm.maxcapacity" style="padding-left: 0px; padding-right: 0px;" slot-type="suffix"><!--㎏-->
+                <el-input clearable readonly type="text" v-model="editBottleForm.maxcapacity" style="padding-left: 0px; padding-right: 0px;" slot-type="suffix">
                   <i v-if="editBottleFormMisc.maxcapacitySuffix !== null" slot="suffix">{{ editBottleFormMisc.maxcapacitySuffix }}</i>
                 </el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
               <el-form-item prop="selfweight" label="自重" size="medium">
-                <el-input readonly type="text" v-model="editBottleForm.selfweight" style="padding-left: 0px; padding-right: 0px;"><!--㎏-->
+                <el-input readonly type="text" v-model="editBottleForm.selfweight" style="padding-left: 0px; padding-right: 0px;">
                   <i v-if="editBottleFormMisc.selfweightSuffix !== null" slot="suffix">{{ editBottleFormMisc.selfweightSuffix }}</i>
                 </el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
               <el-form-item prop="thickness" label="壁厚" size="medium">
-                <el-input readonly type="text" v-model="editBottleForm.thickness" style="padding-left: 0px; padding-right: 0px;"><!--㎜-->
+                <el-input readonly type="text" v-model="editBottleForm.thickness" style="padding-left: 0px; padding-right: 0px;">
                   <i v-if="editBottleFormMisc.thicknessSuffix !== null" slot="suffix">{{ editBottleFormMisc.thicknessSuffix }}</i>
                 </el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
               <el-form-item prop="volume" label="容积" size="medium">
-                <el-input readonly type="text" v-model="editBottleForm.volume" style="padding-left: 0px; padding-right: 0px;"><!--L-->
+                <el-input readonly type="text" v-model="editBottleForm.volume" style="padding-left: 0px; padding-right: 0px;">
                   <i v-if="editBottleFormMisc.volumeSuffix !== null" slot="suffix">{{ editBottleFormMisc.volumeSuffix }}</i>
                 </el-input>
               </el-form-item>
@@ -628,39 +624,36 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row v-if="Array.isArray(editBottleAttachmentShowList) && editBottleAttachmentShowList.length > 0" :gutter="48" type="flex" justify="start" align="middle" style="padding-top: 0px; padding-right: 2px; padding-bottom: 0px; padding-left: 2px; margin-left: 3px; margin-right: 3px; height: 115px; overflow-x: auto; overflow-y: hidden; background-color: whitesmoke;">
-            <div style="position: relative; top: 8px; margin-top: 0px; margin-right: 2px; margin-bottom: 0px; margin-left: 0px; parring: 0px; width: 100px; height: 115px;"  v-for="(item, index) in editBottleAttachmentShowList" :key="item.id">
+          <el-row v-if="Array.isArray(editBottleAttachmentShowList) && editBottleAttachmentShowList.length > 0" :gutter="48" type="flex" justify="start" align="middle" style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; height: 119px; overflow-x: auto; overflow-y: hidden; background-color: #FFFFFF;">
+            <div style="position: relative; top: 5px; padding: 0px; width: 100px; height: 115px;" :class="{BottleArchiveSelectedPictureMargin: editBottleImageBorderLine(index), BottleArchiveUnselectedPictureMargin: !editBottleImageBorderLine(index)}" v-for="(item, index) in editBottleAttachmentShowList" :key="item.id">
               <!-- ———————————————— -->
               <!-- 版权声明：本文为CSDN博主「喜大普奔⁶⁶⁶」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。 -->
               <!-- 原文链接：https://blog.csdn.net/qq_38652871/article/details/115081612 -->
               <!-- ———————————————— -->
               <span class="el-image-viewer__btn" @click="editBottleImageRemove(index)"><i class="el-icon-error" style="margin-left: 80px; margin-top: 0px; font-size: 14pt;"></i></span>
-              <el-image style="width: 100px; height: 100px" fill="fill" v-bind:src='item.uri' @click="editBottleImageClick(index)" /><!-- /__images__/BottleArchive/Screenshot_2020-11-28_203914.png -->
+              <el-image style="width: 100px; height: 100px; padding: 0px;" fill="fill" v-bind:src='item.uri' :class="{ BottleArchiveSelectedPictureBorder: editBottleImageBorderLine(index), BottleArchiveUnselectedPictureBorder: !editBottleImageBorderLine(index) }" @click="editBottleImageClick(index)" />
             </div>
           </el-row>
         </el-form>
       </div>
-      <!-- border: solid; border-color: brown; border-width: 1pt; -->
       <div style="height: 30px;" :style="{ width: editBottle.divWidth + 'px', display: editBottleFormDisplayString }">
         <el-row :gutter="48" type="flex" justify="end" align="middle" style="padding: 0px; margin: 0px;">
           <el-button round @click="tbl_edit_data_submit('editForm')" size="small" style="height: 24px; width: 60px; background: #E3E3E3; padding-top: 0px; padding-right: 7px; padding-bottom: 0px; padding-left: 7px; margin-top: 0px; margin-right: 3px; margin-bottom: 0px; margin-left: 3px; border-color: #66b1ff; border: solid; border-width: 1pt; line-height: 0px; border-radius: 4px;">修改</el-button>
           <el-button round @click="tbl_edit_data_reset('editForm')" size="small" style="height: 24px; width: 60px; background: #E3E3E3; padding-top: 0px; padding-right: 7px; padding-bottom: 0px; padding-left: 7px; margin-top: 0px; margin-right: 3px; margin-bottom: 0px; margin-left: 3px; border-color: #66b1ff; border: solid; border-width: 1pt; line-height: 0px; border-radius: 4px;">重置</el-button>
         </el-row>
       </div>
-      <!-- style="background-color: aqua; border: solid; border-color: brown; border-width: 1pt;" -->
-      <!-- position: relative; top: 0px; left: 0px; -->
-      <!-- position: relative; left: 0px; -->
       <div :style="{ width: editBottleDivWidthString, height: editBottleDivHeightString, display: editBottlePictureDisplayString }">
         <el-container>
           <el-header :height="editBottlePictureRowHeightString" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px;">
+            <span class="el-image-viewer__btn" v-if="Array.isArray(editBottleAttachmentShowList) && editBottleAttachmentShowList.length > 0" :style="{ display: editBottleChangeDisplayString }" @click="tbl_edit_data_change_to_form"><i class="el-icon-error" style="position: fixed; top: 9px; font-size: 18pt;" :style="{ left: editBottleChangeDisplayXOffsetString }"></i></span>
             <el-image :src="editBottleAttachmentShowList[editBottle.pictureIndex].uri" fill="none" v-if="Array.isArray(editBottleAttachmentShowList) && editBottleAttachmentShowList.length > 0" />
           </el-header>
           <el-main style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px; height: 3px;" />
           <el-footer height="115px" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px;">
-            <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px; overflow-x: auto; overflow-y: hidden; background-color: whitesmoke;">
-              <div style="position: relative; top: 8px; margin-top: 0px; margin-right: 2px; margin-bottom: 0px; margin-left: 0px; parring: 0px; width: 100px; height: 115px;"  v-for="(item, index) in editBottleAttachmentShowList" :key="item.id">
+            <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px; overflow-x: auto; overflow-y: hidden; background-color: #FFFFFF;">
+              <div style="position: relative; top: 8px; padding: 0px; width: 100px; height: 115px;" :class="{BottleArchiveSelectedPictureMargin: editBottleImageBorderLine(index), BottleArchiveUnselectedPictureMargin: !editBottleImageBorderLine(index)}" v-for="(item, index) in editBottleAttachmentShowList" :key="item.id">
                 <span class="el-image-viewer__btn" @click="editBottleImageRemove(index)"><i class="el-icon-error" style="margin-left: 80px; margin-top: 0px; font-size: 14pt;"></i></span>
-                <el-image style="width: 100px; height: 100px" fill="fill" v-bind:src='item.uri' @click="editBottleImageDetailClick(index)" /><!-- /__images__/BottleArchive/Screenshot_2020-11-28_203914.png -->
+                <el-image style="width: 100px; height: 100px; padding: 0px;" fill="fill" v-bind:src='item.uri' :class="{ BottleArchiveSelectedPictureBorder: editBottleImageBorderLine(index), BottleArchiveUnselectedPictureBorder: !editBottleImageBorderLine(index) }" @click="editBottleImageDetailClick(index)" />
               </div>
             </el-row>
           </el-footer>
@@ -674,12 +667,11 @@
       modal
       :visible.sync="viewBottle.visible"
       :title="viewBottle.title"
-      :show-close="viewBottle.showClose"
+      :show-close="viewBottleShowClose"
       :width="viewBottleWidthString"
       :style="{ width: viewBottleDialogWidthString, marginLeft: viewBottleMarginLeftString }"
       :before-close="tbl_before_hide_view_dialog_only"
       :top="viewBottleDialogTopString">
-      <!-- background-color: aqua;气瓶图片 style="border: solid; border-color: brown; border-width: 1pt;" -->
       <div :style="{ width: viewBottleDivWidthString, height: viewBottleDivHeightString, display: viewBottleFormDisplayString }">
         <el-form status-icon ref="viewForm" label-width="125px" :model="viewBottleForm">
           <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
@@ -781,28 +773,28 @@
           <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
               <el-form-item prop="maxcapacity" label="最大充量" size="medium">
-                <el-input readonly type="text" v-model="viewBottleForm.maxcapacity" style="padding-left: 0px; padding-right: 0px;" slot-type="suffix"><!--㎏-->
+                <el-input readonly type="text" v-model="viewBottleForm.maxcapacity" style="padding-left: 0px; padding-right: 0px;" slot-type="suffix">
                   <i v-if="viewBottleFormMisc.maxcapacitySuffix !== null" slot="suffix">{{ viewBottleFormMisc.maxcapacitySuffix }}</i>
                 </el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
               <el-form-item prop="selfweight" label="自重" size="medium">
-                <el-input readonly type="text" v-model="viewBottleForm.selfweight" style="padding-left: 0px; padding-right: 0px;"><!--㎏-->
+                <el-input readonly type="text" v-model="viewBottleForm.selfweight" style="padding-left: 0px; padding-right: 0px;">
                   <i v-if="viewBottleFormMisc.selfweightSuffix !== null" slot="suffix">{{ viewBottleFormMisc.selfweightSuffix }}</i>
                 </el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
               <el-form-item prop="thickness" label="壁厚" size="medium">
-                <el-input readonly type="text" v-model="viewBottleForm.thickness" style="padding-left: 0px; padding-right: 0px;"><!--㎜-->
+                <el-input readonly type="text" v-model="viewBottleForm.thickness" style="padding-left: 0px; padding-right: 0px;">
                   <i v-if="viewBottleFormMisc.thicknessSuffix !== null" slot="suffix">{{ viewBottleFormMisc.thicknessSuffix }}</i>
                 </el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
               <el-form-item prop="volume" label="容积" size="medium">
-                <el-input readonly type="text" v-model="viewBottleForm.volume" style="padding-left: 0px; padding-right: 0px;"><!--L-->
+                <el-input readonly type="text" v-model="viewBottleForm.volume" style="padding-left: 0px; padding-right: 0px;">
                   <i v-if="viewBottleFormMisc.volumeSuffix !== null" slot="suffix">{{ viewBottleFormMisc.volumeSuffix }}</i>
                 </el-input>
               </el-form-item>
@@ -868,30 +860,29 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row v-if="Array.isArray(viewBottleAttachmentShowList) && viewBottleAttachmentShowList.length > 0" :gutter="48" type="flex" justify="start" align="middle" style="padding-top: 0px; padding-right: 2px; padding-bottom: 0px; padding-left: 2px; margin-left: 3px; margin-right: 3px; height: 115px; overflow-x: scroll; overflow-y: hidden; background-color: whitesmoke;">
-            <div style="position: relative; top: 8px; margin-top: 0px; margin-right: 2px; margin-bottom: 0px; margin-left: 2px; parring: 0px; width: 100px; height: 115px;"  v-for="(item,index) in viewBottleAttachmentShowList" :key="item.id">
+          <el-row v-if="Array.isArray(viewBottleAttachmentShowList) && viewBottleAttachmentShowList.length > 0" :gutter="48" type="flex" justify="start" align="middle" style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; height: 119px; overflow-x: scroll; overflow-y: hidden; background-color: #FFFFFF;">
+            <div style="position: relative; top: 5px; padding: 0px; width: 100px; height: 115px;" :class="{BottleArchiveSelectedPictureMargin: viewBottleImageBorderLine(index), BottleArchiveUnselectedPictureMargin: !viewBottleImageBorderLine(index)}" v-for="(item,index) in viewBottleAttachmentShowList" :key="item.id">
               <!-- ———————————————— -->
               <!-- 版权声明：本文为CSDN博主「喜大普奔⁶⁶⁶」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。 -->
               <!-- 原文链接：https://blog.csdn.net/qq_38652871/article/details/115081612 -->
               <!-- ———————————————— -->
               <!--<span class="el-image-viewer__btn"><i class="el-icon-error" style="margin-left: 80px; margin-top: 0px; font-size: 14pt;"></i></span>-->
-              <el-image style="width: 100px; height: 100px" fill="fill" v-bind:src='item.uri' @click="viewBottleImageClick(index)" /><!-- /__images__/BottleArchive/Screenshot_2020-11-28_203914.png -->
+              <el-image style="width: 100px; height: 100px; padding: 0px;" fill="fill" v-bind:src='item.uri' :class="{ BottleArchiveSelectedPictureBorder: viewBottleImageBorderLine(index), BottleArchiveUnselectedPictureBorder: !viewBottleImageBorderLine(index) }" @click="viewBottleImageClick(index)" />
             </div>
           </el-row>
         </el-form>
       </div>
-      <!-- style="background-color: aqua; border: solid; border-color: brown; border-width: 1pt;" -->
-      <!-- position: relative; top: 0px; left: 0px; -->
       <div :style="{ width: viewBottleDivWidthString, height: viewBottleDivHeightString, display: viewBottlePictureDisplayString }">
         <el-container>
           <el-header :height="viewBottlePictureRowHeightString" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px;">
+            <span class="el-image-viewer__btn" v-if="Array.isArray(viewBottleAttachmentShowList) && viewBottleAttachmentShowList.length > 0" :style="{ display: viewBottleChangeDisplayString }" @click="tbl_view_data_change_to_form"><i class="el-icon-error" style="position: fixed; top: 9px; font-size: 19pt;" :style="{ left: viewBottleChangeDisplayXOffsetString }"></i></span>
             <el-image :src="viewBottleAttachmentShowList[viewBottle.pictureIndex].uri" fill="none" v-if="Array.isArray(viewBottleAttachmentShowList) && viewBottleAttachmentShowList.length > 0" />
           </el-header>
           <el-main style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px; height: 3px;" />
           <el-footer height="115px" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px;">
-            <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px; overflow-x: auto; overflow-y: hidden; background-color: whitesmoke;">
-              <div style="position: relative; top: 8px; margin-top: 0px; margin-right: 2px; margin-bottom: 0px; margin-left: 2px; parring: 0px; width: 100px; height: 115px;"  v-for="(item,index) in viewBottleAttachmentShowList" :key="item.id">
-                <el-image style="width: 100px; height: 100px" fill="fill" v-bind:src='item.uri' @click="viewBottleImageDetailClick(index)" /><!-- /__images__/BottleArchive/Screenshot_2020-11-28_203914.png -->
+            <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px; overflow-x: auto; overflow-y: hidden; background-color: #FFFFFF;">
+              <div style="position: relative; top: 8px; padding: 0px; width: 100px; height: 115px;" :class="{BottleArchiveSelectedPictureMargin: viewBottleImageBorderLine(index), BottleArchiveUnselectedPictureMargin: !viewBottleImageBorderLine(index)}" v-for="(item,index) in viewBottleAttachmentShowList" :key="item.id">
+                <el-image style="width: 100px; height: 100px; padding: 0px;" fill="fill" v-bind:src='item.uri' :class="{ BottleArchiveSelectedPictureBorder: viewBottleImageBorderLine(index), BottleArchiveUnselectedPictureBorder: !viewBottleImageBorderLine(index) }" @click="viewBottleImageDetailClick(index)" />
               </div>
             </el-row>
           </el-footer>
@@ -909,7 +900,6 @@
       :width="modifyQrcode.width"
       :style="{ width: modifyQrcode.digWidth + 'px' }"
       style="margin-left: 450px">
-      <!-- background-color: aqua;气瓶图片 style="border: solid; border-color: brown; border-width: 1pt;" -->
       <div :style="{ width: modifyQrcode.divWidth + 'px', height: modifyQrcode.divHeight + 'px' }">
         <el-form status-icon ref="modifyQrcodeForm" label-width="105px" :model="modifyQrcodeForm">
           <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
@@ -946,7 +936,6 @@
  * 55f186e588f9-4cf4-bceb-f09096fc763a  uuidv4.v4().replace('-', '')
  * 69e316f229d54b92917ece59f1245555     uuidv4.v4().replaceAll('-', '')
  */
-/* console.log(uuidv4.v4().replaceAll('-', '')) */
 /* import { v4 as uuidv4 } from 'uuid' */
 
 export default {
@@ -1070,8 +1059,9 @@ export default {
         pictureAreaTop: 46, // 图片区域上边距
         pictureAreaRight: 42, // 图片区域右边距
         pictureRowHeight: -133, // 顶部扣减
+        changeToFormShow: ['none', 'block'], // 显示表单的按钮的显示方式
         pictureIndex: 0, // 显示第几张图
-        showClose: true, // 对话框是否显示关闭按钮
+        showClose: [true, false], // 对话框是否显示关闭按钮
         showFileList: false, // 是否显示上传文件的列表
         autoUpload: true, // 气瓶档案是否自动上传
         multipleUpload: true, // 气瓶档案是否多文件上传
@@ -1137,42 +1127,6 @@ export default {
        * 新增气瓶档案表单的附件(显示已经上传的列表中)
        */
       addBottleAttachmentShowList: [
-        { uri: '/__images__/BottleArchive/0231219/014746e64ec44dfeba28b38b3da3a198/f90d3defdea0422f95812986477cfdb2.png' },
-        { uri: '/__images__/BottleArchive/0231219/0426d84b7d444ef69fcb43031ebcae0e/f744f7746b2c41c48adb08c8ee53ba21.png' },
-        { uri: '/__images__/BottleArchive/0231219/0b28f33727754777abc246c67765a71e/06618713e89544eaa973ef1deecf20a9.png' },
-        { uri: '/__images__/BottleArchive/0231218/0e286c1cd2e04298a450dfc51168839c/55fc06395eaf474ba05b90e16d234fdc.png' },
-        { uri: '/__images__/BottleArchive/0231218/1292a558a36e4616a031baa306a2e84b/a146be98b3814e04b3703972bada3afc.png' },
-        { uri: '/__images__/BottleArchive/0231218/1a6fe9270a344f0aadf3ec73d8cd8594/b0b96cfdae8d4ed2ae7aaf81a363e286.png' },
-        { uri: '/__images__/BottleArchive/0231219/1ad8ae222f224e20911c7ae57d368c3d/c1bb2be17a474b6fb1feea47b0aa526c.png' },
-        { uri: '/__images__/BottleArchive/0231219/1b186bf7998f41079db6b93fc582b05b/8aa91eacf62141b8a0feb0395b990def.png' },
-        { uri: '/__images__/BottleArchive/0231219/251c95dd018d40d68befbe82616b3056/5f56f06d7d4545f1902cba5a4ded8c4e.png' },
-        { uri: '/__images__/BottleArchive/0231218/281404eb93c14047b3c0970bc59fa5b4/af9168daa0784a098d50b8845027e3e9.png' },
-        { uri: '/__images__/BottleArchive/0231219/2d6dd31b45274bc2b7e7488dd9ba6888/0d10ff570dad419fb0aae15fb7ed65b2.png' },
-        { uri: '/__images__/BottleArchive/0231218/343b5f5c26bb45299a35b13e518b8a02/bce4b7432dad4a6ba83263f293fcea3c.png' },
-        { uri: '/__images__/BottleArchive/0231219/4ff42af7e9ce4930bffaf3496d1440e8/7afb33332e184f43a3d66a97db3d29f0.png' },
-        { uri: '/__images__/BottleArchive/0231219/52b241a26cad4e6abb4fb9e858e1ac81/ffc366c88d894dde803beb2634aab182.png' },
-        { uri: '/__images__/BottleArchive/0231218/64bdc46fc3b04e8d8e29c9ff829004ae/d9e60e53744344a18822aa7190295dc1.png' },
-        { uri: '/__images__/BottleArchive/0231218/6568ff3e5a21493594e7aa7f81e81947/a5dfbe98d84d4df5b1cfce5b21a29031.png' },
-        { uri: '/__images__/BottleArchive/0231218/6655865d2580487c81373b6620dfcc6f/c0e5624ebca44791971e9937025194f0.png' },
-        { uri: '/__images__/BottleArchive/0231219/669fe660bf3b46a69ff13aae0e4997b7/b31094277c3346439b203566519a844a.png' },
-        { uri: '/__images__/BottleArchive/0231218/6764cbfb43654a2c8f111428b57f0fc2/96c69bfd32b84d5286e26c5c9cdaace4.png' },
-        { uri: '/__images__/BottleArchive/0231219/687abfd2affe4e46b2f29a6bd5c55a6b/dad2d408ba64413d8826a54e699efd7f.png' },
-        { uri: '/__images__/BottleArchive/0231218/69b4abc8fa9c4a45a2d21043d5150355/af3ddf546a5247b4aa675848c88b44f7.png' },
-        { uri: '/__images__/BottleArchive/0231219/7ff99bfb57374b3b9347f2a772da5842/63fb7366c4eb4372a8445c49cb9d5794.png' },
-        { uri: '/__images__/BottleArchive/0231219/80323d65f4204a0f932a0bec45f062ef/e02d2148109f4ebba319bc1845ab0446.png' },
-        { uri: '/__images__/BottleArchive/0231219/85f35d711bd34785bb5cf9a7ea146307/7fa65b0dd59a42d69eccd1ca5abcce88.png' },
-        { uri: '/__images__/BottleArchive/0231219/90a3785cf5c54bb095d5724346ab6cf8/a17bfd7f1d5641cbb054d23f4e70984c.png' },
-        { uri: '/__images__/BottleArchive/0231218/924d3b7a93f447af883a94131b247c8b/60e16af6790645f2945fd15a3f2c862e.png' },
-        { uri: '/__images__/BottleArchive/0231219/93c2f51726694cfc823850e50ce2fc36/ff967aba7a1240b68a7345ae87066db7.png' },
-        { uri: '/__images__/BottleArchive/0231218/a42994945e384362948aef6cef345677/24c154ab4a8442b5b548f96200966ad3.png' },
-        { uri: '/__images__/BottleArchive/0231219/a72905be20c84368aadb3954b4bc4af6/0b24b10247fb47e38848c6d748dd99fd.png' },
-        { uri: '/__images__/BottleArchive/0231219/ab89211071f0465ba5144d84c374ba03/3fc3d2bbd80e47dc80de2cbab7dc34b6.png' },
-        { uri: '/__images__/BottleArchive/0231218/bce50a46a374468db9c37ac9d7c6a0b9/beccdbeb7ee7435593c196e1d010c5a6.png' },
-        { uri: '/__images__/BottleArchive/0231218/c4cbb129e9764e48bfb2fbd198cf6619/f7bea7228def4941b701cf31a7fbed78.png' },
-        { uri: '/__images__/BottleArchive/0231219/c56d4c8a2054438b868b74a9977e8d86/690a2fa04ec144918ad81765dd4210f8.png' },
-        { uri: '/__images__/BottleArchive/0231218/d0cdc91c7b404ce490224db9c434d68c/4f72da54e4e54d40a66f2b7cf295ccd8.png' },
-        { uri: '/__images__/BottleArchive/0231218/d895f8828d854a9784efb4a1fd60c922/aa30dda3d19f4fb496bf32426ed22f70.png' },
-        { uri: '/__images__/BottleArchive/0231219/ecdcd84f13b54887b22c170a4d4bc98d/79d8843b53954490a489aa2a85efd3b2.png' }
       ],
       /*
        * 新增气瓶档案表单的附件(el-upload控件中)
@@ -1200,8 +1154,9 @@ export default {
         pictureAreaTop: 46, // 图片区域上边距
         pictureAreaRight: 42, // 图片区域右边距
         pictureRowHeight: -133, // 顶部扣减
+        changeToFormShow: ['none', 'block'], // 显示表单的按钮的显示方式
         pictureIndex: 0, // 显示第几张图
-        showClose: true, // 对话框是否显示关闭按钮
+        showClose: [true, false], // 对话框是否显示关闭按钮
         showFileList: false, // 是否显示上传文件的列表
         autoUpload: true, // 气瓶档案是否自动上传
         multipleUpload: true, // 气瓶档案是否多文件上传
@@ -1267,42 +1222,6 @@ export default {
        * 修改气瓶档案表单的附件(显示已经上传的列表中)
        */
       editBottleAttachmentShowList: [
-        // { uri: '/__images__/BottleArchive/014746e64ec44dfeba28b38b3da3a198/f90d3defdea0422f95812986477cfdb2.png' },
-        // { uri: '/__images__/BottleArchive/0426d84b7d444ef69fcb43031ebcae0e/f744f7746b2c41c48adb08c8ee53ba21.png' },
-        // { uri: '/__images__/BottleArchive/0b28f33727754777abc246c67765a71e/06618713e89544eaa973ef1deecf20a9.png' },
-        // { uri: '/__images__/BottleArchive/0e286c1cd2e04298a450dfc51168839c/55fc06395eaf474ba05b90e16d234fdc.png' },
-        // { uri: '/__images__/BottleArchive/1292a558a36e4616a031baa306a2e84b/a146be98b3814e04b3703972bada3afc.png' },
-        // { uri: '/__images__/BottleArchive/1a6fe9270a344f0aadf3ec73d8cd8594/b0b96cfdae8d4ed2ae7aaf81a363e286.png' },
-        // { uri: '/__images__/BottleArchive/1ad8ae222f224e20911c7ae57d368c3d/c1bb2be17a474b6fb1feea47b0aa526c.png' },
-        // { uri: '/__images__/BottleArchive/1b186bf7998f41079db6b93fc582b05b/8aa91eacf62141b8a0feb0395b990def.png' },
-        // { uri: '/__images__/BottleArchive/251c95dd018d40d68befbe82616b3056/5f56f06d7d4545f1902cba5a4ded8c4e.png' },
-        // { uri: '/__images__/BottleArchive/281404eb93c14047b3c0970bc59fa5b4/af9168daa0784a098d50b8845027e3e9.png' },
-        // { uri: '/__images__/BottleArchive/2d6dd31b45274bc2b7e7488dd9ba6888/0d10ff570dad419fb0aae15fb7ed65b2.png' },
-        // { uri: '/__images__/BottleArchive/343b5f5c26bb45299a35b13e518b8a02/bce4b7432dad4a6ba83263f293fcea3c.png' },
-        // { uri: '/__images__/BottleArchive/4ff42af7e9ce4930bffaf3496d1440e8/7afb33332e184f43a3d66a97db3d29f0.png' },
-        // { uri: '/__images__/BottleArchive/52b241a26cad4e6abb4fb9e858e1ac81/ffc366c88d894dde803beb2634aab182.png' },
-        // { uri: '/__images__/BottleArchive/64bdc46fc3b04e8d8e29c9ff829004ae/d9e60e53744344a18822aa7190295dc1.png' },
-        // { uri: '/__images__/BottleArchive/6568ff3e5a21493594e7aa7f81e81947/a5dfbe98d84d4df5b1cfce5b21a29031.png' },
-        // { uri: '/__images__/BottleArchive/6655865d2580487c81373b6620dfcc6f/c0e5624ebca44791971e9937025194f0.png' },
-        // { uri: '/__images__/BottleArchive/669fe660bf3b46a69ff13aae0e4997b7/b31094277c3346439b203566519a844a.png' },
-        // { uri: '/__images__/BottleArchive/6764cbfb43654a2c8f111428b57f0fc2/96c69bfd32b84d5286e26c5c9cdaace4.png' },
-        // { uri: '/__images__/BottleArchive/687abfd2affe4e46b2f29a6bd5c55a6b/dad2d408ba64413d8826a54e699efd7f.png' },
-        // { uri: '/__images__/BottleArchive/69b4abc8fa9c4a45a2d21043d5150355/af3ddf546a5247b4aa675848c88b44f7.png' },
-        // { uri: '/__images__/BottleArchive/7ff99bfb57374b3b9347f2a772da5842/63fb7366c4eb4372a8445c49cb9d5794.png' },
-        // { uri: '/__images__/BottleArchive/80323d65f4204a0f932a0bec45f062ef/e02d2148109f4ebba319bc1845ab0446.png' },
-        // { uri: '/__images__/BottleArchive/85f35d711bd34785bb5cf9a7ea146307/7fa65b0dd59a42d69eccd1ca5abcce88.png' },
-        // { uri: '/__images__/BottleArchive/90a3785cf5c54bb095d5724346ab6cf8/a17bfd7f1d5641cbb054d23f4e70984c.png' },
-        // { uri: '/__images__/BottleArchive/924d3b7a93f447af883a94131b247c8b/60e16af6790645f2945fd15a3f2c862e.png' },
-        // { uri: '/__images__/BottleArchive/93c2f51726694cfc823850e50ce2fc36/ff967aba7a1240b68a7345ae87066db7.png' },
-        // { uri: '/__images__/BottleArchive/a42994945e384362948aef6cef345677/24c154ab4a8442b5b548f96200966ad3.png' },
-        // { uri: '/__images__/BottleArchive/a72905be20c84368aadb3954b4bc4af6/0b24b10247fb47e38848c6d748dd99fd.png' },
-        // { uri: '/__images__/BottleArchive/ab89211071f0465ba5144d84c374ba03/3fc3d2bbd80e47dc80de2cbab7dc34b6.png' },
-        // { uri: '/__images__/BottleArchive/bce50a46a374468db9c37ac9d7c6a0b9/beccdbeb7ee7435593c196e1d010c5a6.png' },
-        // { uri: '/__images__/BottleArchive/c4cbb129e9764e48bfb2fbd198cf6619/f7bea7228def4941b701cf31a7fbed78.png' },
-        // { uri: '/__images__/BottleArchive/c56d4c8a2054438b868b74a9977e8d86/690a2fa04ec144918ad81765dd4210f8.png' },
-        // { uri: '/__images__/BottleArchive/d0cdc91c7b404ce490224db9c434d68c/4f72da54e4e54d40a66f2b7cf295ccd8.png' },
-        // { uri: '/__images__/BottleArchive/d895f8828d854a9784efb4a1fd60c922/aa30dda3d19f4fb496bf32426ed22f70.png' },
-        // { uri: '/__images__/BottleArchive/ecdcd84f13b54887b22c170a4d4bc98d/79d8843b53954490a489aa2a85efd3b2.png' }
       ],
       /*
        * 修改气瓶档案表单的附件(el-upload控件中)
@@ -1330,8 +1249,9 @@ export default {
         pictureAreaTop: 46, // 图片区域上边距
         pictureAreaRight: 42, // 图片区域右边距
         pictureRowHeight: -133, // 顶部扣减
+        changeToFormShow: ['none', 'block'], // 显示表单的按钮的显示方式
         pictureIndex: 0, // 显示第几张图
-        showClose: true // 对话框是否显示关闭按钮
+        showClose: [true, false] // 对话框是否显示关闭按钮
       },
       /*
        * 查看气瓶档案对话框中的杂项
@@ -1383,42 +1303,6 @@ export default {
        * 查看气瓶档案表单的附件
        */
       viewBottleAttachmentShowList: [
-        // { uri: '/__images__/BottleArchive/014746e64ec44dfeba28b38b3da3a198/f90d3defdea0422f95812986477cfdb2.png' },
-        // { uri: '/__images__/BottleArchive/0426d84b7d444ef69fcb43031ebcae0e/f744f7746b2c41c48adb08c8ee53ba21.png' },
-        // { uri: '/__images__/BottleArchive/0b28f33727754777abc246c67765a71e/06618713e89544eaa973ef1deecf20a9.png' },
-        // { uri: '/__images__/BottleArchive/0e286c1cd2e04298a450dfc51168839c/55fc06395eaf474ba05b90e16d234fdc.png' },
-        // { uri: '/__images__/BottleArchive/1292a558a36e4616a031baa306a2e84b/a146be98b3814e04b3703972bada3afc.png' },
-        // { uri: '/__images__/BottleArchive/1a6fe9270a344f0aadf3ec73d8cd8594/b0b96cfdae8d4ed2ae7aaf81a363e286.png' },
-        // { uri: '/__images__/BottleArchive/1ad8ae222f224e20911c7ae57d368c3d/c1bb2be17a474b6fb1feea47b0aa526c.png' },
-        // { uri: '/__images__/BottleArchive/1b186bf7998f41079db6b93fc582b05b/8aa91eacf62141b8a0feb0395b990def.png' },
-        // { uri: '/__images__/BottleArchive/251c95dd018d40d68befbe82616b3056/5f56f06d7d4545f1902cba5a4ded8c4e.png' },
-        // { uri: '/__images__/BottleArchive/281404eb93c14047b3c0970bc59fa5b4/af9168daa0784a098d50b8845027e3e9.png' },
-        // { uri: '/__images__/BottleArchive/2d6dd31b45274bc2b7e7488dd9ba6888/0d10ff570dad419fb0aae15fb7ed65b2.png' },
-        // { uri: '/__images__/BottleArchive/343b5f5c26bb45299a35b13e518b8a02/bce4b7432dad4a6ba83263f293fcea3c.png' },
-        // { uri: '/__images__/BottleArchive/4ff42af7e9ce4930bffaf3496d1440e8/7afb33332e184f43a3d66a97db3d29f0.png' },
-        // { uri: '/__images__/BottleArchive/52b241a26cad4e6abb4fb9e858e1ac81/ffc366c88d894dde803beb2634aab182.png' },
-        // { uri: '/__images__/BottleArchive/64bdc46fc3b04e8d8e29c9ff829004ae/d9e60e53744344a18822aa7190295dc1.png' },
-        // { uri: '/__images__/BottleArchive/6568ff3e5a21493594e7aa7f81e81947/a5dfbe98d84d4df5b1cfce5b21a29031.png' },
-        // { uri: '/__images__/BottleArchive/6655865d2580487c81373b6620dfcc6f/c0e5624ebca44791971e9937025194f0.png' },
-        // { uri: '/__images__/BottleArchive/669fe660bf3b46a69ff13aae0e4997b7/b31094277c3346439b203566519a844a.png' },
-        // { uri: '/__images__/BottleArchive/6764cbfb43654a2c8f111428b57f0fc2/96c69bfd32b84d5286e26c5c9cdaace4.png' },
-        // { uri: '/__images__/BottleArchive/687abfd2affe4e46b2f29a6bd5c55a6b/dad2d408ba64413d8826a54e699efd7f.png' },
-        // { uri: '/__images__/BottleArchive/69b4abc8fa9c4a45a2d21043d5150355/af3ddf546a5247b4aa675848c88b44f7.png' },
-        // { uri: '/__images__/BottleArchive/7ff99bfb57374b3b9347f2a772da5842/63fb7366c4eb4372a8445c49cb9d5794.png' },
-        // { uri: '/__images__/BottleArchive/80323d65f4204a0f932a0bec45f062ef/e02d2148109f4ebba319bc1845ab0446.png' },
-        // { uri: '/__images__/BottleArchive/85f35d711bd34785bb5cf9a7ea146307/7fa65b0dd59a42d69eccd1ca5abcce88.png' },
-        // { uri: '/__images__/BottleArchive/90a3785cf5c54bb095d5724346ab6cf8/a17bfd7f1d5641cbb054d23f4e70984c.png' },
-        // { uri: '/__images__/BottleArchive/924d3b7a93f447af883a94131b247c8b/60e16af6790645f2945fd15a3f2c862e.png' },
-        // { uri: '/__images__/BottleArchive/93c2f51726694cfc823850e50ce2fc36/ff967aba7a1240b68a7345ae87066db7.png' },
-        // { uri: '/__images__/BottleArchive/a42994945e384362948aef6cef345677/24c154ab4a8442b5b548f96200966ad3.png' },
-        // { uri: '/__images__/BottleArchive/a72905be20c84368aadb3954b4bc4af6/0b24b10247fb47e38848c6d748dd99fd.png' },
-        // { uri: '/__images__/BottleArchive/ab89211071f0465ba5144d84c374ba03/3fc3d2bbd80e47dc80de2cbab7dc34b6.png' },
-        // { uri: '/__images__/BottleArchive/bce50a46a374468db9c37ac9d7c6a0b9/beccdbeb7ee7435593c196e1d010c5a6.png' },
-        // { uri: '/__images__/BottleArchive/c4cbb129e9764e48bfb2fbd198cf6619/f7bea7228def4941b701cf31a7fbed78.png' },
-        // { uri: '/__images__/BottleArchive/c56d4c8a2054438b868b74a9977e8d86/690a2fa04ec144918ad81765dd4210f8.png' },
-        // { uri: '/__images__/BottleArchive/d0cdc91c7b404ce490224db9c434d68c/4f72da54e4e54d40a66f2b7cf295ccd8.png' },
-        // { uri: '/__images__/BottleArchive/d895f8828d854a9784efb4a1fd60c922/aa30dda3d19f4fb496bf32426ed22f70.png' },
-        // { uri: '/__images__/BottleArchive/ecdcd84f13b54887b22c170a4d4bc98d/79d8843b53954490a489aa2a85efd3b2.png' }
       ],
       /**
        * 修改气瓶编号对话框
@@ -1480,33 +1364,150 @@ export default {
         'reference': this.$router.currentRoute.fullPath
       }
     },
-    addBottleWidthString: function () { return this.addBottle.width[this.addBottle.displayIndex] },
-    addBottleDialogWidthString: function () { return this.addBottle.digWidth[this.addBottle.displayIndex] + 'px' },
-    addBottleDialogTopString: function () { return this.addBottle.digTop[this.addBottle.displayIndex] },
-    addBottleDivWidthString: function () { return this.addBottle.divWidth[this.addBottle.displayIndex] + 'px' },
-    addBottleDivHeightString: function () { return this.addBottle.divHeight[this.addBottle.displayIndex] + 'px' },
-    addBottleMarginLeftString: function () { return this.addBottle.marginLeft[this.addBottle.displayIndex] + 'px' },
-    addBottleFormDisplayString: function () { return this.addBottle.formDisplay[this.addBottle.displayIndex] },
-    addBottlePictureDisplayString: function () { return this.addBottle.pictureDisplay[this.addBottle.displayIndex] },
-    addBottlePictureRowHeightString: function () { return (this.addBottle.divHeight[this.addBottle.displayIndex] + this.addBottle.pictureRowHeight) + 'px' },
-    editBottleWidthString: function () { return this.editBottle.width[this.editBottle.displayIndex] },
-    editBottleDialogWidthString: function () { return this.editBottle.digWidth[this.editBottle.displayIndex] + 'px' },
-    editBottleDialogTopString: function () { return this.editBottle.digTop[this.editBottle.displayIndex] },
-    editBottleDivWidthString: function () { return this.editBottle.divWidth[this.editBottle.displayIndex] + 'px' },
-    editBottleDivHeightString: function () { return this.editBottle.divHeight[this.editBottle.displayIndex] + 'px' },
-    editBottleMarginLeftString: function () { return this.editBottle.marginLeft[this.editBottle.displayIndex] + 'px' },
-    editBottleFormDisplayString: function () { return this.editBottle.formDisplay[this.editBottle.displayIndex] },
-    editBottlePictureDisplayString: function () { return this.editBottle.pictureDisplay[this.editBottle.displayIndex] },
-    editBottlePictureRowHeightString: function () { return (this.editBottle.divHeight[this.editBottle.displayIndex] + this.editBottle.pictureRowHeight) + 'px' },
-    viewBottleWidthString: function () { return this.viewBottle.width[this.viewBottle.displayIndex] },
-    viewBottleDialogWidthString: function () { return this.viewBottle.digWidth[this.viewBottle.displayIndex] + 'px' },
-    viewBottleDialogTopString: function () { return this.viewBottle.digTop[this.viewBottle.displayIndex] },
-    viewBottleDivWidthString: function () { return this.viewBottle.divWidth[this.viewBottle.displayIndex] + 'px' },
-    viewBottleDivHeightString: function () { return this.viewBottle.divHeight[this.viewBottle.displayIndex] + 'px' },
-    viewBottleMarginLeftString: function () { return this.viewBottle.marginLeft[this.viewBottle.displayIndex] + 'px' },
-    viewBottleFormDisplayString: function () { return this.viewBottle.formDisplay[this.viewBottle.displayIndex] },
-    viewBottlePictureDisplayString: function () { return this.viewBottle.pictureDisplay[this.viewBottle.displayIndex] },
-    viewBottlePictureRowHeightString: function () { return (this.viewBottle.divHeight[this.viewBottle.displayIndex] + this.viewBottle.pictureRowHeight) + 'px' },
+    // 对话框显示比例
+    addBottleWidthString: function () {
+      return this.addBottle.width[this.addBottle.displayIndex]
+    },
+    // 对话框显示关闭
+    addBottleShowClose: function () {
+      return this.addBottle.showClose[this.addBottle.displayIndex]
+    },
+    // 对话框的宽
+    addBottleDialogWidthString: function () {
+      return this.addBottle.digWidth[this.addBottle.displayIndex] + 'px'
+    },
+    // 对话框到顶的距离
+    addBottleDialogTopString: function () {
+      return this.addBottle.digTop[this.addBottle.displayIndex]
+    },
+    // 对话框内div的宽
+    addBottleDivWidthString: function () {
+      return this.addBottle.divWidth[this.addBottle.displayIndex] + 'px'
+    },
+    // 对话框内div的高
+    addBottleDivHeightString: function () {
+      return this.addBottle.divHeight[this.addBottle.displayIndex] + 'px'
+    },
+    // 对话框左边距
+    addBottleMarginLeftString: function () {
+      return this.addBottle.marginLeft[this.addBottle.displayIndex] + 'px'
+    },
+    // 对话框表单的显示
+    addBottleFormDisplayString: function () {
+      return this.addBottle.formDisplay[this.addBottle.displayIndex]
+    },
+    // 对话框图片的显示
+    addBottlePictureDisplayString: function () {
+      return this.addBottle.pictureDisplay[this.addBottle.displayIndex]
+    },
+    // 对话框主要区域的高
+    addBottlePictureRowHeightString: function () {
+      return (this.addBottle.divHeight[this.addBottle.displayIndex] + this.addBottle.pictureRowHeight) + 'px'
+    },
+    // 显示表单的按钮的横坐标
+    addBottleChangeDisplayXOffsetString: function () {
+      return (this.addBottle.divWidth[this.addBottle.displayIndex] - 30) + 'px'
+    },
+    // 显示表单的按钮的显示
+    addBottleChangeDisplayString: function () {
+      return this.addBottle.changeToFormShow[this.addBottle.displayIndex]
+    },
+    // 对话框显示比例
+    editBottleWidthString: function () {
+      return this.editBottle.width[this.editBottle.displayIndex]
+    },
+    // 对话框显示关闭
+    editBottleShowClose: function () {
+      return this.editBottle.showClose[this.editBottle.displayIndex]
+    },
+    // 对话框的宽
+    editBottleDialogWidthString: function () {
+      return this.editBottle.digWidth[this.editBottle.displayIndex] + 'px'
+    },
+    // 对话框到顶的距离
+    editBottleDialogTopString: function () {
+      return this.editBottle.digTop[this.editBottle.displayIndex]
+    },
+    // 对话框内div的宽
+    editBottleDivWidthString: function () {
+      return this.editBottle.divWidth[this.editBottle.displayIndex] + 'px'
+    },
+    // 对话框内div的高
+    editBottleDivHeightString: function () {
+      return this.editBottle.divHeight[this.editBottle.displayIndex] + 'px'
+    },
+    // 对话框左边距
+    editBottleMarginLeftString: function () {
+      return this.editBottle.marginLeft[this.editBottle.displayIndex] + 'px'
+    },
+    // 对话框表单的显示
+    editBottleFormDisplayString: function () {
+      return this.editBottle.formDisplay[this.editBottle.displayIndex]
+    },
+    // 对话框图片的显示
+    editBottlePictureDisplayString: function () {
+      return this.editBottle.pictureDisplay[this.editBottle.displayIndex]
+    },
+    // 对话框主要区域的高
+    editBottlePictureRowHeightString: function () {
+      return (this.editBottle.divHeight[this.editBottle.displayIndex] + this.editBottle.pictureRowHeight) + 'px'
+    },
+    // 显示表单的按钮的横坐标
+    editBottleChangeDisplayXOffsetString: function () {
+      return (this.editBottle.divWidth[this.editBottle.displayIndex] - 30) + 'px'
+    },
+    // 显示表单的按钮的显示
+    editBottleChangeDisplayString: function () {
+      return this.editBottle.changeToFormShow[this.editBottle.displayIndex]
+    },
+    // 对话框显示比例
+    viewBottleWidthString: function () {
+      return this.viewBottle.width[this.viewBottle.displayIndex]
+    },
+    // 对话框显示关闭
+    viewBottleShowClose: function () {
+      return this.viewBottle.showClose[this.viewBottle.displayIndex]
+    },
+    // 对话框的宽
+    viewBottleDialogWidthString: function () {
+      return this.viewBottle.digWidth[this.viewBottle.displayIndex] + 'px'
+    },
+    // 对话框到顶的距离
+    viewBottleDialogTopString: function () {
+      return this.viewBottle.digTop[this.viewBottle.displayIndex]
+    },
+    // 对话框内div的宽
+    viewBottleDivWidthString: function () {
+      return this.viewBottle.divWidth[this.viewBottle.displayIndex] + 'px'
+    },
+    // 对话框内div的高
+    viewBottleDivHeightString: function () {
+      return this.viewBottle.divHeight[this.viewBottle.displayIndex] + 'px'
+    },
+    // 对话框左边距
+    viewBottleMarginLeftString: function () {
+      return this.viewBottle.marginLeft[this.viewBottle.displayIndex] + 'px'
+    },
+    // 对话框表单的显示
+    viewBottleFormDisplayString: function () {
+      return this.viewBottle.formDisplay[this.viewBottle.displayIndex]
+    },
+    // 对话框图片的显示
+    viewBottlePictureDisplayString: function () {
+      return this.viewBottle.pictureDisplay[this.viewBottle.displayIndex]
+    },
+    // 对话框主要区域的高
+    viewBottlePictureRowHeightString: function () {
+      return (this.viewBottle.divHeight[this.viewBottle.displayIndex] + this.viewBottle.pictureRowHeight) + 'px'
+    },
+    // 显示表单的按钮的横坐标
+    viewBottleChangeDisplayXOffsetString: function () {
+      return (this.viewBottle.divWidth[this.viewBottle.displayIndex] - 30) + 'px'
+    },
+    // 显示表单的按钮的显示
+    viewBottleChangeDisplayString: function () {
+      return this.viewBottle.changeToFormShow[this.viewBottle.displayIndex]
+    },
     /*
      * 表格高度
      */
@@ -1948,9 +1949,9 @@ export default {
      * 新增数据
      */
     tbl_add_data () {
-      /* this.addBottleAttachmentShowList = [] */
-      /* this.addBottleAttachmentUploadList = [] */
-      setTimeout(this.tbl_add_data_before(), 5)
+      this.addBottleAttachmentShowList = []
+      this.addBottleAttachmentUploadList = []
+      this.tbl_add_data_before()
       this.tbl_show_add_dialog_only()
     },
     /**
@@ -1964,15 +1965,13 @@ export default {
      *        _self 表格自身的数据等信息
      */
     tbl_edit_data ({$index, column, isExpanded, isSelected, row, store, _self}) {
-      console.log('tbl_edit_data ： ' + Date.now())
       this.tbl_show_edit_dialog_only()
       this.editBottleAttachmentShowList = []
       this.editBottleAttachmentUploadList = []
       this.editBottleForm.gastankid = row.gastankid
       this.editBottle.currentGasTankIndex = $index
       this.tbl_edit_data_copy_value(row, this.editBottleForm)
-      setTimeout(this.editBottleImageQueryByArchiveUuid(row.attachmentUuid), 35)
-      console.log('tbl_edit_data ： ' + Date.now())
+      this.editBottleImageQueryByArchiveUuid(row.attachmentUuid)
       /*
        * 字符串转下标
        */
@@ -2008,7 +2007,6 @@ export default {
      */
     tbl_modify_qrcode ({$index, column, isExpanded, isSelected, row, store, _self}) {
       this.tbl_show_modify_qrcode_only()
-      console.log(row.gastankId)
       this.modifyQrcodeForm.gastankid = row.gastankid
       this.modifyQrcodeForm.oldQrcode = row.qrcode
       this.modifyQrcode.currentGasTankIndex = $index
@@ -2124,38 +2122,16 @@ export default {
       this.addBottleForm.attachmentUuid = null
     },
     /**
+     * 显示表单
+     */
+    tbl_add_data_change_to_form () {
+      this.addBottle.displayIndex = 0
+    },
+    /**
      * @param file 文件信息
      * @param list 文件列表
      */
     addBottleImageChange (file, list) {
-      console.log(this.addBottleAttachmentShowList.length)
-      console.log(this.addBottleAttachmentUploadList.length)
-      console.log(this.addBottleAttachmentPreuploadList.length)
-      console.log(file.status)
-      console.log(file.name)
-      console.log(file.percentage)
-      console.log(file.uid)
-      console.log(file.raw.uid)
-      console.log(file.raw.lastModified)
-      console.log(file.raw.lastModifiedDate)
-      console.log(file.raw.name)
-      console.log(file.raw.size)
-      console.log(file.raw.type)
-      console.log(file.response)
-      console.log(file.raw.webkitRelativePath)
-      if (Array.isArray(file.response)) {
-        for (var idx = 0; idx < file.response.length; ++idx) {
-          console.log('----------------------------')
-          console.log(file.response[idx].uploadName)
-          console.log(file.response[idx].filename)
-          console.log(file.response[idx].fileUuid)
-          console.log(file.response[idx].ext)
-          console.log(file.response[idx].size)
-          console.log(file.response[idx].yyyymmdd)
-          console.log(file.response[idx].note)
-          console.log(file.response[idx].seq)
-        }
-      }
       switch (file.status) {
         case 'success' : {
           if (Array.isArray(file.response)) {
@@ -2186,9 +2162,7 @@ export default {
                 continue
               }
             }
-            console.log(this.addBottleAttachmentShowList)
             this.addBottleAttachmentShowList = localList.concat(this.addBottleAttachmentShowList)
-            console.log(this.addBottleAttachmentShowList)
           }
           break
         }
@@ -2229,9 +2203,6 @@ export default {
      * @param list 文件列表
      */
     addBottleImageProgress (evt, file, list) {
-      console.log(this.addBottleAttachmentShowList)
-      console.log(this.addBottleAttachmentUploadList)
-      console.log(this.addBottleAttachmentPreuploadList)
     },
     /**
      * 修改对话框的显示模式为显示图片
@@ -2274,8 +2245,13 @@ export default {
      * 显示指定的图片
      */
     addBottleImageDetailClick (index) {
-      console.log('正在显示图片[' + index + '], addBottleImageDetailClick')
       this.addBottle.pictureIndex = index
+    },
+    /**
+     * 图片是否显示边框
+     */
+    addBottleImageBorderLine (index) {
+      return this.addBottle.pictureIndex === index
     },
     /**
      * 新增气瓶档案对话框中的规格型号控件发生变化时
@@ -2308,7 +2284,6 @@ export default {
      * 根据 archive uuid查询
      */
     editBottleImageQueryByArchiveUuid (uuid) {
-      console.log('editBottleImageQueryByArchiveUuid : ' + uuid + ' ' + Date.now())
       if (uuid === null) {
         this.editBottleForm.attachmentOldUuid = null
         this.editBottleForm.attachmentYmd = null
@@ -2336,10 +2311,7 @@ export default {
                   uri: this.imagePrefix + '/' + resp.data.items[idx].yyyymmdd + '/' + resp.data.items[idx].archiveUuid + '/' + resp.data.items[idx].archiveName + '.' + resp.data.items[idx].archiveExt
                 }
               }
-              console.log(localArray)
-              console.log(this.editBottleAttachmentShowList)
               this.editBottleAttachmentShowList = localArray.concat(this.editBottleAttachmentShowList)
-              console.log(this.editBottleAttachmentShowList)
             }
           } else {
             this.editBottleForm.attachmentYmd = null
@@ -2373,10 +2345,7 @@ export default {
                   uri: this.imagePrefix + '/' + res.data[i].yyyymmdd + '/' + res.data[i].archiveUuid + '/' + res.data[i].archiveName + '.' + res.data[i].archiveExt
                 }
               }
-              console.log(localList)
-              console.log(this.editBottleAttachmentShowList)
               this.editBottleAttachmentShowList = localList.concat(this.editBottleAttachmentShowList)
-              console.log(this.editBottleAttachmentShowList)
             } else {
               this.editBottleImageQueryByArchiveUuid(null)
             }
@@ -2488,6 +2457,12 @@ export default {
       this.editBottleForm.attachmentYmd = null
       this.editBottleForm.attachmentUuid = null
       this.editBottleForm.attachmentOldUuid = null
+    },
+    /**
+     * 显示表单
+     */
+    tbl_edit_data_change_to_form () {
+      this.editBottle.displayIndex = 0
     },
     /**
      * 把编辑气瓶档案表单中的数据清空
@@ -2609,39 +2584,6 @@ export default {
      * @param list 文件列表
      */
     editBottleImageChange (file, list) {
-      console.log(this.editBottleAttachmentShowList.length)
-      console.log(this.editBottleAttachmentUploadList.length)
-      console.log(this.editBottleAttachmentPreuploadList.length)
-      console.log(file.status)
-      console.log(file.name)
-      console.log(file.size)
-      console.log(file.percentage)
-      console.log(file.uid)
-      console.log(file.raw.uid)
-      console.log(file.raw.name)
-      console.log(file.raw.lastModified)
-      console.log(file.raw.lastModifiedDate)
-      console.log(file.raw.webkitRelativePath)
-      console.log(file.raw.size)
-      console.log(file.raw.type)
-      console.log(file.raw.arrayBuffer)
-      console.log(file.raw.slice)
-      console.log(file.raw.stream)
-      console.log(file.raw.text)
-      console.log(file.response)
-      if (Array.isArray(file.response)) {
-        for (var idx = 0; idx < file.response.length; ++idx) {
-          console.log('----------------------------')
-          console.log(file.response[idx].uploadName)
-          console.log(file.response[idx].filename)
-          console.log(file.response[idx].fileUuid)
-          console.log(file.response[idx].ext)
-          console.log(file.response[idx].size)
-          console.log(file.response[idx].yyyymmdd)
-          console.log(file.response[idx].note)
-          console.log(file.response[idx].seq)
-        }
-      }
       switch (file.status) {
         case 'success': {
           if (Array.isArray(file.response)) {
@@ -2671,11 +2613,8 @@ export default {
               if (found) {
                 continue
               }
-              console.log(localList[i])
             }
-            console.log(this.editBottleAttachmentShowList)
             this.editBottleAttachmentShowList = localList.concat(this.editBottleAttachmentShowList)
-            console.log(this.editBottleAttachmentShowList)
           }
           break
         }
@@ -2716,9 +2655,6 @@ export default {
      * @param list 文件列表
      */
     editBottleImageProgress (evt, file, list) {
-      console.log(this.editBottleAttachmentShowList.length)
-      console.log(this.editBottleAttachmentUploadList.length)
-      console.log(this.editBottleAttachmentPreuploadList.length)
     },
     /**
      * 修改对话框的显示模式为显示图片
@@ -2740,7 +2676,6 @@ export default {
      * 移除指定的图片
      */
     editBottleImageRemove (index) {
-      console.log('正在移除图片[' + index + ']')
       this.$confirm('确认要删除该图片吗？', '提示', { confirmButtonText: '删除', cancelButtonText: '取消' }).then(_ => {
         const oldArr = this.editBottleAttachmentShowList
         const newArr = Array(oldArr.length - 1)
@@ -2762,8 +2697,13 @@ export default {
      * 显示指定的图片
      */
     editBottleImageDetailClick (index) {
-      console.log('正在显示图片[' + index + '], editBottleImageDetailClick')
       this.editBottle.pictureIndex = index
+    },
+    /**
+     * 图片是否显示边框
+     */
+    editBottleImageBorderLine (index) {
+      return this.editBottle.pictureIndex === index
     },
     /**
      * 修改气瓶档案对话框中的规格型号控件发生变化时
@@ -2814,6 +2754,12 @@ export default {
         }
       }).catch(ex => {
       })
+    },
+    /**
+     * 显示表单
+     */
+    tbl_view_data_change_to_form () {
+      this.viewBottle.displayIndex = 0
     },
     /**
      * 把查看气瓶档案表单中的数据清空
@@ -2929,8 +2875,13 @@ export default {
      * 显示指定的图片
      */
     viewBottleImageDetailClick (index) {
-      console.log('正在显示图片[' + index + '], viewBottleImageDetailClick')
       this.viewBottle.pictureIndex = index
+    },
+    /**
+     * 图片是否显示边框
+     */
+    viewBottleImageBorderLine (index) {
+      return this.viewBottle.pictureIndex === index
     },
     tbl_modify_qrcode_submit (formName) {
       this.$refs[formName].validate(valid => {
@@ -3054,11 +3005,31 @@ export default {
   margin: 0px;
 }
 .BottleArchiveForm {
-    position: relative;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    background-color:  #FFFFFF;
+  position: relative;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  background-color:  #FFFFFF;
+}
+.BottleArchiveSelectedPictureBorder {
+  border: solid;
+  border-width: 2pt;
+  border-color: #e53e51;
+}
+.BottleArchiveUnselectedPictureBorder {
+  border: none;
+}
+.BottleArchiveSelectedPictureMargin {
+  margin-left: 3px;
+  margin-bottom: 0px;
+  margin-right: 6px;
+  margin-top: 0px;
+}
+.BottleArchiveUnselectedPictureMargin {
+  margin-left: 0px;
+  margin-bottom: 0px;
+  margin-right: 0px;
+  margin-top: 0px;
 }
 /*
  * 操作列的表头样式
