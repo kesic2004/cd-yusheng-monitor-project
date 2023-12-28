@@ -166,31 +166,31 @@
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
               <el-form-item required prop="producted" label="出厂日期" size="medium">
-                <el-date-picker clearable v-model="addBottleForm.producted" type="month" placeholder="请选择出厂日期" size="small" />
+                <el-date-picker clearable v-model="addBottleForm.producted" type="month" placeholder="请选择出厂日期" size="small" @change="addBottleDialogProducted" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
               <el-form-item required prop="lasttested" label="上检日期" size="medium">
-                <el-date-picker clearable v-model="addBottleForm.lasttested" type="month" placeholder="请选择上检日期" size="small" />
+                <el-date-picker clearable v-model="addBottleForm.lasttested" type="month" placeholder="请选择上检日期" size="small" @change="addBottleDialogLasttested" />
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
               <el-form-item required prop="nexttested" label="下检日期" size="medium">
-                <el-date-picker clearable v-model="addBottleForm.nexttested" type="month" placeholder="请选4择下检日期" size="small" />
+                <el-date-picker clearable v-model="addBottleForm.nexttested" type="month" placeholder="请选4择下检日期" size="small" @change="addBottleDialogNexttested" />
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
               <el-form-item required prop="maxuseyears" label="报废年" size="medium">
-                <el-select clearable v-model="addBottleForm.maxuseyears" no-data-text="暂时没有可选择的报废年" style="padding-left: 0px; padding-right: 0px;" >
+                <el-select clearable v-model="addBottleForm.maxuseyears" no-data-text="暂时没有可选择的报废年" style="padding-left: 0px; padding-right: 0px;" @change="addBottleDialogMaxuseyears">
                   <el-option v-for="item in selectableMaxuseyears" :key="item.value" :label="item.label" :value="item.value"><span style="float: left">{{ item.label }}</span></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
               <el-form-item required prop="expired" label="报废日期" size="medium">
-                <el-date-picker clearable v-model="addBottleForm.expired" type="month" placeholder="请选择报废日期" size="small" />
+                <el-date-picker clearable v-model="addBottleForm.expired" type="month" placeholder="请选择报废日期" size="small" @change="addBottleDialogExpired" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -433,31 +433,31 @@
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
               <el-form-item required prop="producted" label="出厂日期" size="medium">
-                <el-date-picker clearable v-model="editBottleForm.producted" type="month" placeholder="请选择出厂日期" size="small" />
+                <el-date-picker clearable v-model="editBottleForm.producted" type="month" placeholder="请选择出厂日期" size="small" @change="editBottleDialogProducted" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
               <el-form-item required prop="lasttested" label="上检日期" size="medium">
-                <el-date-picker clearable v-model="editBottleForm.lasttested" type="month" placeholder="请选择上检日期" size="small" />
+                <el-date-picker clearable v-model="editBottleForm.lasttested" type="month" placeholder="请选择上检日期" size="small" @change="editBottleDialogLasttested" />
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
               <el-form-item required prop="nexttested" label="下检日期" size="medium">
-                <el-date-picker clearable v-model="editBottleForm.nexttested" type="month" placeholder="请选4择下检日期" size="small" />
+                <el-date-picker clearable v-model="editBottleForm.nexttested" type="month" placeholder="请选4择下检日期" size="small" @change="editBottleDialogNexttested" />
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
               <el-form-item required prop="maxuseyears" label="报废年" size="medium">
-                <el-select clearable v-model="editBottleForm.maxuseyears" no-data-text="暂时没有可选择的报废年" style="padding-left: 0px; padding-right: 0px;" >
+                <el-select clearable v-model="editBottleForm.maxuseyears" no-data-text="暂时没有可选择的报废年" style="padding-left: 0px; padding-right: 0px;" @change="editBottleDialogMaxuseyears">
                   <el-option v-for="item in selectableMaxuseyears" :key="item.value" :label="item.label" :value="item.value"><span style="float: left">{{ item.label }}</span></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
               <el-form-item required prop="expired" label="报废日期" size="medium">
-                <el-date-picker clearable v-model="editBottleForm.expired" type="month" placeholder="请选择报废日期" size="small" />
+                <el-date-picker clearable v-model="editBottleForm.expired" type="month" placeholder="请选择报废日期" size="small" @change="editBottleDialogExpired" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -2011,6 +2011,145 @@ export default {
       this.modifyQrcodeForm.oldQrcode = row.qrcode
       this.modifyQrcode.currentGasTankIndex = $index
     },
+    /*
+     * 新增对话框事件方法起
+     */
+    addBottleDialogLasttested (newValue) {
+      if (newValue !== null && this.addBottleForm.nexttested === null) {
+        const localDate = new Date()
+        this.dateAddYear(newValue, localDate, 4)
+        this.addBottleForm.nexttested = localDate
+      }
+    },
+    addBottleDialogNexttested (newValue) {
+      if (newValue !== null && this.addBottleForm.lasttested === null) {
+        const localDate = new Date()
+        this.dateSubYear(newValue, localDate, 4)
+        this.addBottleForm.lasttested = localDate
+      }
+    },
+    addBottleDialogProducted (newValue) {
+      if (newValue === null) {
+        return
+      }
+      switch (((typeof this.addBottleForm.maxuseyears) === 'number' ? 2 : 0) + (this.addBottleForm.expired === null ? 0 : 1)) {
+        case 0: {
+          break
+        }
+        case 1: {
+          const localValue = this.addBottleForm.expired.getFullYear() - newValue.getFullYear()
+          for (var i = 0; i < this.selectableMaxuseyears.length; ++i) {
+            if (this.selectableMaxuseyears[i].value === localValue) {
+              this.addBottleForm.maxuseyears = localValue
+              const localDateA = new Date()
+              localDateA.setFullYear(newValue.getFullYear() + localValue, newValue.getMonth(), newValue.getDate())
+              this.addBottleForm.expired = localDateA
+              return
+            }
+          }
+          this.addBottleForm.producted = null
+          break
+        }
+        case 2: {
+          const localDateB = new Date()
+          this.dateAddYear(newValue, localDateB, this.addBottleForm.maxuseyears)
+          this.addBottleForm.expired = localDateB
+          break
+        }
+        case 3: {
+          const localDateC = new Date()
+          this.dateAddYear(newValue, localDateC, this.addBottleForm.maxuseyears)
+          this.addBottleForm.expired = localDateC
+          break
+        }
+        default: {
+          break
+        }
+      }
+    },
+    addBottleDialogExpired (newValue) {
+      if (newValue === null) {
+        return
+      }
+      switch ((this.addBottleForm.producted === null ? 0 : 2) + ((typeof this.addBottleForm.maxuseyears) === 'number' ? 1 : 0)) {
+        case 0: {
+          break
+        }
+        case 1: {
+          const localDateA = new Date()
+          this.dateSubYear(newValue, localDateA, this.addBottleForm.maxuseyears)
+          this.addBottleForm.producted = localDateA
+          break
+        }
+        case 2: {
+          const localValueB = newValue.getFullYear() - this.addBottleForm.producted.getFullYear()
+          for (var i = 0; i < this.selectableMaxuseyears.length; ++i) {
+            if (this.selectableMaxuseyears[i].value === localValueB) {
+              this.addBottleForm.maxuseyears = localValueB
+              const localDateB = new Date()
+              localDateB.setFullYear(newValue.getFullYear() - localValueB, newValue.getMonth(), newValue.getDate())
+              this.addBottleForm.producted = localDateB
+              return
+            }
+          }
+          this.addBottleForm.expired = null
+          break
+        }
+        case 3: {
+          const localValueC = newValue.getFullYear() - this.addBottleForm.producted.getFullYear()
+          for (var j = 0; j < this.selectableMaxuseyears.length; ++j) {
+            if (this.selectableMaxuseyears[j].value === localValueC) {
+              this.addBottleForm.maxuseyears = localValueC
+              const localDateC = new Date()
+              localDateC.setFullYear(newValue.getFullYear() - localValueC, newValue.getMonth(), newValue.getDate())
+              this.addBottleForm.producted = localDateC
+              return
+            }
+          }
+          this.addBottleForm.expired = null
+          break
+        }
+        default: {
+          break
+        }
+      }
+    },
+    addBottleDialogMaxuseyears (newValue) {
+      if (newValue === null) {
+        return
+      }
+      if ((typeof newValue) === 'number') {
+        switch ((this.addBottleForm.producted === null ? 0 : 2) + (this.addBottleForm.expired === null ? 0 : 1)) {
+          case 0: {
+            break
+          }
+          case 1: {
+            const localDateA = new Date()
+            this.dateSubYear(this.addBottleForm.expired, localDateA, newValue)
+            this.addBottleForm.producted = localDateA
+            break
+          }
+          case 2: {
+            const localDateB = new Date()
+            this.dateAddYear(this.addBottleForm.producted, localDateB, newValue)
+            this.addBottleForm.expired = localDateB
+            break
+          }
+          case 3: {
+            const localDateC = new Date()
+            this.dateAddYear(this.addBottleForm.producted, localDateC, newValue)
+            this.addBottleForm.expired = localDateC
+            break
+          }
+          default: {
+            break
+          }
+        }
+      }
+    },
+    /*
+     * 新增对话框事件方法止
+     */
     /**
      * 请求Uuid
      */
@@ -2280,6 +2419,145 @@ export default {
         this.addBottleForm.specs = null
       }
     },
+    /*
+     * 修改对话框事件方法起
+     */
+    editBottleDialogLasttested (newValue) {
+      if (newValue !== null && this.editBottleForm.nexttested === null) {
+        const localDate = new Date()
+        this.dateAddYear(newValue, localDate, 4)
+        this.editBottleForm.nexttested = localDate
+      }
+    },
+    editBottleDialogNexttested (newValue) {
+      if (newValue !== null && this.editBottleForm.lasttested === null) {
+        const localDate = new Date()
+        this.dateSubYear(newValue, localDate, 4)
+        this.editBottleForm.lasttested = localDate
+      }
+    },
+    editBottleDialogProducted (newValue) {
+      if (newValue === null) {
+        return
+      }
+      switch (((typeof this.editBottleForm.maxuseyears) === 'number' ? 2 : 0) + (this.editBottleForm.expired === null ? 0 : 1)) {
+        case 0: {
+          break
+        }
+        case 1: {
+          const localValue = this.editBottleForm.expired.getFullYear() - newValue.getFullYear()
+          for (var i = 0; i < this.selectableMaxuseyears.length; ++i) {
+            if (this.selectableMaxuseyears[i].value === localValue) {
+              this.editBottleForm.maxuseyears = localValue
+              const localDateA = new Date()
+              localDateA.setFullYear(newValue.getFullYear() + localValue, newValue.getMonth(), newValue.getDate())
+              this.editBottleForm.expired = localDateA
+              return
+            }
+          }
+          this.editBottleForm.producted = null
+          break
+        }
+        case 2: {
+          const localDateB = new Date()
+          this.dateAddYear(newValue, localDateB, this.editBottleForm.maxuseyears)
+          this.editBottleForm.expired = localDateB
+          break
+        }
+        case 3: {
+          const localDateC = new Date()
+          this.dateAddYear(newValue, localDateC, this.editBottleForm.maxuseyears)
+          this.editBottleForm.expired = localDateC
+          break
+        }
+        default: {
+          break
+        }
+      }
+    },
+    editBottleDialogExpired (newValue) {
+      if (newValue === null) {
+        return
+      }
+      switch ((this.editBottleForm.producted === null ? 0 : 2) + ((typeof this.editBottleForm.maxuseyears) === 'number' ? 1 : 0)) {
+        case 0: {
+          break
+        }
+        case 1: {
+          const localDateA = new Date()
+          this.dateSubYear(newValue, localDateA, this.editBottleForm.maxuseyears)
+          this.editBottleForm.producted = localDateA
+          break
+        }
+        case 2: {
+          const localValueB = newValue.getFullYear() - this.editBottleForm.producted.getFullYear()
+          for (var i = 0; i < this.selectableMaxuseyears.length; ++i) {
+            if (this.selectableMaxuseyears[i].value === localValueB) {
+              this.editBottleForm.maxuseyears = localValueB
+              const localDateB = new Date()
+              localDateB.setFullYear(newValue.getFullYear() - localValueB, newValue.getMonth(), newValue.getDate())
+              this.editBottleForm.producted = localDateB
+              return
+            }
+          }
+          this.editBottleForm.expired = null
+          break
+        }
+        case 3: {
+          const localValueC = newValue.getFullYear() - this.editBottleForm.producted.getFullYear()
+          for (var j = 0; j < this.selectableMaxuseyears.length; ++j) {
+            if (this.selectableMaxuseyears[j].value === localValueC) {
+              this.editBottleForm.maxuseyears = localValueC
+              const localDateC = new Date()
+              localDateC.setFullYear(newValue.getFullYear() - localValueC, newValue.getMonth(), newValue.getDate())
+              this.editBottleForm.producted = localDateC
+              return
+            }
+          }
+          this.editBottleForm.expired = null
+          break
+        }
+        default: {
+          break
+        }
+      }
+    },
+    editBottleDialogMaxuseyears (newValue) {
+      if (newValue === null) {
+        return
+      }
+      if ((typeof newValue) === 'number') {
+        switch ((this.editBottleForm.producted === null ? 0 : 2) + (this.editBottleForm.expired === null ? 0 : 1)) {
+          case 0: {
+            break
+          }
+          case 1: {
+            const localDateA = new Date()
+            this.dateSubYear(this.editBottleForm.expired, localDateA, newValue)
+            this.editBottleForm.producted = localDateA
+            break
+          }
+          case 2: {
+            const localDateB = new Date()
+            this.dateAddYear(this.editBottleForm.producted, localDateB, newValue)
+            this.editBottleForm.expired = localDateB
+            break
+          }
+          case 3: {
+            const localDateC = new Date()
+            this.dateAddYear(this.editBottleForm.producted, localDateC, newValue)
+            this.editBottleForm.expired = localDateC
+            break
+          }
+          default: {
+            break
+          }
+        }
+      }
+    },
+    /*
+     * 修改对话框事件方法止
+     */
     /**
      * 根据 archive uuid查询
      */
@@ -2924,6 +3202,24 @@ export default {
     /*
      * 对话框方法止
      */
+    /**
+     * 日期加年
+     */
+    dateAddYear (sourceDate, targetDate, year) {
+      if (sourceDate === null || targetDate === null || ((typeof year) !== 'number') || year < 0) {
+        return
+      }
+      targetDate.setFullYear(sourceDate.getFullYear() + year, sourceDate.getMonth(), sourceDate.getDate())
+    },
+    /**
+     * 日期减年
+     */
+    dateSubYear (sourceDate, targetDate, year) {
+      if (sourceDate === null || targetDate === null || ((typeof year) !== 'number') || year < 0) {
+        return
+      }
+      targetDate.setFullYear(sourceDate.getFullYear() - year, sourceDate.getMonth(), sourceDate.getDate())
+    },
     /**
      * @param row 所在行的原始数据
      * @param column 所在列的定义数据
