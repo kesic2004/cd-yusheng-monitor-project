@@ -159,7 +159,7 @@
         </el-table-column>
         </el-table>
       </el-main>
-      <el-pagination hide-on-single-page v-if="queryCount !== 0" layout="sizes, prev, pager, next" :current-page.sync="pagination.current" :page-sizes="selectablePageNumberArray" :page-size="pagination.size" :total="queryCount"
+      <el-pagination v-if="queryCount !== 0" layout="sizes, prev, pager, next" :current-page.sync="pagination.current" :page-sizes="selectablePageNumberArray" :page-size="pagination.size" :total="queryCount"
         @current-change="paginationCurrentChange" @size-change="paginationSizeChange" />
   </el-collapse>
 </template>
