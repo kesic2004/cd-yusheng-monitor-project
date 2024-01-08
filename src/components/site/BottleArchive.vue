@@ -79,7 +79,7 @@
             <el-col :span="6">
               <el-button size="mini" icon="el-icon-document-add" style="margin-bottom: 5px;" @click="tbl_add_data()" />
               <el-button size="mini" icon="el-icon-refresh-right" style="margin-bottom: 5px;" @click="executeQuery('queryForm')" />
-              <el-button size="mini" icon="el-icon-download" style="margin-bottom:5px;" />
+              <el-button size="mini" icon="el-icon-download" style="margin-bottom:5px;" @click="executeExport('queryForm')" />
             </el-col>
             <el-col :span="6">
               <span v-if="queryCount !==0" style="font-family: 楷体;">总气瓶数：{{queryCount}}只</span>
@@ -368,7 +368,7 @@
               <!-- ———————————————— -->
               <!-- 版权声明：本文为CSDN博主「喜大普奔⁶⁶⁶」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。 -->
               <!-- 原文链接：https://blog.csdn.net/qq_38652871/article/details/115081612 -->
-              <!-- ———————————————— -->
+              <!-- ———————————————— --><!-- display: flex; justify-content: space-around; -->
               <span class="el-image-viewer__btn" @click="addBottleImageRemove(index)"><i class="el-icon-error" style="margin-left: 80px; margin-top: 0px; font-size: 14pt;"></i></span>
               <el-image style="width: 100px; height: 100px; padding: 0px;" fill="fill" :src='item.uri' :class="{ BottleArchiveSelectedPictureBorder: addBottleImageBorderLine(index), BottleArchiveUnselectedPictureBorder: !addBottleImageBorderLine(index) }" @click="addBottleImageClick(index)" />
             </div>
@@ -383,7 +383,7 @@
       </div>
       <div :style="{ width: addBottleDivWidthString, height: addBottleDivHeightString, display: addBottlePictureDisplayString }">
         <el-container>
-          <el-header :height="addBottlePictureRowHeightString" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px;">
+          <el-header :height="addBottlePictureRowHeightString" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px; overflow-x: auto; overflow-y: auto;">
             <span class="el-image-viewer__btn" v-if="Array.isArray(addBottleAttachmentShowList) && addBottleAttachmentShowList.length > 0" :style="{ display: addBottleChangeDisplayString }" @click="tbl_add_data_change_to_form" ><i class="el-icon-error" style="position: fixed; top: 9px; font-size: 18pt;" :style="{ left: addBottleChangeDisplayXOffsetString }"></i></span>
             <el-image :src="addBottleAttachmentShowList[addBottle.pictureIndex].uri" fill="none" v-if="Array.isArray(addBottleAttachmentShowList) && addBottleAttachmentShowList.length > 0" />
           </el-header>
@@ -629,7 +629,7 @@
               <!-- ———————————————— -->
               <!-- 版权声明：本文为CSDN博主「喜大普奔⁶⁶⁶」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。 -->
               <!-- 原文链接：https://blog.csdn.net/qq_38652871/article/details/115081612 -->
-              <!-- ———————————————— -->
+              <!-- ———————————————— --><!-- display: flex; justify-content: space-around; -->
               <span class="el-image-viewer__btn" @click="editBottleImageRemove(index)"><i class="el-icon-error" style="margin-left: 80px; margin-top: 0px; font-size: 14pt;"></i></span>
               <el-image style="width: 100px; height: 100px; padding: 0px;" fill="fill" v-bind:src='item.uri' :class="{ BottleArchiveSelectedPictureBorder: editBottleImageBorderLine(index), BottleArchiveUnselectedPictureBorder: !editBottleImageBorderLine(index) }" @click="editBottleImageClick(index)" />
             </div>
@@ -644,7 +644,7 @@
       </div>
       <div :style="{ width: editBottleDivWidthString, height: editBottleDivHeightString, display: editBottlePictureDisplayString }">
         <el-container>
-          <el-header :height="editBottlePictureRowHeightString" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px;">
+          <el-header :height="editBottlePictureRowHeightString" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px; overflow-x: auto; overflow-y: auto;">
             <span class="el-image-viewer__btn" v-if="Array.isArray(editBottleAttachmentShowList) && editBottleAttachmentShowList.length > 0" :style="{ display: editBottleChangeDisplayString }" @click="tbl_edit_data_change_to_form"><i class="el-icon-error" style="position: fixed; top: 9px; font-size: 18pt;" :style="{ left: editBottleChangeDisplayXOffsetString }"></i></span>
             <el-image :src="editBottleAttachmentShowList[editBottle.pictureIndex].uri" fill="none" v-if="Array.isArray(editBottleAttachmentShowList) && editBottleAttachmentShowList.length > 0" />
           </el-header>
@@ -865,7 +865,7 @@
               <!-- ———————————————— -->
               <!-- 版权声明：本文为CSDN博主「喜大普奔⁶⁶⁶」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。 -->
               <!-- 原文链接：https://blog.csdn.net/qq_38652871/article/details/115081612 -->
-              <!-- ———————————————— -->
+              <!-- ———————————————— --><!-- display: flex; justify-content: space-around; -->
               <!--<span class="el-image-viewer__btn"><i class="el-icon-error" style="margin-left: 80px; margin-top: 0px; font-size: 14pt;"></i></span>-->
               <el-image style="width: 100px; height: 100px; padding: 0px;" fill="fill" v-bind:src='item.uri' :class="{ BottleArchiveSelectedPictureBorder: viewBottleImageBorderLine(index), BottleArchiveUnselectedPictureBorder: !viewBottleImageBorderLine(index) }" @click="viewBottleImageClick(index)" />
             </div>
@@ -874,7 +874,7 @@
       </div>
       <div :style="{ width: viewBottleDivWidthString, height: viewBottleDivHeightString, display: viewBottlePictureDisplayString }">
         <el-container>
-          <el-header :height="viewBottlePictureRowHeightString" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px;">
+          <el-header :height="viewBottlePictureRowHeightString" style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px; overflow-x: auto; overflow-y: auto;">
             <span class="el-image-viewer__btn" v-if="Array.isArray(viewBottleAttachmentShowList) && viewBottleAttachmentShowList.length > 0" :style="{ display: viewBottleChangeDisplayString }" @click="tbl_view_data_change_to_form"><i class="el-icon-error" style="position: fixed; top: 9px; font-size: 19pt;" :style="{ left: viewBottleChangeDisplayXOffsetString }"></i></span>
             <el-image :src="viewBottleAttachmentShowList[viewBottle.pictureIndex].uri" fill="none" v-if="Array.isArray(viewBottleAttachmentShowList) && viewBottleAttachmentShowList.length > 0" />
           </el-header>
@@ -1043,6 +1043,25 @@ export default {
       selectableOnlyused: [ { value: 1, label: '1', title: '是' }, { value: 0, label: '0', title: '否' } ],
       /**
        * 新增气瓶档案对话框
+         <el-upload
+           drag
+           with-credentials
+           name="file"
+           :accept="basePicture.accept"
+           :action="baseUploadActionUrl"
+           :auto-upload="basePicture.autoUpload"
+           :multiple="basePicture.multipleUpload"
+           :headers="baseUploadHeaders"
+           :show-file-list="basePicture.showFileList"
+           :on-change="baseImageChange"
+           :on-progress="baseImageProgress"
+         >
+           <el-button
+             round
+             size="small"
+             style="height: 24px; width: 90px; background: #E3E3E3; padding-top: 0px; padding-right: 7px; padding-bottom: 0px; padding-left: 7px; margin-top: 0px; margin-right: 3px; margin-bottom: 0px; margin-left: 3px; border-color: #66b1ff; border: solid; border-width: 1pt; line-height: 0px; border-radius: 4px;"
+           >上传气瓶附件</el-button>
+         </el-upload>
        */
       addBottle: {
         title: '新增气瓶档案', // 对话框标题
@@ -1126,8 +1145,7 @@ export default {
       /*
        * 新增气瓶档案表单的附件(显示已经上传的列表中)
        */
-      addBottleAttachmentShowList: [
-      ],
+      addBottleAttachmentShowList: [],
       /*
        * 新增气瓶档案表单的附件(el-upload控件中)
        */
@@ -1221,8 +1239,7 @@ export default {
       /*
        * 修改气瓶档案表单的附件(显示已经上传的列表中)
        */
-      editBottleAttachmentShowList: [
-      ],
+      editBottleAttachmentShowList: [],
       /*
        * 修改气瓶档案表单的附件(el-upload控件中)
        */
@@ -1302,8 +1319,7 @@ export default {
       /*
        * 查看气瓶档案表单的附件
        */
-      viewBottleAttachmentShowList: [
-      ],
+      viewBottleAttachmentShowList: [],
       /**
        * 修改气瓶编号对话框
        */
@@ -1322,7 +1338,14 @@ export default {
         oldQrcode: null, // String 旧条码编号
         newQrcode: null // String 新条码编号
       },
-      imagePrefix: this.constant.GAS_IMAGE_PREFIX + '/BottleArchive'
+      /**
+       * 图片基本路径
+       */
+      imagePrefix: this.constant.GAS_IMAGE_PREFIX + '/BottleArchive',
+      /**
+       * 导出基本路径
+       */
+      exportPrefix: this.constant.GAS_EXPORT_PREFIX + '/BottleArchive'
     }
   },
   computed: {
@@ -1616,6 +1639,35 @@ export default {
      */
     executeReset (formName) {
       this.$refs[formName].resetFields() // 或者：this.$refs.表单的引用信息.resetFields()
+    },
+    executeExport (formName) {
+      const localProducted = this.convertDateArrayTo(this.queryForm.producted)
+      const localExpired = this.convertDateArrayTo(this.queryForm.expired)
+      const locallasttested = this.convertDateArrayTo(this.queryForm.lasttested)
+      const localnexttexted = this.convertDateArrayTo(this.queryForm.nexttested)
+      const localQueryForm = {
+        qrcode: this.queryForm.qrcode,
+        productno: this.queryForm.productno,
+        producter: this.queryForm.producter,
+        mediumname: this.queryForm.mediumname,
+        norms: this.queryForm.norms === null ? null : this.selectableNormsArray[this.queryForm.norms].value,
+        productedFrom: localProducted[0],
+        productedTo: localProducted[1],
+        expiredFrom: localExpired[0],
+        expiredTo: localExpired[1],
+        lasttestedFrom: locallasttested[0],
+        lasttestedTo: locallasttested[1],
+        nexttestedFrom: localnexttexted[0],
+        nexttestedTo: localnexttexted[1],
+        usedstatus: this.queryForm.usedstatus
+      }
+      this.$axios.post(this.constant.GAS_SERVER_PREFIX + '/gastankinfo/gastankinfo/export', localQueryForm, { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {
+        if (res.status === 200) {
+          window.open(this.exportPrefix + res.data, '气瓶档案导出')
+          // this.$download(this.exportPrefix + res.data, '气瓶档案导出' + Date.now() + '.xlsx')
+        }
+      }).catch(ex => {
+      })
     },
     /*
      * 每页数据条数变化时
