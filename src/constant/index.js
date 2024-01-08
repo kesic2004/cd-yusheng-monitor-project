@@ -38,13 +38,14 @@ constant.OPENED_FULLPATH = [
  */
 constant.GAS_SERVER_PREFIX = '/gas'
 constant.GAS_IMAGE_PREFIX = '/__images__'
+constant.GAS_EXPORT_PREFIX = '/__export__'
 /**
  * constant.GAS_SERVER_PREFIX + /attachment
  */
 constant.GAS_SERVER_ATTACHMENT_PREFIX = '/gas/attachment'
 /**
- * 常用图片扩展名，在Windows环境时自动忽略大小写
+ * 常用图片扩展名，在Windows环境时自动忽略大小写 .SVG,
  */
-constant.GAS_SERVER_ATTACHMENT_PICTURE_EXT = '.APNG, .AVIF, .GIF, .JPG, .JPEG, .JFIF, .PJPEG, .PJP, .PNG, .SVG, .WEBP'
+constant.GAS_SERVER_ATTACHMENT_PICTURE_EXT = '.APNG, .AVIF, .BMP, .GIF, .JPG, .JPEG, .JFIF, .PJPEG, .PJP, .PNG, .WEBP'
 
 export default constant
