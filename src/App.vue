@@ -621,6 +621,26 @@ export default {
   padding-right: 30px;
   height: 25px;
 }
+/**
+ * 表单文本框
+ */
+.el-textarea__inner {
+    display: block;
+    resize: vertical;
+    padding: 0px 4px 0px 3px;
+    line-height: 1.83;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: inherit;
+    color: #606266;
+    background-color: #FFF;
+    background-image: none;
+    border: 1px solid #DCDFE6;
+    border-radius: 4px;
+    -webkit-transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+}
 
 /*
  * 选择日期区间的日期控件
