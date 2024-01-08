@@ -51,8 +51,6 @@
                 </el-col>
                 <el-col :span="16" style="padding-left: 0px; padding-right: 0px;">
                   <el-form-item required prop="districtname" label="所在区县" size="medium">
-                    <!--el-input v-if="this.baseForm.bsnid === null" type="text" size="medium" v-model="baseForm.districtname" placeholder="请选择所在区县" style="padding-left: 0px; padding-right: 0px; width: 200px;" /-->
-                    <!--el-input v-else type="text" size="medium" v-model="baseForm.districtname" placeholder="请选择所在区县" style="padding-left: 0px; padding-right: 0px; width: 200px;" @change="executeBaseModify" /-->
                     <el-select v-if="this.baseForm.bsnid === null" v-model="baseForm.districtname" placeholder="请选择所在区县" no-data-text="暂时没有可选择的区县" style="padding-left: 0px; padding-right: 0px; width: 200px;">
                       <el-option v-for="item in baseSelectableDistrictArray" :key="item.value" :label="item.label" :value="item.value"><span style="float: left">{{ item.label }}</span></el-option>
                     </el-select>
@@ -70,13 +68,14 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="16" style="padding-left: 0px; padding-right: 0px;">
-                  <el-form-item required prop="address" label="详细地址" size="medium" style="margin-left: 48px;">
-                    <el-input v-if="this.baseForm.bsnid === null" type="text" v-model="baseForm.address" placeholder="请填写详细地址" style="padding-left: 0px; padding-right: 0px; width: 582px;" />
-                    <el-input v-else type="text" v-model="baseForm.address" placeholder="请填写详细地址" style="padding-left: 0px; padding-right: 0px; width: 582px;" @change="executeBaseModify" />
+                  <el-form-item required prop="address" label="详细地址" size="medium" style="margin-left: 48px;"><!---->
+                    <el-input v-if="this.baseForm.bsnid === null" type="textarea" rows="1" v-model="baseForm.address" placeholder="请填写详细地址" style="padding-left: 0px; padding-right: 0px; width: 572px;" /><!-- width: 582px;-->
+                    <el-input v-else type="textarea" rows="1" v-model="baseForm.address" placeholder="请填写详细地址" style="padding-left: 0px; padding-right: 0px; width: 572px;" @change="executeBaseModify" /><!-- width: 582px;-->
                   </el-form-item>
                 </el-col>
+                <!-- <el-col :span="16" style="padding-left: 0px; padding-right: 0px;"><span style="display: none;"></span></el-col> -->
               </el-row>
-              <el-row v-if="this.baseForm.bsnid === null" :gutter="48" type="flex" justify="end" align="middle" style="margin-top: -10px;">
+              <el-row v-if="this.baseForm.bsnid === null" :gutter="48" type="flex" justify="end" align="middle" style="margin-top: 0px;">
                 <el-col :span="16" style="padding-left: 0px; padding-right: 0px;"></el-col>
                 <el-col :span="16" style="padding-left: 0px; padding-right: 0px;"></el-col>
                 <el-col :span="16" style="padding-left: 0px; padding-right: 0px;">
@@ -88,7 +87,26 @@
               </el-row>
             </el-form>
           </el-aside>
-          <el-main style="background-color: green;"></el-main>
+          <!-- background-color: green; -->
+          <el-main style="padding: 0px 0px 0px 0px; overflow-x: hidden; overflow-y: hidden;">
+            <el-upload
+              drag
+              with-credentials
+              name="file"
+              :accept="basePicture.accept"
+              :action="baseUploadActionUrl"
+              :auto-upload="basePicture.autoUpload"
+              :multiple="basePicture.multipleUpload"
+              :headers="baseUploadHeaders"
+              :show-file-list="basePicture.showFileList"
+              :on-change="baseImageChange"
+              :on-progress="baseImageProgress"
+              v-show="basePicture.ymd === null || basePicture.uuid === null"
+            >
+              <el-button round size="small" style="padding: 0px 7px 0px 7px; margin: 1px 3px 0px 3px; border-color: #66b1ff; border: solid; border-width: 1pt; line-height: 0px; border-radius: 4px; height: 27px;">点击上传图片</el-button>
+            </el-upload>
+            <el-image v-show="basePicture.ymd !== null && basePicture.uuid !== null" fill="fill" :style="{width: area1height + 'px', height: area1height + 'px' }" :src="imagePrefix + '/' + basePicture.ymd + '/' + basePicture.uuid + '/' + basePicture.name + '.' + basePicture.archiveExt" @click="window.alert(1)" />
+          </el-main>
         </el-container>
       </el-header>
       <!-- background-color: brown; -->
@@ -225,7 +243,8 @@ export default {
         cityname: null, // 所在市
         districtname: null, // 所在区县
         legalname: null, // 法人姓名
-        address: null // 详细地址
+        address: null, // 详细地址
+        attachmentUuid: null // 企业营业执照图片
       },
       baseFormData: {
         bsnid: null, // 主键
@@ -236,7 +255,8 @@ export default {
         cityname: null, // 所在市
         districtname: null, // 所在区县
         legalname: null, // 法人姓名
-        address: null // 详细地址
+        address: null, // 详细地址
+        attachmentUuid: null // 企业营业执照图片
       },
       /**
        * 基本信息表单校验
@@ -298,6 +318,16 @@ export default {
        * 可供选择的站点
        */
       selectableStation: null,
+      basePicture: {
+        accept: this.constant.GAS_SERVER_ATTACHMENT_PICTURE_EXT, // 目前只允许上传常用图片
+        autoUpload: true, // 气瓶档案是否自动上传
+        multipleUpload: false, // 气瓶档案是否多文件上传
+        showFileList: false, // 是否显示上传文件的列表
+        ymd: null,
+        uuid: null,
+        archiveExt: null,
+        name: null
+      },
       /**
        * 长度变量
        */
@@ -307,7 +337,8 @@ export default {
       area3leftAreaWidth: 1100, // 第三块区域中左边部分的宽
       area3my1height: 60, // 第三块区域中第一行的高
       area3my2height: 40, // 第三块区域中第二行的高
-      area3my3height: 40 // 第三块区域中第三行的高
+      area3my3height: 40, // 第三块区域中第三行的高
+      imagePrefix: this.constant.GAS_IMAGE_PREFIX + '/StationInformation' // 图片基本路径
     }
   },
   computed: {
@@ -358,6 +389,68 @@ export default {
      */
     tableHeightString: function () {
       return (this.gasTypeData.length + 1) * 50 + 'px'
+    },
+    baseUploadActionUrl: function () {
+      return this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/attachment/stationInformationAttachmentImage/uploadNew/' + this.basePicture.ymd + '/' + this.basePicture.uuid
+    },
+    baseUploadHeaders: function () {
+      return {
+        'reference': this.$router.currentRoute.fullPath
+      }
+    }
+  },
+  watch: {
+    'baseForm.bsnid': {
+      handler: function (n, o) {
+        console.log(n)
+        console.log(o)
+        if (n === null || this.baseForm.attachmentUuid === null) {
+          this.baseForm.attachmentUuid = null
+          this.basePicture.ymd = null
+          this.basePicture.uuid = null
+          this.basePicture.archiveExt = null
+          this.basePicture.name = null
+          return
+        }
+        this.$axios.post(this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/stationInformationAttachmentImage/queryByArchiveUuid/' + this.baseForm.attachmentUuid, {}, { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {
+          /*
+           * [
+           *     {
+           *         "valid": "0",
+           *         "pictureWidth": 927,
+           *         "pictureHeight": 666,
+           *         "id": 45,
+           *         "uploadTime": 1702895414890,
+           *         "archiveLength": 64599,
+           *         "uploadUserId": 30,
+           *         "archiveUuid": "0fe342916a974652b55c5c8cb1086c52",
+           *         "archiveName": "82f0430a2fde4caba8f592511265a970",
+           *         "yyyymmdd": "0231218",
+           *         "archiveExt": "png",
+           *         "note": "手动上传",
+           *         "attachmentName": "18c7c79ee6a",
+           *         "uploadUserName": "hainan"
+           *     }
+           * ]
+           */
+          if (res.status === 200 && Array.isArray(res.data) && res.data.length > 0) {
+            this.basePicture.ymd = res.data[0].yyyymmdd
+            this.basePicture.uuid = res.data[0].archiveUuid
+            this.basePicture.archiveExt = res.data[0].archiveExt
+            this.basePicture.name = res.data[0].archiveName
+          } else {
+            this.basePicture.ymd = null
+            this.basePicture.uuid = null
+            this.basePicture.archiveExt = null
+            this.basePicture.name = null
+          }
+        }).catch(ex => {
+          this.basePicture.ymd = null
+          this.basePicture.uuid = null
+          this.basePicture.archiveExt = null
+          this.basePicture.name = null
+        })
+      }
     }
   },
   mounted () {
@@ -382,7 +475,6 @@ export default {
         const baseLicense = resData.license
         for (var i1 = 0; i1 < baseData.length; ++i1) {
           if (this.selectableStation[0].value === baseData[i1].stationid) {
-            this.baseFormData.bsnid = this.baseForm.bsnid = baseData[i1].bsnid
             this.baseFormData.corpname = this.baseForm.corpname = baseData[i1].corpname
             this.baseFormData.creditcode = this.baseForm.creditcode = baseData[i1].creditcode
             this.baseFormData.contactno = this.baseForm.contactno = baseData[i1].contactno
@@ -393,6 +485,8 @@ export default {
             this.baseFormData.districtname = this.baseForm.districtname = this.convertDistrictNameToCode(baseData[i1].districtname)
             this.baseFormData.legalname = this.baseForm.legalname = baseData[i1].legalname
             this.baseFormData.address = this.baseForm.address = baseData[i1].address
+            this.baseFormData.attachmentUuid = this.baseForm.attachmentUuid = baseData[i1].attachmentUuid
+            this.baseFormData.bsnid = this.baseForm.bsnid = baseData[i1].bsnid
           }
         }
         for (var i2 = 0; i2 < baseLicense.length; ++i2) {
@@ -593,6 +687,32 @@ export default {
           this.$refs['licenseForm'].resetFields()
         })
       }
+    },
+    baseImageChange (file, list) {
+      switch (file.status) {
+        case 'success' : {
+          this.basePicture.ymd = file.response[0].yyyymmdd
+          this.basePicture.uuid = file.response[0].fileUuid
+          this.basePicture.archiveExt = file.response[0].ext
+          this.basePicture.name = file.response[0].filename
+          break
+        }
+        case 'fail' : {
+          this.basePicture.ymd = null
+          this.basePicture.uuid = null
+          this.basePicture.archiveExt = null
+          this.basePicture.name = null
+          break
+        }
+        case 'ready' : {
+          break
+        }
+        default: {
+          break
+        }
+      }
+    },
+    baseImageProgress (file, list) {
     },
     /**
      * 显示新增充装介质对话框
