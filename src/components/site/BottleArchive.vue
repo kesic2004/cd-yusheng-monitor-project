@@ -196,22 +196,22 @@
           </el-row>
           <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="qualifiedno" label="检验合格环号" size="medium">
+              <el-form-item prop="qualifiedno" label="检验合格环号" size="medium">
                 <el-input clearable type="text" v-model="addBottleForm.qualifiedno" placeholder="请输入检验合格环号" style="padding-left: 0px; padding-right: 0px;" />
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="registno" label="使用登记证编号" size="medium">
+              <el-form-item prop="registno" label="使用登记证编号" size="medium">
                 <el-input clearable type="text" v-model="addBottleForm.registno" placeholder="请输入使用登记证编号" style="padding-left: 0px; padding-right: 0px;" />
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="usedlicenseno" label="使用登记证号" size="medium">
+              <el-form-item prop="usedlicenseno" label="使用登记证号" size="medium">
                 <el-input clearable type="text" v-model="addBottleForm.usedlicenseno" placeholder="请输入使用登记证号" style="padding-left: 0px; padding-right: 0px;" />
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="elabel" label="电子标签编号" size="medium">
+              <el-form-item  prop="elabel" label="电子标签编号" size="medium">
                 <el-input clearable type="text" v-model="addBottleForm.elabel" placeholder="请输入电子标签编号" style="padding-left: 0px; padding-right: 0px;" />
               </el-form-item>
             </el-col>
@@ -225,12 +225,12 @@
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="valvefactory" label="阀门厂家" size="medium">
+              <el-form-item prop="valvefactory" label="阀门厂家" size="medium">
                 <el-input clearable type="text" v-model="addBottleForm.valvefactory" placeholder="请输入阀门厂家" style="padding-left: 0px; padding-right: 0px;" />
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="valvetype" label="阀门类型" size="medium">
+              <el-form-item prop="valvetype" label="阀门类型" size="medium">
                 <el-select clearable v-model="addBottleForm.valvetype" placeholder="请选择阀门类型" no-data-text="暂时没有可供选择的阀门类型" style="padding-left: 0px; padding-right: 0px;" >
                   <el-option v-for="item in selectableValvetype" :key="item.value" :label="item.label" :value="item.value"><span style="float: left">{{ item.label }}</span></el-option>
                 </el-select>
@@ -274,12 +274,12 @@
           </el-row>
           <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="hotway" label="热处理方式" size="medium">
+              <el-form-item prop="hotway" label="热处理方式" size="medium">
                 <el-input clearable type="text" v-model="addBottleForm.hotway" placeholder="请输入热处理方式" style="padding-left: 0px; padding-right: 0px;" />
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="bodystuff" label="瓶体材料" size="medium">
+              <el-form-item prop="bodystuff" label="瓶体材料" size="medium">
                 <el-input clearable type="text" v-model="addBottleForm.bodystuff" placeholder="请输入瓶体材料" style="padding-left: 0px; padding-right: 0px;" />
               </el-form-item>
             </el-col>
@@ -298,17 +298,17 @@
           </el-row>
           <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="checkresult" label="安评结果" size="medium">
+              <el-form-item prop="checkresult" label="安评结果" size="medium">
                 <el-input clearable type="text" v-model="addBottleForm.checkresult" placeholder="请输入安评结果" style="padding-left: 0px; padding-right: 0px;" />
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="checkdate" label="安评日期" size="medium">
+              <el-form-item prop="checkdate" label="安评日期" size="medium">
                 <el-date-picker clearable v-model="addBottleForm.checkdate" type="date" placeholder="请选择安评日期" size="small" />
               </el-form-item>
             </el-col>
             <el-col :span="12" type="flex" justify="start" align="middle" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="usedstatus" label="气瓶状态" size="medium">
+              <el-form-item prop="usedstatus" label="气瓶状态" size="medium">
                 <el-select clearable v-model="addBottleForm.usedstatus" placeholder="气瓶状态" no-data-text="暂时没有可选择的气瓶状态" style="padding-left: 0px; padding-right: 0px;">
                   <el-option v-for="item in selectableUsedstatus4Dialog" :key="item.value" :label="item.label" :value="item.value"><span style="float: left">{{ item.title }}</span></el-option>
                 </el-select>
@@ -358,7 +358,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="lastused" label="最后使用" size="medium">
+              <el-form-item prop="lastused" label="最后使用" size="medium">
                 <el-date-picker clearable v-model="addBottleForm.lastused" type="month" placeholder="请选择最后使用" size="small" />
               </el-form-item>
             </el-col>
@@ -463,22 +463,22 @@
           </el-row>
           <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="qualifiedno" label="检验合格环号" size="medium">
+              <el-form-item prop="qualifiedno" label="检验合格环号" size="medium">
                 <el-input clearable type="text" v-model="editBottleForm.qualifiedno" placeholder="请输入检验合格环号" style="padding-left: 0px; padding-right: 0px;" />
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="registno" label="使用登记证编号" size="medium">
+              <el-form-item prop="registno" label="使用登记证编号" size="medium">
                 <el-input clearable type="text" v-model="editBottleForm.registno" placeholder="请输入使用登记证编号" style="padding-left: 0px; padding-right: 0px;" />
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="usedlicenseno" label="使用登记证号" size="medium">
+              <el-form-item prop="usedlicenseno" label="使用登记证号" size="medium">
                 <el-input clearable type="text" v-model="editBottleForm.usedlicenseno" placeholder="请输入使用登记证号" style="padding-left: 0px; padding-right: 0px;" />
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="elabel" label="电子标签编号" size="medium">
+              <el-form-item prop="elabel" label="电子标签编号" size="medium">
                 <el-input clearable type="text" v-model="editBottleForm.elabel" placeholder="请输入电子标签编号" style="padding-left: 0px; padding-right: 0px;" />
               </el-form-item>
             </el-col>
@@ -492,19 +492,19 @@
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="valvefactory" label="阀门厂家" size="medium">
+              <el-form-item prop="valvefactory" label="阀门厂家" size="medium">
                 <el-input clearable type="text" v-model="editBottleForm.valvefactory" placeholder="请输入阀门厂家" style="padding-left: 0px; padding-right: 0px;" />
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="valvetype" label="阀门类型" size="medium">
+              <el-form-item prop="valvetype" label="阀门类型" size="medium">
                 <el-select clearable v-model="editBottleForm.valvetype" placeholder="请选择阀门类型" no-data-text="暂时没有可供选择的阀门类型" style="padding-left: 0px; padding-right: 0px;" >
                   <el-option v-for="item in selectableValvetype" :key="item.value" :label="item.label" :value="item.value"><span style="float: left">{{ item.label }}</span></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="unitselfno" label="充装单位自编号" size="medium">
+              <el-form-item prop="unitselfno" label="充装单位自编号" size="medium">
                 <el-input clearable type="text" v-model="editBottleForm.unitselfno" placeholder="请输入充装单位自编号" style="padding-left: 0px; padding-right: 0px;" />
               </el-form-item>
             </el-col>
@@ -541,12 +541,12 @@
           </el-row>
           <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="hotway" label="热处理方式" size="medium">
+              <el-form-item prop="hotway" label="热处理方式" size="medium">
                 <el-input clearable type="text" v-model="editBottleForm.hotway" placeholder="请输入热处理方式" style="padding-left: 0px; padding-right: 0px;" />
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="bodystuff" label="瓶体材料" size="medium">
+              <el-form-item prop="bodystuff" label="瓶体材料" size="medium">
                 <el-input clearable type="text" v-model="editBottleForm.bodystuff" placeholder="请输入瓶体材料" style="padding-left: 0px; padding-right: 0px;" />
               </el-form-item>
             </el-col>
@@ -565,17 +565,17 @@
           </el-row>
           <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="checkresult" label="安评结果" size="medium">
+              <el-form-item prop="checkresult" label="安评结果" size="medium">
                 <el-input clearable type="text" v-model="editBottleForm.checkresult" placeholder="请输入安评结果" style="padding-left: 0px; padding-right: 0px;" />
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="checkdate" label="安评日期" size="medium">
+              <el-form-item prop="checkdate" label="安评日期" size="medium">
                 <el-date-picker clearable v-model="editBottleForm.checkdate" type="date" placeholder="请选择安评日期" size="small" />
               </el-form-item>
             </el-col>
             <el-col :span="12" type="flex" justify="start" align="middle" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="usedstatus" label="气瓶状态" size="medium">
+              <el-form-item prop="usedstatus" label="气瓶状态" size="medium">
                 <el-select clearable v-model="editBottleForm.usedstatus" placeholder="气瓶状态" no-data-text="暂时没有可选择的气瓶状态" style="padding-left: 0px; padding-right: 0px;">
                   <el-option v-for="item in selectableUsedstatus4Dialog" :key="item.value" :label="item.label" :value="item.value"><span style="float: left">{{ item.title }}</span></el-option>
                 </el-select>
@@ -619,7 +619,7 @@
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;"><!--占位--></el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;"><!--占位--></el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="lastused" label="最后使用" size="medium">
+              <el-form-item prop="lastused" label="最后使用" size="medium">
                 <el-date-picker clearable v-model="editBottleForm.lastused" type="month" placeholder="请选择最后使用" size="small" />
               </el-form-item>
             </el-col>
@@ -724,17 +724,17 @@
           </el-row>
           <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="qualifiedno" label="检验合格环号" size="medium">
+              <el-form-item prop="qualifiedno" label="检验合格环号" size="medium">
                 <el-input readonly type="text" v-model="viewBottleForm.qualifiedno" placeholder="请输入检验合格环号" style="padding-left: 0px; padding-right: 0px;" />
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="registno" label="使用登记证编号" size="medium">
+              <el-form-item prop="registno" label="使用登记证编号" size="medium">
                 <el-input readonly type="text" v-model="viewBottleForm.registno" placeholder="请输入使用登记证编号" style="padding-left: 0px; padding-right: 0px;" />
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="usedlicenseno" label="使用登记证号" size="medium">
+              <el-form-item prop="usedlicenseno" label="使用登记证号" size="medium">
                 <el-input readonly type="text" v-model="viewBottleForm.usedlicenseno" placeholder="请输入使用登记证号" style="padding-left: 0px; padding-right: 0px;" />
               </el-form-item>
             </el-col>
@@ -758,14 +758,14 @@
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="valvetype" label="阀门类型" size="medium">
+              <el-form-item prop="valvetype" label="阀门类型" size="medium">
                 <el-select readonly v-model="viewBottleForm.valvetype" placeholder="请选择阀门类型" no-data-text="暂时没有可供选择的阀门类型" style="padding-left: 0px; padding-right: 0px;" >
                   <el-option v-for="item in selectableValvetype" :key="item.value" :label="item.label" :value="item.value"><span style="float: left">{{ item.label }}</span></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="unitselfno" label="充装单位自编号" size="medium">
+              <el-form-item prop="unitselfno" label="充装单位自编号" size="medium">
                 <el-input readonly type="text" v-model="viewBottleForm.unitselfno" placeholder="请输入充装单位自编号" style="padding-left: 0px; padding-right: 0px;" />
               </el-form-item>
             </el-col>
@@ -802,12 +802,12 @@
           </el-row>
           <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="hotway" label="热处理方式" size="medium">
+              <el-form-item prop="hotway" label="热处理方式" size="medium">
                 <el-input readonly type="text" v-model="viewBottleForm.hotway" placeholder="请输入热处理方式" style="padding-left: 0px; padding-right: 0px;" />
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="bodystuff" label="瓶体材料" size="medium">
+              <el-form-item prop="bodystuff" label="瓶体材料" size="medium">
                 <el-input readonly type="text" v-model="viewBottleForm.bodystuff" placeholder="请输入瓶体材料" style="padding-left: 0px; padding-right: 0px;" />
               </el-form-item>
             </el-col>
@@ -826,17 +826,17 @@
           </el-row>
           <el-row :gutter="48" type="flex" justify="start" align="middle" style="padding-left: 15px; padding-right: 30px;">
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="checkresult" label="安评结果" size="medium">
+              <el-form-item prop="checkresult" label="安评结果" size="medium">
                 <el-input readonly type="text" v-model="viewBottleForm.checkresult" placeholder="请输入安评结果" style="padding-left: 0px; padding-right: 0px;" />
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="checkdate" label="安评日期" size="medium">
+              <el-form-item prop="checkdate" label="安评日期" size="medium">
                 <el-date-picker readonly v-model="viewBottleForm.checkdate" type="date" placeholder="请选择安评日期" size="small" />
               </el-form-item>
             </el-col>
             <el-col :span="12" type="flex" justify="start" align="middle" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="usedstatus" label="气瓶状态" size="medium">
+              <el-form-item prop="usedstatus" label="气瓶状态" size="medium">
                 <el-select readonly v-model="viewBottleForm.usedstatus" placeholder="气瓶状态" no-data-text="暂时没有可选择的气瓶状态" style="padding-left: 0px; padding-right: 0px;">
                   <el-option v-for="item in selectableUsedstatus4Dialog" :key="item.value" :label="item.label" :value="item.value"><span style="float: left">{{ item.title }}</span></el-option>
                 </el-select>
@@ -855,7 +855,7 @@
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;"><!--占位--></el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;"><!--占位--></el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item required prop="lastused" label="最后使用" size="medium">
+              <el-form-item prop="lastused" label="最后使用" size="medium">
                 <el-date-picker readonly v-model="viewBottleForm.lastused" type="month" placeholder="请选择最后使用" size="small" />
               </el-form-item>
             </el-col>
