@@ -105,7 +105,7 @@
             >
               <el-button round size="small" style="padding: 0px 7px 0px 7px; margin: 1px 3px 0px 3px; border-color: #66b1ff; border: solid; border-width: 1pt; line-height: 0px; border-radius: 4px; height: 27px;">点击上传图片</el-button>
             </el-upload>
-            <el-image v-show="basePicture.ymd !== null && basePicture.uuid !== null" fill="fill" :style="{width: area1height + 'px', height: area1height + 'px' }" :src="imagePrefix + '/' + basePicture.ymd + '/' + basePicture.uuid + '/' + basePicture.name + '.' + basePicture.archiveExt" @click="window.alert(1)" />
+            <el-image v-show="basePicture.ymd !== null && basePicture.uuid !== null" fill="fill" :style="{width: area1height + 'px', height: area1height + 'px' }" :src="basePictureUri" @click="showBasePicture()" />
           </el-main>
         </el-container>
       </el-header>
@@ -222,6 +222,22 @@
         </el-form>
       </div>
     </el-dialog>
+    <el-dialog
+      destroy-on-close
+      lock-scroll
+      modal
+      show-close
+      title="站点图片显示"
+      top="0vh"
+      width="100%"
+      :visible="pictureShow.visible"
+      :before-close="hidePicture"
+      :style="{ width: pictureShow.dialogWidth + 'px', height: pictureShow.dialogHeight + 'px' }">
+      <!--border: solid; border-color: brown; border-width: 1pt;-->
+      <div :style="{ width: pictureShow.divWidth + 'px', height: pictureShow.divHeight + 'px' }" style="overflow-x: auto; overflow-y: auto;">
+        <el-image :src="pictureShow.uri" fill="none" />
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -329,6 +345,17 @@ export default {
         name: null
       },
       /**
+       * 显示图片的对话框
+       */
+      pictureShow: {
+        dialogWidth: 0,
+        dialogHeight: 0,
+        divWidth: 0,
+        divHeight: 0,
+        uri: null,
+        visible: false
+      },
+      /**
        * 长度变量
        */
       area1height: 150, // 第一块区域的高
@@ -359,6 +386,12 @@ export default {
      */
     area3heightString: function () {
       return (this.area3my1height + this.area3my2height + (this.gasTypeData.length === 0 ? this.area3my3height : 0) + (this.gasTypeData.length + 1) * 50 + 10) + 'px'
+    },
+    /**
+     * 第三块区域的图片高
+     */
+    area3pictureHeightString: function () {
+      return (this.area3my1height + this.area3my2height + this.area3my3height + 10) + 'px'
     },
     /**
      * 第三块区域中左边部分的宽
@@ -397,6 +430,9 @@ export default {
       return {
         'reference': this.$router.currentRoute.fullPath
       }
+    },
+    basePictureUri: function () {
+      return this.imagePrefix + '/' + this.basePicture.ymd + '/' + this.basePicture.uuid + '/' + this.basePicture.name + '.' + this.basePicture.archiveExt
     }
   },
   watch: {
@@ -791,6 +827,20 @@ export default {
           this.executeGasTypeQuery()
         })
       }).catch(_ => {})
+    },
+    showBasePicture () {
+      console.log('show base picture')
+      this.pictureShow.dialogWidth = window.innerWidth
+      this.pictureShow.dialogHeight = window.innerHeight
+      this.pictureShow.divWidth = this.pictureShow.dialogWidth - 42
+      this.pictureShow.divHeight = this.pictureShow.dialogHeight - 46
+      this.pictureShow.uri = this.basePictureUri
+      this.pictureShow.visible = true
+    },
+    hidePicture (ok) {
+      this.pictureShow.uri = null
+      ok()
+      this.pictureShow.visible = false
     },
     /**
      * 表格中的样式
