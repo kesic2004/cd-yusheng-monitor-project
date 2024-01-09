@@ -13,9 +13,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 public class TestDecoder extends ByteToMessageDecoder {
-   private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-   private static final Logger logger = Logger.getLogger(TestDecoder.class);
-   private static String clientIpAllowed = "127.0.0.1";
+   private static final SimpleDateFormat sdf    = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+   private static final Logger           logger = Logger.getLogger(TestDecoder.class);
+   private static final String clientIpAllowed = "127.0.0.1";
 
    protected void decode(ChannelHandlerContext ctx, ByteBuf buf, List<Object> out) throws Exception {
       System.out.println("...............客户端连接服务器...............");

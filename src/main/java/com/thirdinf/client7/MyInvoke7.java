@@ -10,9 +10,9 @@ import java.util.LinkedHashMap;
 import org.apache.log4j.Logger;
 
 public class MyInvoke7 implements BaseInvokeInf {
-   private static final Logger logger = Logger.getLogger(MyInvoke7.class);
-   private XkCylinderrecService xkCylinderrecService;
-   private XkStationmapService xkStationmapService;
+   private static final Logger               logger = Logger.getLogger(MyInvoke7.class);
+   private final        XkCylinderrecService xkCylinderrecService;
+   private final        XkStationmapService  xkStationmapService;
 
    public MyInvoke7(XkCylinderrecService xkCylinderrecService, XkStationmapService xkStationmapService) {
       this.xkCylinderrecService = xkCylinderrecService;

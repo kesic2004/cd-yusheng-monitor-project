@@ -30,7 +30,7 @@ public class MyJob3 implements MyInf3, Runnable, ApplicationListener<MyEvent> {
    TblclientService tblclientService;
    @Autowired
    DeviceService deviceService;
-   private static List<Tbldata> lDATA = new ArrayList();
+   private static final List<Tbldata> lDATA = new ArrayList();
 
    @PostConstruct
    public void Ini() throws Exception {

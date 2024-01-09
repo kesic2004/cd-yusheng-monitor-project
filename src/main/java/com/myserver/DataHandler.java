@@ -66,25 +66,26 @@ import java.util.LinkedHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.xml.bind.DatatypeConverter;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
 public class DataHandler extends ChannelInboundHandlerAdapter {
-   private static final Logger logger = Logger.getLogger(DataHandler.class);
-   private AtomicInteger connectNum;
-   private TbldataService tbldataService;
-   private TbldevicelogService tbldevicelogService;
-   private UserService userService;
-   private DeviceService deviceService;
-   private TblclientService tblclientService;
-   private ApplicationContext applicationContext;
-   private CurrentuserService currentuserService;
-   private LicenseService licenseService;
-   private XkCylinderrecService xkCylinderrecService;
-   private SpecialService specialService;
-   private XkStationmapService xkStationmapService;
-   private FjBottleService fjBottleService;
-   private FjDwService fjDwService;
-   private TbltokenService tbltokenService;
+   private static final Logger         logger = Logger.getLogger(DataHandler.class);
+   private final        AtomicInteger  connectNum;
+   private final        TbldataService tbldataService;
+   private final TbldevicelogService tbldevicelogService;
+   private final UserService         userService;
+   private final DeviceService       deviceService;
+   private final TblclientService tblclientService;
+   private final ApplicationContext applicationContext;
+   private final CurrentuserService currentuserService;
+   private final LicenseService     licenseService;
+   private final XkCylinderrecService xkCylinderrecService;
+   private final SpecialService       specialService;
+   private final XkStationmapService  xkStationmapService;
+   private final FjBottleService     fjBottleService;
+   private final FjDwService         fjDwService;
+   private final TbltokenService tbltokenService;
 
    public DataHandler(AtomicInteger connectNum, TbldataService tbldataService, TbldevicelogService tbldevicelogService, UserService userService, DeviceService deviceService, TblclientService tblclientService, CurrentuserService currentuserService, LicenseService licenseService, XkCylinderrecService xkCylinderrecService, SpecialService specialService, XkStationmapService xkStationmapService, ApplicationContext applicationContext, FjBottleService fjBottleService, FjDwService fjDwService, TbltokenService tbltokenService) {
       this.connectNum = connectNum;
@@ -172,7 +173,7 @@ public class DataHandler extends ChannelInboundHandlerAdapter {
                }
 
                if (device.getQrtype() == 1) {
-                  byte[] buf = (byte[])((byte[])map.get("RawQrcode"));
+                  byte[] buf = (byte[]) map.get("RawQrcode");
                   qrCode = DatatypeConverter.printHexBinary(buf);
                   map.put("qrcode", qrCode);
                }
@@ -477,9 +478,9 @@ public class DataHandler extends ChannelInboundHandlerAdapter {
 
             }
          });
-      } catch (Exception var4) {
-         var4.printStackTrace();
-         logger.info("调用通用writeToClient()异常" + var4.getMessage());
+      } catch (Exception ex) {
+         ex.printStackTrace();
+         logger.info("调用通用writeToClient()异常" + ex.getMessage());
       }
 
    }

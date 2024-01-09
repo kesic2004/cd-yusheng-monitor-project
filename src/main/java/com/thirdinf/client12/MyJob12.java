@@ -47,7 +47,7 @@ public class MyJob12 implements MyInf12, Runnable, ApplicationListener<MyEvent> 
    TblvaluesService tblvaluesService;
    @Autowired
    FjWorkerService fjWorkerService;
-   private static List<Tbldata> lDATA = new ArrayList();
+   private static final List<Tbldata> lDATA = new ArrayList();
 
    @PostConstruct
    public void Ini() throws Exception {

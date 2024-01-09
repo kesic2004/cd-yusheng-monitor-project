@@ -27,7 +27,7 @@ public class MyJob10 implements MyInf10, Runnable, ApplicationListener<MyEvent> 
    TblclientService tblclientService;
    @Autowired
    DeviceService deviceService;
-   private static List<Tbldata> lDATA = new ArrayList();
+   private static final List<Tbldata> lDATA = new ArrayList();
 
    @PostConstruct
    public void Ini() throws Exception {

@@ -39,7 +39,7 @@ public class MyInvoke8 implements BaseInvokeInf {
          HttpHeaders headers = new HttpHeaders();
          headers.add("Content-Type", "application/json");
          HttpEntity<Object> entity = new HttpEntity(strJson, headers);
-         jsonString = (String)rest.postForObject(requestUrl, entity, String.class, new Object[0]);
+         jsonString = (String) rest.postForObject(requestUrl, entity, String.class, new Object[0]);
          logger.info("-> recv check result: " + jsonString);
       } catch (Exception var16) {
          logger.info(var16.getMessage());
@@ -65,7 +65,7 @@ public class MyInvoke8 implements BaseInvokeInf {
 
       try {
          ObjectMapper objectMapper = new ObjectMapper();
-         MyCheckResponseData8 myResponseData = (MyCheckResponseData8)objectMapper.readValue(jsonString, MyCheckResponseData8.class);
+         MyCheckResponseData8 myResponseData = (MyCheckResponseData8) objectMapper.readValue(jsonString, MyCheckResponseData8.class);
          logger.info("-> parse check result data: " + myResponseData.toString());
          MyLog8.showCode(myResponseData.getCode());
          if (myResponseData.getStatus().equalsIgnoreCase("true")) {

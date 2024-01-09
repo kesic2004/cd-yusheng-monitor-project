@@ -22,7 +22,7 @@ public class CodeGenerator2 {
       Scanner scanner = new Scanner(System.in);
       StringBuilder help = new StringBuilder();
       help.append("请输入" + tip + "：");
-      System.out.println(help.toString());
+      System.out.println(help);
       if (scanner.hasNext()) {
          String ipt = scanner.next();
          if (StringUtils.isNotEmpty(ipt)) {
@@ -70,7 +70,7 @@ public class CodeGenerator2 {
       cfg.setFileOutConfigList(focList);
       mpg.setCfg(cfg);
       TemplateConfig templateConfig = new TemplateConfig();
-      templateConfig.setXml((String)null);
+      templateConfig.setXml(null);
       mpg.setTemplate(templateConfig);
       StrategyConfig strategy = new StrategyConfig();
       strategy.setNaming(NamingStrategy.underline_to_camel);
@@ -79,7 +79,7 @@ public class CodeGenerator2 {
       strategy.setRestControllerStyle(true);
       strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
       strategy.setControllerMappingHyphenStyle(true);
-      strategy.setTablePrefix(new String[]{pc.getModuleName() + "_"});
+      strategy.setTablePrefix(pc.getModuleName() + "_");
       mpg.setStrategy(strategy);
       mpg.setTemplateEngine(new VelocityTemplateEngine());
       mpg.execute();

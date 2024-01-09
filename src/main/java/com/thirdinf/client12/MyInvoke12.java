@@ -14,9 +14,9 @@ import java.util.LinkedHashMap;
 import org.apache.log4j.Logger;
 
 public class MyInvoke12 implements BaseInvokeInf {
-   private static final Logger logger = Logger.getLogger(MyInvoke12.class);
-   private FjBottleService fjBottleService;
-   private FjDwService fjDwService;
+   private static final Logger          logger = Logger.getLogger(MyInvoke12.class);
+   private final        FjBottleService fjBottleService;
+   private final        FjDwService     fjDwService;
 
    public MyInvoke12(FjBottleService fjBottleService, FjDwService fjDwService) {
       this.fjBottleService = fjBottleService;

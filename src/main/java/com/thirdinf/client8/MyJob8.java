@@ -30,7 +30,7 @@ public class MyJob8 implements MyInf8, Runnable, ApplicationListener<MyEvent> {
    TblclientService tblclientService;
    @Autowired
    DeviceService deviceService;
-   private static List<Tbldata> lDATA = new ArrayList();
+   private static final List<Tbldata> lDATA = new ArrayList();
 
    @PostConstruct
    public void Ini() throws Exception {
@@ -140,7 +140,7 @@ public class MyJob8 implements MyInf8, Runnable, ApplicationListener<MyEvent> {
       request.setEnd_time(sStartDatetime);
       Calendar calendar = Calendar.getInstance();
       calendar.setTime(new Date());
-      calendar.add(13, -1 * d.getUsedtime());
+      calendar.add(/*13*/Calendar.SECOND, -1 * d.getUsedtime());
       Date endDate = calendar.getTime();
       String sEndDatetime = sdf.format(endDate);
       request.setStart_time(sEndDatetime);

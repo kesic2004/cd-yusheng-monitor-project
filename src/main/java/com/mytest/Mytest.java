@@ -15,7 +15,7 @@ public class Mytest {
          httpRequestFactory.setReadTimeout(5000);
          RestTemplate rest = new RestTemplate(httpRequestFactory);
          System.out.println("-> start read!!");
-         jsonString = (String)rest.getForObject(requestUrl, String.class, new Object[0]);
+         jsonString = rest.getForObject(requestUrl, String.class, new Object[0]);
          System.out.println("-> recv check result: " + jsonString);
       } catch (Exception var5) {
          System.out.println("-> read timeout!!");

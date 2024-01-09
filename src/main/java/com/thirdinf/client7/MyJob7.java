@@ -40,8 +40,8 @@ public class MyJob7 implements MyInf7, Runnable, ApplicationListener<MyEvent> {
    @Autowired
    DeviceService deviceService;
    @Autowired
-   private XkStationmapService xkStationmapService;
-   private static List<Tbldata> lDATA = new ArrayList();
+   private              XkStationmapService xkStationmapService;
+   private static final List<Tbldata>       lDATA = new ArrayList();
 
    @PostConstruct
    public void Ini() throws Exception {

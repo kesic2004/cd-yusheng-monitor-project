@@ -16,6 +16,10 @@ import org.apache.log4j.Logger;
 public class BizTool {
    private static final Logger logger = Logger.getLogger(BizTool.class);
 
+   /**
+    * 用日志输出的方式输出时间
+    * @param prefix
+    */
    static void PrintTime(String prefix) {
       String msg = "";
       Date date = new Date();
@@ -24,11 +28,20 @@ public class BizTool {
       logger.info(prefix + msg);
    }
 
+   /**
+    * 用日志输出的方式输出对方主机的IP和port
+    * @param prefix
+    * @param ctx
+    */
    static void PrintRemoteHost(String prefix, ChannelHandlerContext ctx) {
       InetSocketAddress insocket = (InetSocketAddress)ctx.channel().remoteAddress();
       logger.info(prefix + " RemoteIp:RemotePort => " + insocket.getAddress().getHostAddress() + ":" + insocket.getPort());
    }
 
+   /**
+    * 用日志输出的方式输出map中所有的键值对
+    * @param map
+    */
    static void dumpResult(LinkedHashMap<String, Object> map) {
       Iterator var1 = map.entrySet().iterator();
 
@@ -43,6 +56,11 @@ public class BizTool {
       logger.info("数据解析内容:" + jsonString);
    }
 
+   /**
+    * 较验map中各个值的CRC16
+    * @param map
+    * @return
+    */
    static boolean checkInboundCRC(LinkedHashMap<String, Object> map) {
       boolean bOK = false;
       byte[] buf = new byte[38];
@@ -155,7 +173,7 @@ public class BizTool {
 
    static boolean checkInboundCRC_Ex(LinkedHashMap<String, Object> map) {
       boolean bOK = false;
-      byte[] buf = (byte[])((byte[])map.get("RawData"));
+      byte[] buf = (byte[]) map.get("RawData");
       String strHexBytes = DatatypeConverter.printHexBinary(buf);
       logger.info(strHexBytes);
       Integer resCRC = CRC3.get_crc16(buf, buf.length);
@@ -171,6 +189,15 @@ public class BizTool {
       return bOK;
    }
 
+   /**
+    * 把addr, cmd, command, forder转换为字节数组，数组中数据为：addr, cmd, 0x04, command, forder,
+    * 再把这5个byte计算crc16，计算后的16位数，低8位在前，高8位在后，放在这5个字节的后面
+    * @param addr
+    * @param cmd
+    * @param command
+    * @param forder
+    * @return
+    */
    static byte[] createResponseOkPkg(byte addr, byte cmd, byte command, byte forder) {
       byte[] buf = new byte[7];
       byte[] temp = new byte[]{addr};
@@ -190,6 +217,13 @@ public class BizTool {
       return buf;
    }
 
+   /**
+    * 把addr, cmd转换为转换为字节数组，数组中数据为：addr, cmd, 再把这2个byte计算crc16，计算后的16位数，低8位在前，高8位在后，
+    * 放在这2个字节的后面
+    * @param addr
+    * @param cmd
+    * @return
+    */
    static byte[] createRetryResponsePkg(byte addr, byte cmd) {
       byte[] buf = new byte[4];
       byte[] tmp = new byte[]{addr};
@@ -203,6 +237,14 @@ public class BizTool {
       return buf;
    }
 
+   /**
+    * 把addr, cmd转换为转换为字节数组，数组中数据为：addr, cmd, command, 再把这3个byte计算crc16，计算后的16位数，低8位在前，高8位在后，
+    * 放在这3个字节的后面
+    * @param addr
+    * @param cmd
+    * @param command
+    * @return
+    */
    static byte[] createStartAndStopResponsePkg(byte addr, byte cmd, byte command) {
       byte[] buf = new byte[5];
       byte[] temp = new byte[]{addr};
@@ -218,6 +260,11 @@ public class BizTool {
       return buf;
    }
 
+    /**
+     * 把字节数组转换为字符串
+     * @param index
+     * @return
+     */
    public static String createQrCode(byte[] index) {
       String qrCode = new String(index);
       logger.info("-> QrCode : " + qrCode);

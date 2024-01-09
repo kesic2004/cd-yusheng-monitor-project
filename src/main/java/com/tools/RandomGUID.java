@@ -10,10 +10,10 @@ import org.apache.log4j.Logger;
 
 public class RandomGUID {
    public String valueBeforeMD5 = "";
-   public String valueAfterMD5 = "";
-   private static Random myRand;
-   private static SecureRandom mySecureRand = new SecureRandom();
-   static Logger logger = Logger.getLogger(RandomGUID.class);
+   public               String       valueAfterMD5 = "";
+   private static final Random       myRand;
+   private static final SecureRandom mySecureRand = new SecureRandom();
+   static               Logger       logger       = Logger.getLogger(RandomGUID.class);
 
    public static String generatorGUID() {
       RandomGUID myGUID = new RandomGUID();

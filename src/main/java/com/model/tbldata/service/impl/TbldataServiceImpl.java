@@ -15,6 +15,8 @@ import com.model.tbldata.mapper.TbldataMapper;
 import com.model.tbldata.service.TbldataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.Date;
@@ -34,16 +36,18 @@ public class TbldataServiceImpl extends ServiceImpl<TbldataMapper, Tbldata> impl
         return super.baseMapper.insertData(tbldata);
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public boolean dataIsNotExists(Integer provincecode, Integer citycode, Integer stationcode, Integer machineno, Date curTime, String remoteTime, Integer frameid) {
         /**
          * 对于相同帧序号的时间范围暂时定为当前自然日的范围内
          */
         final Date curTimeBegin = new Date(curTime.getYear(), curTime.getMonth(), curTime.getDate(), 0, 0, 0);
-        final Date curTimeEnd   = new Date(curTime.getYear(), curTime.getMonth(), curTime.getDate(), 23, 59, 59);
+        final Date curTimeEnd   = new Date(curTimeBegin.getTime() + 86_400_000L);
         return super.baseMapper.countByProvincecodeCitycodeStationcodeMachinenoCurrenttimeFrameid(provincecode, citycode, stationcode, machineno, curTimeBegin, curTimeEnd, remoteTime, frameid) == 0;
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public JSONObject queryByPage(Province[] provinces, City[] cities, Station[] stations, Login login, TbldataQueryA query, Page page) {
         final long       current = page.getCurrent();
@@ -54,8 +58,8 @@ public class TbldataServiceImpl extends ServiceImpl<TbldataMapper, Tbldata> impl
         json.put("hasPrevPages", current != 1);
         if (stations.length == 1) {
             final List<TbldataRequltA> list = super.baseMapper.queryByPageSingleStation(query, provinces[0].getCode(), cities[0].getCode(), stations[0].getCode(), size * (current - 1), size);
-            list.forEach(TBLDATA_REQULT_A_CONSUMER);
             final TbldataSumWeightA sum        = super.baseMapper.countByPageSingleStation(query, provinces[0].getCode(), cities[0].getCode(), stations[0].getCode());
+            list.forEach(TBLDATA_REQULT_A_CONSUMER);
             long                    count      = sum.getMyCount();
             final long              totalPages = count / size + (count % size == 0L ? 0L : 1L);
             json.put("items", list); /* 不可查询时json.put("items", Collections.EMPTY_LIST); */

@@ -34,7 +34,7 @@ public class MyJob11 implements MyInf11, Runnable, ApplicationListener<MyEvent> 
    TblclientService tblclientService;
    @Autowired
    DeviceService deviceService;
-   private static List<Tbldata> lDATA = new ArrayList();
+   private static final List<Tbldata> lDATA = new ArrayList();
 
    @PostConstruct
    public void Ini() throws Exception {
@@ -150,7 +150,7 @@ public class MyJob11 implements MyInf11, Runnable, ApplicationListener<MyEvent> 
       HttpHeaders headers = new HttpHeaders();
       MediaType type = MediaType.parseMediaType("text/xml;charset=UTF-8");
       headers.setContentType(type);
-      StringBuffer soapRequestData = new StringBuffer("");
+      StringBuffer soapRequestData = new StringBuffer();
       soapRequestData.append("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tem=\"http://tempuri.org/\">");
       soapRequestData.append("<soapenv:Header/>");
       soapRequestData.append("<soapenv:Body>");

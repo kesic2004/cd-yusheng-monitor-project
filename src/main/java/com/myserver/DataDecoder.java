@@ -5,27 +5,43 @@ import com.tools.XTool;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandler;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import org.apache.log4j.Logger;
 
 public class DataDecoder extends ByteToMessageDecoder {
-   private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
    private static final Logger logger = Logger.getLogger(DataDecoder.class);
 
+   /**
+    * @see ByteToMessageDecoder#decode(io.netty.channel.ChannelHandlerContext, io.netty.buffer.ByteBuf, java.util.List)
+    * @param ctx
+    * @param buf
+    * @param out 已经解码的数据对象的list
+    * @throws Exception
+    * 解码
+    */
    protected void decode(ChannelHandlerContext ctx, ByteBuf buf, List<Object> out) throws Exception {
+      /*
+       * 当数据长度达到12字节时符合解析的基本条件之一
+       */
       if (buf.readableBytes() >= 12) {
          logger.info("...............开始数据解析 ...............");
-         boolean bOK = true;
+         boolean bOK = true; // 读取是否成功，true表示成功，false表示失败
          int index = buf.readerIndex();
          LinkedHashMap<String, Object> dataMap = new LinkedHashMap();
+         /*
+          * 读取协议头(前3个字节)
+          */
          ByteBuf headFlag = buf.readSlice(3);
          byte[] b = ByteBufUtil.getBytes(headFlag);
-         if (b.length != 3 || b[0] != -1 || b[1] != -1 || b[2] != -1) {
+         /*
+          * 如果不是指定的协议头
+          */
+         if (b.length != 3 || b[0] != -1 || b[1] != -1 || b[2] != -1) { // byte[0](前导字), byte[1](前导字), byte[2](前导字)
             String client = ctx.channel().remoteAddress().toString();
             logger.info("@@接受到未知数据包头 客户端IP: " + client);
             ctx.close();
@@ -36,11 +52,21 @@ public class DataDecoder extends ByteToMessageDecoder {
          byteList.add((byte)-1);
          byteList.add((byte)-1);
          byteList.add((byte)-1);
+         /*
+          * 取指令
+          */
          byte cmd = buf.readByte();
-         dataMap.put("cmd", cmd);
+         dataMap.put("cmd", cmd); // byte[3](命令码)
          byteList.add(cmd);
+         /*
+          * 处理cmd的值为AD, A4, A5, A6, A7, A8
+          * -83 = AD, -88 = - A8 -89 = A7 -90 = A6 -91 = A5 -92 = A4
+          */
          if (-32 != cmd) {
             byte[] bytes;
+            /*
+             * 处理cmd的值为AD的
+             */
             if (-83 == cmd) {
                if (buf.readableBytes() >= 8) {
                   this.readByteData("province", buf, dataMap, byteList);
@@ -63,6 +89,11 @@ public class DataDecoder extends ByteToMessageDecoder {
                   return;
                }
 
+               /*
+                * 处理cmd的值为A4, A5, A6, A7, A8
+                * -88 = - A8 -89 = A7 -90 = A6 -91 = A5 -92 = A4
+                * ★☆
+                */
                if (buf.readableBytes() >= 38) {
                   this.readByteData("province", buf, dataMap, byteList);
                   this.readByteData("city", buf, dataMap, byteList);

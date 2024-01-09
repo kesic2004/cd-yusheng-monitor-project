@@ -18,8 +18,8 @@ import org.springframework.web.client.RestTemplate;
 public class MyInvoke4 implements BaseInvokeInf {
    private static final Logger logger = Logger.getLogger(MyInvoke4.class);
    private String token;
-   private String stationCode;
-   private TbltokenService tbltokenService;
+   private       String          stationCode;
+   private final TbltokenService tbltokenService;
 
    public MyInvoke4(TbltokenService tbltokenService) {
       this.tbltokenService = tbltokenService;

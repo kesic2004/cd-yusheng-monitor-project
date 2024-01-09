@@ -20,7 +20,7 @@ public class MyBatisPlusGenerator1 {
       DataSourceConfig dsConfig = new DataSourceConfig();
       dsConfig.setDbType(DbType.MYSQL).setDriverName("com.mysql.cj.jdbc.Driver").setUsername("root").setPassword("root").setUrl("jdbc:mysql://127.0.0.1:3306/gas?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT%2B8");
       StrategyConfig stConfig = new StrategyConfig();
-      stConfig.setCapitalMode(true).setNaming(NamingStrategy.underline_to_camel).setColumnNaming(NamingStrategy.underline_to_camel).setTablePrefix(new String[]{"tbl_"}).setInclude(new String[]{"tblUserManager"});
+      stConfig.setCapitalMode(true).setNaming(NamingStrategy.underline_to_camel).setColumnNaming(NamingStrategy.underline_to_camel).setTablePrefix("tbl_").setInclude("tblUserManager");
       stConfig.setRestControllerStyle(true);
       PackageConfig pkConfig = new PackageConfig();
       pkConfig.setParent("com.model").setModuleName("tblusermanager").setMapper("mapper").setService("service").setController("controller").setEntity("entity").setXml("mapper/xml");
