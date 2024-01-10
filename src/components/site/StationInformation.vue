@@ -178,7 +178,25 @@
               </el-footer>
             </el-container>
           </el-aside>
-          <el-main style="background-color:black;" />
+          <el-main style="padding: 0px 0px 0px 0px;">
+            <el-upload
+              drag
+              with-credentials
+              name="file"
+              :accept="licensePicture.accept"
+              :action="licenseUploadActionUrl"
+              :auto-upload="licensePicture.autoUpload"
+              :multiple="licensePicture.multipleUpload"
+              :headers="licenseUploadHeaders"
+              :show-file-list="licensePicture.showFileList"
+              :on-change="licenseImageChange"
+              :on-progress="licenseImageProgress"
+              v-show="licensePicture.ymd === null || basePicture.uuid === null"
+            >
+              <el-button round size="small" style="padding: 0px 7px 0px 7px; margin: 1px 3px 0px 3px; border-color: #66b1ff; border: solid; border-width: 1pt; line-height: 0px; border-radius: 4px; height: 27px;">点击上传图片</el-button>
+            </el-upload>
+            <el-image v-show="licensePicture.ymd !== null && licensePicture.uuid !== null" fill="fill" :style="{ width: area3pictureHeightString, height: area3pictureHeightString }" :src="licensePictureUri" @click="showLicensePicture()" />
+          </el-main>
         </el-container>
       </el-footer>
     </el-container>
@@ -297,13 +315,15 @@ export default {
         licid: null, // 主键
         licenseno: null, // 充装许可证
         permitted: null, // 许可证生效日期
-        expired: null // 许可证过期日期
+        expired: null, // 许可证过期日期
+        attachmentUuid: null // 企业许可证图片
       },
       licenseFormData: {
         licid: null, // 主键
         licenseno: null, // 充装许可证
         permitted: null, // 许可证生效日期
-        expired: null // 许可证过期日期
+        expired: null, // 许可证过期日期
+        attachmentUuid: null // 修业许可证图片
       },
       /**
        * 许可证表单校验
@@ -344,6 +364,16 @@ export default {
         archiveExt: null,
         name: null
       },
+      licensePicture: {
+        accept: this.constant.GAS_SERVER_ATTACHMENT_PICTURE_EXT, // 目前只允许上传常用图片
+        autoUpload: true, // 气瓶档案是否自动上传
+        multipleUpload: false, // 气瓶档案是否多文件上传
+        showFileList: false, // 是否显示上传文件的列表
+        ymd: null,
+        uuid: null,
+        archiveExt: null,
+        name: null
+      },
       /**
        * 显示图片的对话框
        */
@@ -365,7 +395,8 @@ export default {
       area3my1height: 60, // 第三块区域中第一行的高
       area3my2height: 40, // 第三块区域中第二行的高
       area3my3height: 40, // 第三块区域中第三行的高
-      imagePrefix: this.constant.GAS_IMAGE_PREFIX + '/StationInformation' // 图片基本路径
+      baseImagePrefix: this.constant.GAS_IMAGE_PREFIX + '/StationInformation', // 营业执照图片基本路径
+      licenseImagePrefix: this.constant.GAS_IMAGE_PREFIX + '/StationLicense' // 许可证图片基本路径
     }
   },
   computed: {
@@ -423,23 +454,53 @@ export default {
     tableHeightString: function () {
       return (this.gasTypeData.length + 1) * 50 + 'px'
     },
+    /**
+     * 企业营业执照图片上传URI
+     */
     baseUploadActionUrl: function () {
       return this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/attachment/stationInformationAttachmentImage/uploadNew/' + this.basePicture.ymd + '/' + this.basePicture.uuid
     },
+    /**
+     * 企业营业执照图片上传时的Header
+     */
     baseUploadHeaders: function () {
       return {
         'reference': this.$router.currentRoute.fullPath
       }
     },
+    /**
+     * 企业营业执照图片URI
+     */
     basePictureUri: function () {
-      return this.imagePrefix + '/' + this.basePicture.ymd + '/' + this.basePicture.uuid + '/' + this.basePicture.name + '.' + this.basePicture.archiveExt
+      return this.baseImagePrefix + '/' + this.basePicture.ymd + '/' + this.basePicture.uuid + '/' + this.basePicture.name + '.' + this.basePicture.archiveExt
+    },
+    /**
+     * 企业充装许可证图片上传URI
+     */
+    licenseUploadActionUrl: function () {
+      return this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/attachment/stationLicenseAttachmentImage' + this.licensePicture.ymd + '/' + this.licensePicture.uuid
+    },
+    /**
+     * 企业充装许可证图片上传时的Header
+     */
+    licenseUploadHeaders: function () {
+      return {
+        'reference': this.$router.currentRoute.fullPath
+      }
+    },
+    /**
+     * 企业充装许可证图片URI
+     */
+    licensePictureUri: function () {
+      return this.licenseImagePrefix + '/' + this.licensePicture.ymd + '/' + this.licensePicture.uuid + '/' + this.licensePicture.name + '.' + this.licensePicture.archiveExt
     }
   },
   watch: {
+    /**
+     * 企业营业执照加载后加载营业执照图片
+     */
     'baseForm.bsnid': {
       handler: function (n, o) {
-        console.log(n)
-        console.log(o)
         if (n === null || this.baseForm.attachmentUuid === null) {
           this.baseForm.attachmentUuid = null
           this.basePicture.ymd = null
@@ -449,26 +510,6 @@ export default {
           return
         }
         this.$axios.post(this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/stationInformationAttachmentImage/queryByArchiveUuid/' + this.baseForm.attachmentUuid, {}, { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {
-          /*
-           * [
-           *     {
-           *         "valid": "0",
-           *         "pictureWidth": 927,
-           *         "pictureHeight": 666,
-           *         "id": 45,
-           *         "uploadTime": 1702895414890,
-           *         "archiveLength": 64599,
-           *         "uploadUserId": 30,
-           *         "archiveUuid": "0fe342916a974652b55c5c8cb1086c52",
-           *         "archiveName": "82f0430a2fde4caba8f592511265a970",
-           *         "yyyymmdd": "0231218",
-           *         "archiveExt": "png",
-           *         "note": "手动上传",
-           *         "attachmentName": "18c7c79ee6a",
-           *         "uploadUserName": "hainan"
-           *     }
-           * ]
-           */
           if (res.status === 200 && Array.isArray(res.data) && res.data.length > 0) {
             this.basePicture.ymd = res.data[0].yyyymmdd
             this.basePicture.uuid = res.data[0].archiveUuid
@@ -486,7 +527,42 @@ export default {
           this.basePicture.archiveExt = null
           this.basePicture.name = null
         })
-      }
+      },
+      deep: false
+    },
+    /**
+     * 企业充装许可证加载后加载许可证图片
+     */
+    'licenseForm.licid': {
+      handler: function (n, o) {
+        if (n === null || this.licenseForm.attachmentUuid === null) {
+          this.licenseForm.attachmentUuid = null
+          this.licensePicture.ymd = null
+          this.licensePicture.uuid = null
+          this.licensePicture.archiveExt = null
+          this.licensePicture.name = null
+          return
+        }
+        this.$axios.post(this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/stationLicenseAttachmentImage/queryByArchiveUuid/' + this.licenseForm.attachmentUuid, {}, { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {
+          if (res.status === 200 && Array.isArray(res.data) && res.data.length > 0) {
+            this.licensePicture.ymd = res.data[0].yyyymmdd
+            this.licensePicture.uuid = res.data[0].archiveUuid
+            this.licensePicture.archiveExt = res.data[0].archiveExt
+            this.licensePicture.name = res.data[0].archiveName
+          } else {
+            this.licensePicture.ymd = null
+            this.licensePicture.uuid = null
+            this.licensePicture.archiveExt = null
+            this.licensePicture.name = null
+          }
+        }).catch(ex => {
+          this.licensePicture.ymd = null
+          this.licensePicture.uuid = null
+          this.licensePicture.archiveExt = null
+          this.licensePicture.name = null
+        })
+      },
+      deep: false
     }
   },
   mounted () {
@@ -504,6 +580,9 @@ export default {
         this.selectableStation = []
       }
     }
+    /*
+     * 加载站点基本信息
+     */
     this.$axios.get(this.constant.GAS_SERVER_PREFIX + '/businessInformation/businessinfo/getMyStation?stationId=', { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {
       if (res.status === 200) {
         const resData = res.data
@@ -527,10 +606,11 @@ export default {
         }
         for (var i2 = 0; i2 < baseLicense.length; ++i2) {
           if (this.selectableStation[0].value === baseLicense[i2].stationid) {
-            this.licenseFormData.licid = this.licenseForm.licid = baseLicense[i2].licid
             this.licenseFormData.licenseno = this.licenseForm.licenseno = baseLicense[i2].licenseno
             this.licenseFormData.permitted = this.licenseForm.permitted = baseLicense[i2].permitted
             this.licenseFormData.expired = this.licenseForm.expired = baseLicense[i2].expired
+            this.licenseFormData.attachmentUuid = this.licenseForm.attachmentUuid = baseLicense[i2].attachmentUuid
+            this.licenseFormData.licid = this.licenseForm.licid = baseLicense[i2].licid
           }
         }
         this.gasTypeData = resData.gasType
@@ -597,6 +677,9 @@ export default {
       }
       this.baseSelectableDistrictArray = []
     },
+    /**
+     * 企业基本信息修改
+     */
     executeBaseModify () {
       let modified = false
       let requestForm = {
@@ -679,6 +762,9 @@ export default {
         })
       }
     },
+    /**
+     * 充装许可证提交
+     */
     executeLicenseSubmit () {
       if (this.licenseForm.licenseno === null || this.licenseForm.permitted === null || this.licenseForm.expired === null) {
         return
@@ -724,6 +810,9 @@ export default {
         })
       }
     },
+    /**
+     * 企业营业执照上传
+     */
     baseImageChange (file, list) {
       switch (file.status) {
         case 'success' : {
@@ -749,6 +838,35 @@ export default {
       }
     },
     baseImageProgress (file, list) {
+    },
+    /**
+     * 企业充装许可证上传
+     */
+    licenseImageChange (file, list) {
+      switch (file.status) {
+        case 'success' : {
+          this.licensePicture.ymd = file.response[0].yyyymmdd
+          this.licensePicture.uuid = file.response[0].fileUuid
+          this.licensePicture.archiveExt = file.response[0].ext
+          this.licensePicture.name = file.response[0].filename
+          break
+        }
+        case 'fail' : {
+          this.licensePicture.ymd = null
+          this.licensePicture.uuid = null
+          this.licensePicture.archiveExt = null
+          this.licensePicture.name = null
+          break
+        }
+        case 'ready' : {
+          break
+        }
+        default: {
+          break
+        }
+      }
+    },
+    licenseImageProgress (file, list) {
     },
     /**
      * 显示新增充装介质对话框
@@ -788,6 +906,9 @@ export default {
         })
       })
     },
+    /**
+     * 充装介质查询
+     */
     executeGasTypeQuery () {
       if (this.licenseForm.licid === null) {
         this.gasTypeData = []
@@ -828,6 +949,9 @@ export default {
         })
       }).catch(_ => {})
     },
+    /**
+     * 显示企业营业执照图片
+     */
     showBasePicture () {
       console.log('show base picture')
       this.pictureShow.dialogWidth = window.innerWidth
@@ -837,6 +961,21 @@ export default {
       this.pictureShow.uri = this.basePictureUri
       this.pictureShow.visible = true
     },
+    /**
+     * 显示充装许可证图片
+     */
+    showLicensePicture () {
+      this.pictureShow.dialogWidth = window.innerWidth
+      this.pictureShow.dialogHeight = window.innerHeight
+      this.pictureShow.divWidth = this.pictureShow.dialogWidth - 42
+      this.pictureShow.divHeight = this.pictureShow.dialogHeight - 46
+      this.pictureShow.uri = this.licensePictureUri
+      this.pictureShow.visible = true
+    },
+    /**
+     * 关闭对话框
+     * @param {Object} ok 关闭图片对话框的回调
+     */
     hidePicture (ok) {
       this.pictureShow.uri = null
       ok()
@@ -895,7 +1034,7 @@ export default {
     },
     /**
      * 把Date对象转换为yyyy-MM-dd hh:mm:ss的字符串
-     * @param {Date} da
+     * @param {Date} da 日期对象
      */
     dateToString (da) {
       const m = da.getMonth() + 1
@@ -921,26 +1060,5 @@ export default {
   }
 }
 </script>
-
 <style>
-/* .el-input__inner { */
-/*   background-color: #FFF; */
-/*   background-image: none; */
-/*   border-radius: 4px; */
-/*   border: 1px solid #DCDFE6; */
-/*   -webkit-box-sizing: border-box; */
-/*   box-sizing: border-box; */
-/*   color: #606266; */
-/*   display: inline-block; */
-/*   height: 28px; */
-/*   line-height: 40px; */
-/*   outline: 0; */
-/*   padding: 0 0px; */
-/*   -webkit-transition: border-color .2s cubic-bezier(.645,.045,.355,1); */
-/*   transition: border-color .2s cubic-bezier(.645,.045,.355,1); */
-/*   width: 100%; */
-/* } */
-/* .el-form-item { */
-/*   margin-bottom: 18px; */
-/* } */
 </style>
