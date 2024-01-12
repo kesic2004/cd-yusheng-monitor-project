@@ -89,6 +89,7 @@
           </el-aside>
           <!-- background-color: green; -->
           <el-main style="padding: 0px 0px 0px 0px; overflow-x: hidden; overflow-y: hidden;">
+            <!-- :disabled="basePicture.ymd === null || basePicture.uuid === null" -->
             <el-upload
               drag
               with-credentials
@@ -101,11 +102,12 @@
               :show-file-list="basePicture.showFileList"
               :on-change="baseImageChange"
               :on-progress="baseImageProgress"
-              v-show="basePicture.ymd === null || basePicture.uuid === null"
+              :before-upload="baseImageBeforeUpload"
+              v-show="basePicture.ymd === null || basePicture.uuid === null || basePicture.name === null"
             >
-              <el-button round size="small" style="padding: 0px 7px 0px 7px; margin: 1px 3px 0px 3px; border-color: #66b1ff; border: solid; border-width: 1pt; line-height: 0px; border-radius: 4px; height: 27px;">点击上传图片</el-button>
+              <el-button round size="small" style="padding: 0px 7px 0px 7px; margin: 1px 3px 0px 3px; border-color: #66b1ff; border: solid; border-width: 1pt; line-height: 0px; border-radius: 4px; height: 27px;" @click="baseImageBeforeUpload(null)">点击上传图片</el-button>
             </el-upload>
-            <el-image v-show="basePicture.ymd !== null && basePicture.uuid !== null" fill="fill" :style="{width: area1height + 'px', height: area1height + 'px' }" :src="basePictureUri" @click="showBasePicture()" />
+            <el-image v-show="basePicture.ymd !== null && basePicture.uuid !== null && basePicture.name !== null" fill="fill" :style="{width: area1height + 'px', height: area1height + 'px' }" :src="basePictureUri" @click="showBasePicture()" style="overflow-x: auto; overflow-y: auto;" />
           </el-main>
         </el-container>
       </el-header>
@@ -179,6 +181,7 @@
             </el-container>
           </el-aside>
           <el-main style="padding: 0px 0px 0px 0px;">
+            <!-- :disabled="licensePicture.ymd === null || licensePicture.uuid === null" -->
             <el-upload
               drag
               with-credentials
@@ -191,11 +194,12 @@
               :show-file-list="licensePicture.showFileList"
               :on-change="licenseImageChange"
               :on-progress="licenseImageProgress"
-              v-show="licensePicture.ymd === null || basePicture.uuid === null"
+              :before-upload="licenseImageBeforeUpload"
+              v-show="licensePicture.ymd === null || licensePicture.uuid === null || licensePicture.name === null"
             >
-              <el-button round size="small" style="padding: 0px 7px 0px 7px; margin: 1px 3px 0px 3px; border-color: #66b1ff; border: solid; border-width: 1pt; line-height: 0px; border-radius: 4px; height: 27px;">点击上传图片</el-button>
+              <el-button round size="small" style="padding: 0px 7px 0px 7px; margin: 1px 3px 0px 3px; border-color: #66b1ff; border: solid; border-width: 1pt; line-height: 0px; border-radius: 4px; height: 27px;" @click="licenseImageBeforeUpload(null)">点击上传图片</el-button>
             </el-upload>
-            <el-image v-show="licensePicture.ymd !== null && licensePicture.uuid !== null" fill="fill" :style="{ width: area3pictureHeightString, height: area3pictureHeightString }" :src="licensePictureUri" @click="showLicensePicture()" />
+            <el-image v-show="licensePicture.ymd !== null && licensePicture.uuid !== null && licensePicture.name !== null" fill="fill" :style="{ width: area3pictureHeightString, height: area3pictureHeightString }" :src="licensePictureUri" @click="showLicensePicture()" style="overflow-x: auto; overflow-y: auto;" />
           </el-main>
         </el-container>
       </el-footer>
@@ -344,6 +348,9 @@ export default {
         visible: false, // 对话框是否可见
         showClose: true // 是否显示关闭按钮
       },
+      /**
+       * 充装介质表单
+       */
       gasTypeForm: {
         gascatname: null,
         gastypename: null,
@@ -354,6 +361,9 @@ export default {
        * 可供选择的站点
        */
       selectableStation: null,
+      /**
+       * 企业营业执照图片信息
+       */
       basePicture: {
         accept: this.constant.GAS_SERVER_ATTACHMENT_PICTURE_EXT, // 目前只允许上传常用图片
         autoUpload: true, // 气瓶档案是否自动上传
@@ -364,6 +374,9 @@ export default {
         archiveExt: null,
         name: null
       },
+      /**
+       * 充装许可证图片信息
+       */
       licensePicture: {
         accept: this.constant.GAS_SERVER_ATTACHMENT_PICTURE_EXT, // 目前只允许上传常用图片
         autoUpload: true, // 气瓶档案是否自动上传
@@ -458,7 +471,7 @@ export default {
      * 企业营业执照图片上传URI
      */
     baseUploadActionUrl: function () {
-      return this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/attachment/stationInformationAttachmentImage/uploadNew/' + this.basePicture.ymd + '/' + this.basePicture.uuid
+      return this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/stationInformationAttachmentImage/uploadNew/' + this.basePicture.ymd + '/' + this.basePicture.uuid
     },
     /**
      * 企业营业执照图片上传时的Header
@@ -478,7 +491,7 @@ export default {
      * 企业充装许可证图片上传URI
      */
     licenseUploadActionUrl: function () {
-      return this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/attachment/stationLicenseAttachmentImage' + this.licensePicture.ymd + '/' + this.licensePicture.uuid
+      return this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/stationLicenseAttachmentImage/uploadNew/' + this.licensePicture.ymd + '/' + this.licensePicture.uuid
     },
     /**
      * 企业充装许可证图片上传时的Header
@@ -503,29 +516,29 @@ export default {
       handler: function (n, o) {
         if (n === null || this.baseForm.attachmentUuid === null) {
           this.baseForm.attachmentUuid = null
-          this.basePicture.ymd = null
-          this.basePicture.uuid = null
           this.basePicture.archiveExt = null
           this.basePicture.name = null
+          this.basePicture.uuid = null
+          this.basePicture.ymd = null
           return
         }
         this.$axios.post(this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/stationInformationAttachmentImage/queryByArchiveUuid/' + this.baseForm.attachmentUuid, {}, { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {
           if (res.status === 200 && Array.isArray(res.data) && res.data.length > 0) {
-            this.basePicture.ymd = res.data[0].yyyymmdd
-            this.basePicture.uuid = res.data[0].archiveUuid
             this.basePicture.archiveExt = res.data[0].archiveExt
             this.basePicture.name = res.data[0].archiveName
+            this.basePicture.uuid = res.data[0].archiveUuid
+            this.basePicture.ymd = res.data[0].yyyymmdd
           } else {
-            this.basePicture.ymd = null
-            this.basePicture.uuid = null
             this.basePicture.archiveExt = null
             this.basePicture.name = null
+            this.basePicture.uuid = null
+            this.basePicture.ymd = null
           }
         }).catch(ex => {
-          this.basePicture.ymd = null
-          this.basePicture.uuid = null
           this.basePicture.archiveExt = null
           this.basePicture.name = null
+          this.basePicture.uuid = null
+          this.basePicture.ymd = null
         })
       },
       deep: false
@@ -537,30 +550,54 @@ export default {
       handler: function (n, o) {
         if (n === null || this.licenseForm.attachmentUuid === null) {
           this.licenseForm.attachmentUuid = null
-          this.licensePicture.ymd = null
-          this.licensePicture.uuid = null
           this.licensePicture.archiveExt = null
           this.licensePicture.name = null
+          this.licensePicture.uuid = null
+          this.licensePicture.ymd = null
           return
         }
         this.$axios.post(this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/stationLicenseAttachmentImage/queryByArchiveUuid/' + this.licenseForm.attachmentUuid, {}, { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {
           if (res.status === 200 && Array.isArray(res.data) && res.data.length > 0) {
-            this.licensePicture.ymd = res.data[0].yyyymmdd
-            this.licensePicture.uuid = res.data[0].archiveUuid
             this.licensePicture.archiveExt = res.data[0].archiveExt
             this.licensePicture.name = res.data[0].archiveName
+            this.licensePicture.uuid = res.data[0].archiveUuid
+            this.licensePicture.ymd = res.data[0].yyyymmdd
           } else {
-            this.licensePicture.ymd = null
-            this.licensePicture.uuid = null
             this.licensePicture.archiveExt = null
             this.licensePicture.name = null
+            this.licensePicture.uuid = null
+            this.licensePicture.ymd = null
           }
         }).catch(ex => {
-          this.licensePicture.ymd = null
-          this.licensePicture.uuid = null
           this.licensePicture.archiveExt = null
           this.licensePicture.name = null
+          this.licensePicture.uuid = null
+          this.licensePicture.ymd = null
         })
+      },
+      deep: false
+    },
+    /**
+     * 企业营业执照图片发生变化时
+     */
+    'basePicture.ymd': {
+      handler: function (n, o) {
+        if (n === null || (typeof n) === 'undefined' || this.basePicture.name === null) {
+          return
+        }
+        this.baseFormData.attachmentUuid = this.baseForm.attachmentUuid = this.basePicture.uuid
+      },
+      deep: false
+    },
+    /**
+     * 充装许可证图片发生变化时
+     */
+    'licensePicture.ymd': {
+      handler: function (n, o) {
+        if (n === null || (typeof n) === 'undefined' || this.licensePicture.name === null) {
+          return
+        }
+        this.licenseFormData.attachmentUuid = this.licenseForm.attachmentUuid = this.licensePicture.uuid
       },
       deep: false
     }
@@ -816,17 +853,19 @@ export default {
     baseImageChange (file, list) {
       switch (file.status) {
         case 'success' : {
-          this.basePicture.ymd = file.response[0].yyyymmdd
-          this.basePicture.uuid = file.response[0].fileUuid
           this.basePicture.archiveExt = file.response[0].ext
           this.basePicture.name = file.response[0].filename
+          this.basePicture.uuid = file.response[0].fileUuid
+          this.basePicture.ymd = file.response[0].yyyymmdd
+          this.baseImageFinish()
           break
         }
         case 'fail' : {
-          this.basePicture.ymd = null
-          this.basePicture.uuid = null
+          this.baseImageAfterFailed(file)
           this.basePicture.archiveExt = null
           this.basePicture.name = null
+          this.basePicture.uuid = null
+          this.basePicture.ymd = null
           break
         }
         case 'ready' : {
@@ -837,25 +876,80 @@ export default {
         }
       }
     },
+    /**
+     * 企业营业执照上传前的回调函数
+     */
+    baseImageBeforeUpload (file) {
+      if (this.basePicture.ymd === null || this.basePicture.uuid === null) {
+        if (file === null) {
+          this.$axios.get(this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/stationInformationAttachmentImage/before', { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {
+            if (res.status === 200) {
+              this.basePicture.archiveExt = null
+              this.basePicture.name = null
+              this.basePicture.uuid = res.data.uuid
+              this.basePicture.ymd = res.data.yyyymmdd
+            } else {
+              this.basePicture.archiveExt = null
+              this.basePicture.name = null
+              this.basePicture.uuid = null
+              this.basePicture.ymd = null
+            }
+          }).catch(ex => {
+            this.basePicture.archiveExt = null
+            this.basePicture.name = null
+            this.basePicture.uuid = null
+            this.basePicture.ymd = null
+          })/* ,catch */
+        } else {
+          this.$message('上传失败')
+        }
+        return false
+      }
+      return true
+    },
+    /**
+     * 企业营业执照上传失败后的回调
+     * @param {Object} file 文件信息
+     */
+    baseImageAfterFailed (file) {
+      this.$axios.get(this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/stationInformationAttachmentImage/check/' + this.basePicture.ymd + '/' + this.basePicture.uuid, { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {
+        if (res.status === 200 && res.data === false) {
+          this.basePicture.archiveExt = null
+          this.basePicture.name = null
+          this.basePicture.uuid = null
+          this.basePicture.ymd = null
+          this.baseImageBeforeUpload(file)
+        }
+      }).catch(ex => {})
+    },
+    /**
+     * 企业营业执照上传完成后的回调
+     */
+    baseImageFinish () {
+      this.$axios.get(this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/stationInformationAttachmentImage/modifyAttachmentUuidByKey/' + this.basePicture.ymd + '/' + this.basePicture.uuid + '?id=' + this.baseForm.bsnid, { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {}).catch(ex => {})
+    },
     baseImageProgress (file, list) {
     },
+    /* baseUIm */
     /**
      * 企业充装许可证上传
      */
     licenseImageChange (file, list) {
       switch (file.status) {
         case 'success' : {
-          this.licensePicture.ymd = file.response[0].yyyymmdd
-          this.licensePicture.uuid = file.response[0].fileUuid
           this.licensePicture.archiveExt = file.response[0].ext
           this.licensePicture.name = file.response[0].filename
+          this.licensePicture.uuid = file.response[0].fileUuid
+          this.licensePicture.ymd = file.response[0].yyyymmdd
+          this.licenseImageFinish()
           break
         }
         case 'fail' : {
-          this.licensePicture.ymd = null
-          this.licensePicture.uuid = null
+          this.licenseImageAfterFailed(file)
           this.licensePicture.archiveExt = null
           this.licensePicture.name = null
+          this.licensePicture.uuid = null
+          this.licensePicture.ymd = null
           break
         }
         case 'ready' : {
@@ -865,6 +959,57 @@ export default {
           break
         }
       }
+    },
+    /**
+     * 充装许可证上传前的回调
+     */
+    licenseImageBeforeUpload (file) {
+      if (this.licensePicture.ymd === null || this.licensePicture.uuid === null) {
+        if (file === null) {
+          this.$axios.get(this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/stationLicenseAttachmentImage/before', { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {
+            if (res.status === 200) {
+              this.licensePicture.archiveExt = null
+              this.licensePicture.name = null
+              this.licensePicture.uuid = res.data.uuid
+              this.licensePicture.ymd = res.data.yyyymmdd
+            } else {
+              this.licensePicture.archiveExt = null
+              this.licensePicture.name = null
+              this.licensePicture.uuid = null
+              this.licensePicture.ymd = null
+            }
+          }).catch(ex => {
+            this.licensePicture.archiveExt = null
+            this.licensePicture.name = null
+            this.licensePicture.uuid = null
+            this.licensePicture.ymd = null
+          })
+        } else {
+          this.$message('上传失败')
+        }
+        return false
+      }
+      return true
+    },
+    /**
+     * 充装许可证上传失败后的回调
+     */
+    licenseImageAfterFailed (file) {
+      this.$axios.get(this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/stationLicenseAttachmentImage/check/' + this.licensePicture.ymd + '/' + this.licensePicture.uuid, { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {
+        if (res.status === 200 && res.data === false) {
+          this.licensePicture.archiveExt = null
+          this.licensePicture.name = null
+          this.licensePicture.uuid = null
+          this.licensePicture.ymd = null
+          this.licenseImageBeforeUpload(file)
+        }
+      }).catch(ex => {})
+    },
+    /**
+     * 充装许可证上传完成后的回调
+     */
+    licenseImageFinish () {
+      this.$axios.get(this.constant.GAS_SERVER_ATTACHMENT_PREFIX + '/stationLicenseAttachmentImage/modifyAttachmentUuidByKey/' + this.licensePicture.ymd + '/' + this.licensePicture.uuid + '?id=' + this.licenseForm.licid, { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {}).catch(ex => {})
     },
     licenseImageProgress (file, list) {
     },
@@ -953,7 +1098,6 @@ export default {
      * 显示企业营业执照图片
      */
     showBasePicture () {
-      console.log('show base picture')
       this.pictureShow.dialogWidth = window.innerWidth
       this.pictureShow.dialogHeight = window.innerHeight
       this.pictureShow.divWidth = this.pictureShow.dialogWidth - 42
