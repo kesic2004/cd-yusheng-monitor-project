@@ -211,7 +211,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item  prop="elabel" label="电子标签编号" size="medium">
+              <el-form-item prop="elabel" label="电子标签编号" size="medium">
                 <el-input clearable type="text" v-model="addBottleForm.elabel" placeholder="请输入电子标签编号" style="padding-left: 0px; padding-right: 0px;" />
               </el-form-item>
             </el-col>
@@ -358,7 +358,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item prop="lastused" label="最后使用" size="medium">
+              <el-form-item required prop="lastused" label="最后使用" size="medium">
                 <el-date-picker clearable v-model="addBottleForm.lastused" type="month" placeholder="请选择最后使用" size="small" />
               </el-form-item>
             </el-col>
@@ -619,7 +619,7 @@
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;"><!--占位--></el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;"><!--占位--></el-col>
             <el-col :span="12" style="padding-left: 0px; padding-right: 0px;">
-              <el-form-item prop="lastused" label="最后使用" size="medium">
+              <el-form-item required prop="lastused" label="最后使用" size="medium">
                 <el-date-picker clearable v-model="editBottleForm.lastused" type="month" placeholder="请选择最后使用" size="small" />
               </el-form-item>
             </el-col>
