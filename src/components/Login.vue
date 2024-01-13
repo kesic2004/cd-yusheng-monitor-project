@@ -2,16 +2,16 @@
   <div>
     <img src="@/assets/login.svg" class="backgroundImageStyle" />
     <!-- class="LoginPageStyle" -->
-    <el-form v-if="loginShow" status-icon ref="myForm" label-width="80px" class="LoginPageStyle" :model="loginForm" :rules="loginRules">
+    <el-form v-if="loginShow" status-icon ref="myForm" label-width="80px" class="LoginPageStyle" :model="loginForm" :rules="loginRules" @submit.native.prevent>
       <span style="font-size: 37pt;font-family: Kaiti;display: flex; align-items: center;"><img src="@/assets/logo.png" style="height: 15%;width: 15%;" />气瓶追溯管理</span>
       <el-form-item prop="myKey" label="用户名" style="margin-top: 1px;">
-        <el-input type="text" v-model="loginForm.myKey" />
+        <el-input autofocus type="text" v-model="loginForm.myKey" placeholder="请输入用户名" />
       </el-form-item>
       <el-form-item prop="myValue" label="密码" style="margin-top: 5px;">
-        <el-input type="password" v-model="loginForm.myValue" />
+        <el-input type="password" v-model="loginForm.myValue" placeholder="请输入密码，按回车键登录" />
       </el-form-item>
       <el-form-item style="margin-top: 11px;">
-        <el-button type="primary" @click="login('myForm')" style="margin-right: 45px;">登录</el-button>
+        <el-button type="primary" native-type="submit" @click="login('myForm')" style="margin-right: 45px;">登录</el-button>
         <el-button type="primary" @click="reset()" style="margin-left: 45px;">重置</el-button>
       </el-form-item>
     </el-form>
