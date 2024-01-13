@@ -103,7 +103,7 @@
               :on-change="baseImageChange"
               :on-progress="baseImageProgress"
               :before-upload="baseImageBeforeUpload"
-              v-show="basePicture.ymd === null || basePicture.uuid === null || basePicture.name === null"
+              v-show="baseForm.bsnid !== null && (basePicture.ymd === null || basePicture.uuid === null || basePicture.name === null)"
             >
               <el-button round size="small" style="padding: 0px 7px 0px 7px; margin: 1px 3px 0px 3px; border-color: #66b1ff; border: solid; border-width: 1pt; line-height: 0px; border-radius: 4px; height: 27px;" @click="baseImageBeforeUpload(null)">点击上传图片</el-button>
             </el-upload>
@@ -195,7 +195,7 @@
               :on-change="licenseImageChange"
               :on-progress="licenseImageProgress"
               :before-upload="licenseImageBeforeUpload"
-              v-show="licensePicture.ymd === null || licensePicture.uuid === null || licensePicture.name === null"
+              v-show="licenseForm.licid !== null && (licensePicture.ymd === null || licensePicture.uuid === null || licensePicture.name === null)"
             >
               <el-button round size="small" style="padding: 0px 7px 0px 7px; margin: 1px 3px 0px 3px; border-color: #66b1ff; border: solid; border-width: 1pt; line-height: 0px; border-radius: 4px; height: 27px;" @click="licenseImageBeforeUpload(null)">点击上传图片</el-button>
             </el-upload>
@@ -662,7 +662,35 @@ export default {
      * 基本信息提交
      */
     executeBaseSubmit (formName) {
-      console.log(formName)
+      this.$refs[formName].validate(valid => {
+        if (!valid) {
+          return false
+        }
+        const localBaseForm = {
+          corpname: this.baseForm.corpname,
+          creditcode: this.baseForm.creditcode,
+          contactno: this.baseForm.contactno,
+          provincename: codeToText[this.baseForm.provincename],
+          cityname: codeToText[this.baseForm.cityname],
+          districtname: codeToText[this.baseForm.districtname],
+          legalname: this.baseForm.legalname,
+          address: this.baseForm.address
+        }
+        this.$axios.post(this.constant.GAS_SERVER_PREFIX + '/businessInformation/businessinfo/createStation', localBaseForm, { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {
+          if (res.status === 200 && res.data !== null) {
+            this.baseFormData.corpname = res.data.corpname
+            this.baseFormData.creditcode = res.data.creditcode
+            this.baseFormData.contactno = res.data.contactno
+            this.baseFormData.provincename = res.data.provincename
+            this.baseFormData.cityname = res.data.cityname
+            this.baseFormData.districtname = res.data.districtname
+            this.baseFormData.legalname = res.data.legalname
+            this.baseFormData.address = res.data.address
+            this.baseFormData.bsnid = this.baseForm.bsnid = res.data.bsnid
+          }
+        }).catch(ex => this.$message('创建站点信息失败'))
+        return true
+      })
     },
     /**
      * 基本信息重置
@@ -1039,7 +1067,8 @@ export default {
         }
         this.$axios.post(this.constant.GAS_SERVER_PREFIX + '/businessInformation/stationgastype/gasTypeInsert', localForm, { headers: { 'reference': this.$router.currentRoute.fullPath } }).then(res => {
           if (res.status === 200) {
-            this.gasTypeData.push(res.data)
+            this.gasTypeData.unshift(res.data)
+            this.$refs[formName].resetFields()
             this.gasTypeDialog.visible = false
           } else {
             this.$message('新增失败')
